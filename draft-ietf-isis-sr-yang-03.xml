@@ -1,0 +1,1224 @@
+<?xml version="1.0"?>
+<?rfc strict="yes" ?>
+<?rfc toc="yes"?>
+<?rfc tocdepth="3"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes" ?>
+<?rfc compact="yes" ?>
+<?rfc subcompact="no" ?>
+<rfc docName="draft-ietf-isis-sr-yang-03" ipr="trust200902" category="std" obsoletes="" updates="" submissionType="IETF" xml:lang="en">
+  <front>
+    <title abbrev="isis-cfg">YANG Data Model for IS-IS Segment Routing</title>
+    <author fullname="Stephane Litkowski" initials="S" surname="Litkowski">
+      <organization>Orange</organization>
+      <address>
+        <email>stephane.litkowski@orange.com</email>
+      </address>
+    </author>
+	<author fullname="Yinghzen Qu" initials="Y" surname="Qu">
+      <organization>Huawei</organization>
+      <address>
+        <email>yingzhen.qu@huawei.com</email>
+      </address>
+    </author>
+	<author fullname="Pushpasis Sarkar" initials="P" surname="Sarkar">
+      <organization>Individual</organization>
+      <address>
+        <email>pushpasis.ietf@gmail.com</email>
+      </address>
+    </author>
+	<author fullname="Ing-Wher Chen" initials="I" surname="Chen">
+      <organization>Jabil</organization>
+      <address>
+        <email>ing-wher_chen@jabil.com</email>
+      </address>
+    </author>
+	<author fullname="Jeff Tantsura" initials="J" surname="Tantsura">
+      <organization>Individual</organization>
+      <address>
+        <email>jefftant.ietf@gmail.com</email>
+      </address>
+    </author>
+    <date day="15" month="January" year="2018"/>
+    <area/>
+    <workgroup>IS-IS Working Group</workgroup>
+
+    <abstract>
+      <t>This document defines a YANG data model that can be used to configure and manage IS-IS Segment Routing (<xref target="I-D.ietf-isis-segment-routing-extensions" pageno="false" format="default"/>.</t>
+    </abstract>
+    <note title="Requirements Language">
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+      NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+      "OPTIONAL" in this document are to be interpreted as described
+      in <xref target="RFC2119" pageno="false" format="default"/>.</t>
+    </note>
+  </front>
+  <middle>
+  
+    <section anchor="introduction" title="Overview" toc="default">	  
+	  <t>YANG <xref target="RFC6020" pageno="false" format="default"/>  <xref target="RFC7950" pageno="false" format="default"/> is a data definition language used to
+   define the contents of a conceptual data store that allows networked
+   devices to be managed using NETCONF <xref target="RFC6241" pageno="false" format="default"/>.  YANG is proving
+   relevant beyond its initial confines, as bindings to other interfaces
+   (e.g., ReST) and encodings other than XML (e.g., JSON) are being
+   defined.  Furthermore, YANG data models can be used as the basis for
+   implementation of other interfaces, such as CLI and programmatic
+   APIs.
+	</t>
+      <t>This document defines a YANG data model that can be used to configure
+   and manage IS-IS Segment Routing and it is an augmentation to the IS-IS
+   YANG data model.</t>
+    </section>
+    <section anchor="design" title="IS-IS Segment Routing" toc="default">
+	<t>This document defines a model for IS-IS Segment Routing feature.  It
+   is an augmentation of the IS-IS base model.</t>
+	<t>The IS-IS SR YANG module requires support for the base segment routing
+   module <xref target="I-D.ietf-spring-sr-yang" pageno="false" format="default"/>, which defines the global segment
+   routing configuration independent of any specific routing protocol configuration, and support of IS-IS base model <xref target="I-D.ietf-isis-yang-isis-cfg" pageno="false" format="default"/>
+   which defines basic IS-IS configuration and state.</t>
+   
+	
+      <t>The figure below describes the overall structure of the isis-sr
+      YANG module:</t>
+
+      <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+	<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+module: ietf-isis-sr
+augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol/isis:isis:
+   +--rw segment-routing
+   |  +--rw enabled?    boolean
+   |  +--rw bindings
+   |     +--rw advertise
+   |     |     ...
+   |     +--rw receive?     boolean
+   +--rw protocol-srgb {sr:protocol-srgb}?
+      +--rw srgb* [lower-bound upper-bound]
+         +--rw lower-bound    uint32
+         +--rw upper-bound    uint32
+augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol/isis:isis/isis:interfaces/isis:interface:
+   +--rw segment-routing
+      +--rw adjacency-sid
+         +--rw advertise-adj-group-sid* [group-id]
+         |     ...
+         +--rw advertise-protection?      enumeration
+augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol/isis:isis/isis:interfaces/isis:interface/isis:fast-reroute:
+   +--rw ti-lfa {ti-lfa}?
+      +--rw enable?   boolean
+augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol/isis:isis/isis:interfaces/isis:interface/isis:fast-reroute/isis:lfa/isis:remote-lfa:
+   +--rw use-segment-routing-path?   boolean {remote-lfa-sr}?
+augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol/isis:isis/isis:interfaces/isis:interface/isis:adjacencies/isis:adjacency:
+   +--ro adjacency-sid* [value]
+      +--ro af?                     iana-rt-types:address-family
+      +--ro value                   uint32
+      +--ro weight?                 uint8
+      +--ro protection-requested?   boolean
+augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol/isis:isis/isis:database/isis:level-db/isis:lsp/isis:router-capabilities:
+   +--ro sr-capability
+   |  +--ro flags?           bits
+   |  +--ro global-blocks
+   |     +--ro global-block*
+   |           ...
+   +--ro sr-algorithms
+   |  +--ro sr-algorithm*   uint8
+   +--ro local-blocks
+   |  +--ro local-block*
+   |     +--ro range-size?    uint32
+   |     +--ro sid-sub-tlv
+   |           ...
+   +--ro srms-preference
+      +--ro preference?   uint8
+augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol/isis:isis/isis:database/isis:level-db/isis:lsp/isis:extended-is-neighbor/isis:neighbor:
+   +--ro sid-list* [value]
+      +--ro flags?         bits
+      +--ro weight?        uint8
+      +--ro neighbor-id?   isis:system-id
+      +--ro value          uint32
+augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol/isis:isis/isis:database/isis:level-db/isis:lsp/isis:mt-is-neighbor/isis:neighbor:
+   +--ro sid-list* [value]
+      +--ro flags?         bits
+      +--ro weight?        uint8
+      +--ro neighbor-id?   isis:system-id
+      +--ro value          uint32
+augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol/isis:isis/isis:database/isis:level-db/isis:lsp/isis:extended-ipv4-reachability/isis:prefixes:
+   +--ro sid-list* [value]
+      +--ro flags?       bits
+      +--ro algorithm?   uint8
+      +--ro value        uint32
+augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol/isis:isis/isis:database/isis:level-db/isis:lsp/isis:mt-extended-ipv4-reachability/isis:prefixes:
+   +--ro sid-list* [value]
+      +--ro flags?       bits
+      +--ro algorithm?   uint8
+      +--ro value        uint32
+augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol/isis:isis/isis:database/isis:level-db/isis:lsp/isis:ipv6-reachability/isis:prefixes:
+   +--ro sid-list* [value]
+      +--ro flags?       bits
+      +--ro algorithm?   uint8
+      +--ro value        uint32
+augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol/isis:isis/isis:database/isis:level-db/isis:lsp/isis:mt-ipv6-reachability/isis:prefixes:
+   +--ro sid-list* [value]
+      +--ro flags?       bits
+      +--ro algorithm?   uint8
+      +--ro value        uint32
+augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol/isis:isis/isis:database/isis:level-db/isis:lsp:
+   +--ro segment-routing-bindings* [fec range]
+      +--ro fec        string
+      +--ro range      uint16
+      +--ro flags?     bits
+      +--ro binding
+         +--ro prefix-sid
+               ...
+</artwork>
+
+      </figure>
+	</section>
+     
+
+	<section anchor="spring" title="IS-IS Segment Routing configuration" toc="default">
+		<section anchor="spring-activation" title="Segment Routing activation" toc="default">
+		<t>
+		Activation of segment-routing IS-IS is done by setting the "enable" leaf to true.
+		This triggers advertisement of segment-routing extensions based on the configuration parameters that have been
+		setup using the base segment routing module.
+		</t>
+		</section>
+		<section anchor="spring-ms" title="Advertising mapping server policy" toc="default">
+		<t>
+		The base segment routing module defines mapping server policies. 
+		By default, IS-IS will not advertise nor receive any mapping server entry.
+		The IS-IS segment-routing module allows to advertise one or multiple mapping server policies through the "bindings/advertise/policies"
+		leaf-list.
+		The "bindings/receive" leaf allows to enable the reception of mapping server entries.
+		</t>
+		</section>
+		<section anchor="spring-ipfrr" title="IP Fast reroute" toc="default">
+		<t>
+		IS-IS SR model augments the fast-reroute container under interface.
+		It brings the ability to activate TI-LFA (topology independent LFA) and also enhances remote LFA to use
+		segment-routing tunneling instead of LDP.
+		</t>
+		</section>
+	</section>
+
+	<section anchor="isis-sr-yang" title="IS-IS Segment Routing YANG Module" toc="default">
+
+      <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+	<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+&lt;CODE BEGINS&gt; file "ietf-isis-sr@2018-01-15.yang"
+
+module ietf-isis-sr {
+  namespace "urn:ietf:params:xml:ns:"
+          + "yang:ietf-isis-sr";
+  prefix isis-sr;
+
+  
+  import ietf-routing {
+    prefix "rt";
+  }
+  
+  import ietf-segment-routing-common {
+	prefix "sr-cmn";
+  }
+  
+   
+  import ietf-segment-routing {
+	prefix "sr";
+  }
+  
+  import ietf-isis {
+	prefix "isis";
+  }
+  
+  import iana-routing-types {
+    prefix "iana-rt-types";
+  }
+  
+  organization
+   "IETF ISIS Working Group";
+   
+  contact
+    "WG List:  &amp;lt;mailto:spring@ietf.org&amp;gt;
+    
+    Editor:    Stephane Litkowski
+          &amp;lt;mailto:stephane.litkowski@orange.com&amp;gt;
+
+        Acee Lindem
+          &amp;lt;mailto:acee@cisco.com&amp;gt;
+		Yingzhen Qu
+		  &amp;lt;mailto:yiqu@cisco.com&amp;gt;
+        Pushpasis Sarkar
+          &amp;lt;mailto:pushpasis.ietf@gmail.com&amp;gt;
+        Ing-Wher Chen
+          &amp;lt;mailto:ichen@kuatrotech.com&amp;gt;
+		Jeff Tantsura
+		  &amp;lt;mailto:jefftant.ietf@gmail.com&amp;gt;
+		  
+    ";
+  
+  description 
+    "The YANG module defines a generic configuration model for 
+    Segment routing ISIS extensions common across all of the vendor 
+    implementations.";
+
+  revision 2018-01-15 {
+	description
+		"Initial revision.";
+	reference "RFC XXXX";
+  }
+
+  
+  /* Identities */
+  
+  
+  /* Features */
+  
+feature remote-lfa-sr {
+	description
+	 "Enhance rLFA to use SR path.";
+}
+
+feature ti-lfa {
+	description
+	 "Enhance IPFRR with ti-lfa 
+	 support";
+}
+  
+  /* Groupings */
+ 
+
+grouping sid-sub-tlv {
+	description "SID/Label sub-TLV grouping.";
+	container sid-sub-tlv {
+	  description
+		"Used to advertise the SID/Label associated with a
+		 prefix or adjacency.";
+	  leaf sid {
+		type uint32;
+		description
+		  "Segment Identifier (SID) - A 20 bit label or
+		   32 bit SID.";
+	  }
+	}
+}
+
+grouping sr-capability {
+	description
+	"SR capability grouping.";
+	container sr-capability {
+	  description
+	   "Segment Routing capability.";
+	  leaf flags {
+        type bits {
+          bit mpls-ipv4 {
+            position 0;
+            description
+             "If set, then the router is capable of
+         processing SR MPLS encapsulated IPv4 packets 
+		 on all interfaces.";
+          }
+		  bit mpls-ipv6 {
+            position 1;
+            description
+             "If set, then the router is capable of
+         processing SR MPLS encapsulated IPv6 packets 
+		 on all interfaces.";
+          }
+	    }
+		description
+		 "Flags.";
+      }
+	  container global-blocks {
+		description 
+		"Segment Routing Global Blocks.";
+		list global-block {
+			description "Segment Routing Global Block.";
+			leaf range-size {
+			  type uint32;
+			  description "The SID range.";
+			}
+			uses sid-sub-tlv;
+		}
+	  }
+	}
+}
+
+grouping sr-algorithm {
+	description
+	 "SR algorithm grouping.";
+	container sr-algorithms {
+      description "All SR algorithms.";
+      leaf-list sr-algorithm {
+        type uint8;
+        description
+          "The Segment Routing (SR) algorithms that the router is
+           currently using.";
+      }
+    }
+}
+
+grouping srlb {
+	description
+	 "SR Local Block grouping.";
+    container local-blocks {
+      description "List of SRLBs.";
+      list local-block {
+        description "Segment Routing Local Block.";
+        leaf range-size {
+          type uint32;
+          description "The SID range.";
+        }
+        uses sid-sub-tlv;
+      }
+    }
+}
+
+grouping srms-preference {
+    description "The SRMS preference TLV is used to advertise
+                 a preference associated with the node that acts
+                 as an SR Mapping Server.";
+    container srms-preference {
+      description "SRMS Preference TLV.";
+      leaf preference {
+        type uint8 {
+          range "0 .. 255";
+        } 
+		description "SRMS preference TLV, vlaue from 0 to 255.";
+      }
+    }
+  }  
+
+grouping adjacency-state {
+	description
+	 "This group will extend adjacency state.";
+	list adjacency-sid {
+	  key value;
+	  config false;
+	  leaf af {
+		type iana-rt-types:address-family;
+		description
+		 "Address-family associated with the 
+		 segment ID";
+	  }
+	  leaf value {
+		type uint32;
+		description
+		 "Value of the Adj-SID.";
+	  }
+	  leaf weight {
+		type uint8;
+		description
+		 "Weight associated with
+		 the adjacency SID.";
+	  }
+	  leaf protection-requested {
+		type boolean;
+		description
+		 "Describe if the adjacency SID
+		 must be protected.";
+	  }
+	  description
+	   "List of adjacency Segment IDs.";
+	}
+}
+
+grouping prefix-segment-id {
+    description
+     "This group defines segment routing extensions
+     for prefixes.";
+    
+	list sid-list {
+	  key value;
+	  
+      leaf flags {
+        type bits {
+          bit readvertisment {
+            position 7;
+            description
+             "If set, then the prefix to
+            which this Prefix-SID is attached, 
+            has been propagated by the
+            router either from another level
+            or from redistribution.";
+          }
+
+          bit php {
+            position 5;
+            description
+            "If set, then the penultimate hop MUST NOT
+            pop the Prefix-SID before delivering the packet 
+            to the node
+            that advertised the Prefix-SID.";
+          }
+          bit explicit-null {
+            position 4;
+            description
+            "If set, any upstream neighbor of
+            the Prefix-SID originator MUST replace 
+            the Prefix-SID with a
+            Prefix-SID having an 
+            Explicit-NULL value (0 for IPv4 and 2 for
+            IPv6) before forwarding the packet.";
+          }
+          bit  value {
+            position 3;
+            description
+            "If set, then the Prefix-SID carries a
+            value (instead of an index).  
+            By default the flag is UNSET.";
+
+
+          }
+          bit  local {
+            position 2;
+            description
+            "If set, then the value/index carried by
+            the Prefix-SID has local significance.  
+            By default the flag is UNSET.";
+          }
+        }
+        description
+         "Describes flags associated with the
+         segment ID.";
+      }
+      
+      leaf algorithm {
+        type uint8;
+        description
+         "Algorithm to be used for path computation.";
+      }
+      leaf value {
+        type uint32;
+        description
+         "Value of the prefix-SID.";
+      }
+	  description
+	   "List of segments.";
+    }
+  }
+  
+  grouping adjacency-segment-id {
+    description
+     "This group defines segment routing extensions
+     for adjacencies.";
+    
+	list sid-list {
+	  key value;
+	  
+      leaf flags {
+        type bits {
+          bit address-family {
+            position 7;
+            description
+             "If unset, then the Adj-SID refers
+            to an adjacency with outgoing IPv4 encapsulation.  
+            If set then the Adj-SID refers to an adjacency 
+            with outgoing IPv6 encapsulation.";
+          }
+          bit backup {
+            position 6;
+            description
+             "If set, the Adj-SID refers to an
+            adjacency being protected 
+            (e.g.: using IPFRR or MPLS-FRR)";
+          }
+          bit value {
+            position 5;
+            description
+            "If set, then the SID carries a
+            value (instead of an index).  
+            By default the flag is SET.";
+
+
+          }
+          bit local {
+            position 4;
+            description
+            "If set, then the value/index carried by
+            the SID has local significance.  
+            By default the flag is SET.";
+          }
+          bit set {
+            position 3;
+            description
+            "When set, the S-Flag indicates that the
+            Adj-SID refers to a set of adjacencies.";
+          }
+		  bit persistent {
+            position 2;
+            description
+            "When set, the P-Flag indicates that the
+                  Adj-SID is persistently allocated.";
+          }
+        }
+        
+        description
+         "Describes flags associated with the
+         segment ID.";
+      }
+      leaf weight {
+        type uint8;
+        description
+         "The value represents the weight of the Adj-SID
+          for the purpose of load balancing.";
+      }
+      leaf neighbor-id {
+        type isis:system-id;
+        description
+         "Describes the system ID of the neighbor
+         associated with the SID value. This is only
+         used on LAN adjacencies.";
+      }
+      leaf value {
+        type uint32;
+        description
+         "Value of the Adj-SID.";
+      }
+	  description
+	   "List of segments.";
+    }
+
+  }
+  grouping segment-routing-binding-tlv {
+  list segment-routing-bindings {
+      
+      key "fec range";
+      
+      leaf fec {
+        type string;
+        description
+        "IP (v4 or v6) range to be bound to SIDs.";
+      }
+      
+      leaf range {
+        type uint16;
+        description
+         "Describes number of elements to assign 
+         a binding to.";
+      }
+      
+      leaf flags {
+        type bits {
+          bit address-family {
+            position 7;
+            description
+            "If unset, then the Prefix FEC
+            carries an IPv4 Prefix.  
+            If set then the Prefix FEC carries an
+            IPv6 Prefix.";
+          }
+          bit mirror {
+            position 6;
+            description
+            "Set if the advertised SID/path
+            corresponds to a mirrored context.
+            ";
+          }
+          bit flooding {
+            position 5;
+            description
+             "If the S bit is set(1), 
+             the IS-IS Router CAPABILITY TLV
+            MUST be flooded across the entire routing domain.  
+            If the S bit is
+            not set(0), the TLV MUST NOT be leaked between levels.  
+            This bit MUST NOT be altered during the TLV leaking.";
+          }
+          bit down {
+            position 4;
+            description
+            "When the IS-IS Router CAPABILITY TLV is 
+            leaked from level-2 to level-1, the D bit 
+            MUST be set.  Otherwise, this bit MUST
+            be clear.  IS-IS Router capability TLVs 
+            with the D bit set MUST NOT
+            be leaked from level-1 to level-2.  
+            This is to prevent TLV looping.
+            ";
+          }
+          bit attached {
+            position 3;
+            description
+            "The originator of the SID/Label Binding
+            TLV MAY set the A bit in order to signal
+            that the prefixes and
+            SIDs advertised in the SID/Label Binding
+            TLV are directly
+            connected to their originators.
+            ";
+          }
+          
+        }
+        description
+           "Flags of the binding.";
+      }
+          
+      container binding {
+        container prefix-sid {
+          uses prefix-segment-id;
+          description
+           "Binding prefix SID to the range.";
+        }
+        description
+         "Bindings associated with the range.";
+      }
+      
+      description 
+       "This container describes list of SID/Label
+       bindings.
+       ISIS reference is TLV 149.";     
+    }
+	description
+	 "Defines binding TLV for database.";
+	 
+  }
+  /* Cfg */
+    
+  augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis" {
+    when "/rt:routing/rt:control-plane-protocols/"+
+		"rt:control-plane-protocol/rt:type = 'isis:isis'" {
+      description
+      "This augment ISIS routing protocol when used";
+    }
+    description
+     "This augments ISIS protocol configuration
+      with segment routing.";
+      
+    uses sr:controlplane-cfg;
+	container protocol-srgb {
+         if-feature sr:protocol-srgb;
+         uses sr-cmn:srgb-cfg;
+         description
+           "Per-protocol SRGB.";
+       }
+  }
+   
+   
+   augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis/isis:interfaces/isis:interface" {
+    when "/rt:routing/rt:control-plane-protocols/"+
+		"rt:control-plane-protocol/rt:type = 'isis:isis'" {
+      description
+      "This augment ISIS routing protocol when used";
+    }
+    description
+     "This augments ISIS protocol configuration
+      with segment routing.";
+      
+    uses sr:igp-interface-cfg;
+  }
+  
+   augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis/isis:interfaces/isis:interface"+
+		"/isis:fast-reroute" {
+    when "/rt:routing/rt:control-plane-protocols/"+
+		"rt:control-plane-protocol/rt:type = 'isis:isis'" {
+      description
+      "This augment ISIS routing protocol when used";
+    }
+    description
+     "This augments ISIS IP FRR with TILFA.";
+      
+	container ti-lfa {
+		if-feature ti-lfa;
+		leaf enable {
+			type boolean;
+			description
+			 "Enables TI-LFA computation.";
+		}
+		description
+		 "TILFA configuration.";
+	}
+
+  }
+  
+  augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis/isis:interfaces/isis:interface"+
+		"/isis:fast-reroute/isis:lfa/isis:remote-lfa" {
+    when "/rt:routing/rt:control-plane-protocols/"+
+		"rt:control-plane-protocol/rt:type = 'isis:isis'" {
+      description
+      "This augment ISIS routing protocol when used";
+    }
+    description
+     "This augments ISIS remoteLFA config with
+	 use of segment-routing path.";
+      
+	leaf use-segment-routing-path {
+		if-feature remote-lfa-sr;
+		type boolean;
+		description
+		 "force remote LFA to use segment routing
+		 path instead of LDP path.";
+	}
+
+  }
+  
+  
+  
+  /* Operational states */
+  
+
+  
+  augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis/isis:interfaces/isis:interface" +
+		"/isis:adjacencies/isis:adjacency" {
+    when "/rt:routing/rt:control-plane-protocols/"+
+		"rt:control-plane-protocol/rt:type = 'isis:isis'" { 
+      description
+      "This augment ISIS routing protocol when used";
+    }
+    description
+     "This augments ISIS protocol configuration
+      with segment routing.";
+      
+	
+    uses adjacency-state;
+  }
+  
+  augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis/isis:database/isis:level-db/isis:lsp"+
+		"/isis:router-capabilities" {
+	 when "/rt:routing/rt:control-plane-protocols/"+
+		"rt:control-plane-protocol/rt:type = 'isis:isis'" { 
+      description
+      "This augment ISIS routing protocol when used";
+    }
+	description
+	 "This augments ISIS protocol LSDB router capability.";
+	 
+	uses sr-capability;
+	uses sr-algorithm;
+	uses srlb;
+	uses srms-preference;
+  
+  }
+  
+  augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis/isis:database/isis:level-db/isis:lsp"+
+		"/isis:extended-is-neighbor/isis:neighbor" {
+	 when "/rt:routing/rt:control-plane-protocols/"+
+		"rt:control-plane-protocol/rt:type = 'isis:isis'" { 
+      description
+      "This augment ISIS routing protocol when used";
+    }
+	description
+	 "This augments ISIS protocol LSDB neighbor.";
+	uses adjacency-segment-id;
+  
+  }
+  augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis/isis:database/isis:level-db/isis:lsp"+
+		"/isis:mt-is-neighbor/isis:neighbor" {
+		    when "/rt:routing/rt:control-plane-protocols/"+
+		"rt:control-plane-protocol/rt:type = 'isis:isis'" { 
+      description
+      "This augment ISIS routing protocol when used";
+    }
+		description
+	 "This augments ISIS protocol LSDB neighbor.";
+	uses adjacency-segment-id;
+  }
+  
+  augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis/isis:database/isis:level-db/isis:lsp"+
+		"/isis:extended-ipv4-reachability/isis:prefixes" {
+		    when "/rt:routing/rt:control-plane-protocols/"+
+		"rt:control-plane-protocol/rt:type = 'isis:isis'" { 
+      description
+      "This augment ISIS routing protocol when used";
+    }
+		description
+	 "This augments ISIS protocol LSDB prefix.";
+	uses prefix-segment-id;
+  }
+  
+  augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis/isis:database/isis:level-db/isis:lsp"+
+		"/isis:mt-extended-ipv4-reachability/isis:prefixes" {
+		    when "/rt:routing/rt:control-plane-protocols/"+
+		"rt:control-plane-protocol/rt:type = 'isis:isis'" { 
+      description
+      "This augment ISIS routing protocol when used";
+    }
+		description
+	 "This augments ISIS protocol LSDB prefix.";
+	uses prefix-segment-id;
+  
+  }
+  augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis/isis:database/isis:level-db/isis:lsp"+
+		"/isis:ipv6-reachability/isis:prefixes" {
+		    when "/rt:routing/rt:control-plane-protocols/"+
+		"rt:control-plane-protocol/rt:type = 'isis:isis'" { 
+      description
+      "This augment ISIS routing protocol when used";
+    }
+		description
+	 "This augments ISIS protocol LSDB prefix.";
+	uses prefix-segment-id;
+  
+  }
+  augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis/isis:database/isis:level-db/isis:lsp"+
+		"/isis:mt-ipv6-reachability/isis:prefixes" {
+		    when "/rt:routing/rt:control-plane-protocols/"+
+		"rt:control-plane-protocol/rt:type = 'isis:isis'" { 
+      description
+      "This augment ISIS routing protocol when used";
+    }
+		description
+	 "This augments ISIS protocol LSDB prefix.";
+	uses prefix-segment-id;
+  
+  }
+  augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis/isis:database/isis:level-db/isis:lsp" {
+	    when "/rt:routing/rt:control-plane-protocols/"+
+		"rt:control-plane-protocol/rt:type = 'isis:isis'" { 
+      description
+      "This augment ISIS routing protocol when used";
+    }
+		description
+	 "This augments ISIS protocol LSDB.";
+	uses segment-routing-binding-tlv;
+  
+  }
+  
+  
+  /* Notifications */
+  
+ 
+}
+
+&lt;CODE ENDS&gt;</artwork>
+
+      </figure>
+
+    </section>
+
+    <section anchor="Security" title="Security Considerations" toc="default">
+      <t>Configuration and state data defined in this document are
+      designed to be accessed via the NETCONF protocol <xref target="RFC6241" pageno="false" format="default"/>.</t>
+      <t>As IS-IS is an IGP protocol (critical piece of the network),
+      ensuring stability and security of the protocol is mandatory for
+      the network service.</t>
+      <t>Authors recommends to implement NETCONF access control model
+      (<xref target="RFC6536" pageno="false" format="default"/>) to restrict access to all or part of
+      the configuration to specific users. </t>
+    </section>
+
+	<section anchor="Contributors" title="Contributors" toc="default">
+      <t>Authors would like to thank 
+	  Derek Yeung, Acee Lindem, Yi Yang
+	  for their major contributions to the draft.</t>
+    </section>
+    <section anchor="Acknowledgements" title="Acknowledgements" toc="default">
+      <t>TBD.</t>
+    </section>
+
+  <section anchor="IANA" title="IANA Considerations" toc="default">
+	<t>The IANA is requested to assign two new URIs from the
+   IETF XML registry (<xref target="RFC3688" pageno="false" format="default"/>). Authors are suggesting the following URI: </t>
+
+   <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+   <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+	URI: urn:ietf:params:xml:ns:yang:ietf-isis-sr
+	Registrant Contact: IS-IS WG
+	XML: N/A, the requested URI is an XML namespace
+   </artwork>
+   </figure>
+	<t>This document also requests one new YANG module name in the YANG Module Names registry (<xref target="RFC6020" pageno="false" format="default"/>) with the following suggestion :</t>
+   <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+   <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+	name: ietf-isis-sr
+	namespace: urn:ietf:params:xml:ns:yang:ietf-isis-sr
+	prefix: isis-sr
+	reference: RFC XXXX
+   </artwork>
+   </figure>
+    </section>
+	<section anchor="change-log-sr" title="Change log for ietf-isis-sr YANG module" toc="default">
+	     	   <section anchor="v19-20" title="From version -02 to version -03" toc="default">
+	   <t>
+	   <list style="symbols">
+	   <t>Change address-family type according to routing types.</t>
+	   </list>
+	   </t>
+	   </section>
+		 <section anchor="srv01-02" title="From isis-sr document version -01 to version -02" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>NMDA compliancy.</t>
+		 <t>Added SRLB in configuration and LSDB.</t>
+		 <t>Added SR capability in LSDB.</t>
+		 <t>Added SR algorithms in LSDB.</t>
+		 <t>Added SRMS preference in LSDB.</t>
+		 <t>Alignment with iana-rt-types module.</t>
+		 <t>Align binding SID with draft-ietf-isis-segment-routing-extensions-13.</t>
+		 </list>
+		 </t>
+		 </section>
+		 <section anchor="srv00-01" title="From isis-sr document version -00 to version -01" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Added P-Flag in Adj-SID.</t>
+		 </list>
+		 </t>
+		 </section>
+		<section anchor="srv13-00" title="From isis document version -12 to isis-sr document version -00" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Separate document for IS-IS SR extensions.</t>
+		 </list>
+		 </t>
+		 </section>
+		 <section anchor="srv12-13" title="From isis document version -12 to version -13" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Align with new segment routing common module.</t>
+		 </list>
+		 </t>
+		 </section>
+		 <section anchor="srv09-11" title="From isis document version -09 to version -11" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Fixed XPATH in 'when' expressions.</t>
+		 </list>
+		 </t>
+		 </section>
+		 <section anchor="srv08-09" title="From isis document version -08 to version -09" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Align to draft-ietf-netmod-routing-cfg-23.</t>
+		 </list>
+		 </t>
+		  </section>
+		 <section anchor="srv07-08" title="From isis document version -07 to version -08" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Align to draft-ietf-netmod-routing-cfg-21.</t>
+		 </list>
+		 </t>
+		 </section>
+	</section>
+
+  </middle>
+  <back>
+    <references title="Normative References">
+      
+
+<reference anchor="RFC2119" target="https://www.rfc-editor.org/info/rfc2119">
+<front>
+<title>Key words for use in RFCs to Indicate Requirement Levels</title>
+<author initials="S." surname="Bradner" fullname="S. Bradner"><organization/></author>
+<date year="1997" month="March"/>
+<abstract><t>In many standards track documents several words are used to signify the requirements in the specification.  These words are often capitalized. This document defines these words as they should be interpreted in IETF documents.  This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t></abstract>
+</front>
+<seriesInfo name="BCP" value="14"/>
+<seriesInfo name="RFC" value="2119"/>
+<seriesInfo name="DOI" value="10.17487/RFC2119"/>
+</reference>
+
+      
+
+<reference anchor="RFC6241" target="https://www.rfc-editor.org/info/rfc6241">
+<front>
+<title>Network Configuration Protocol (NETCONF)</title>
+<author initials="R." surname="Enns" fullname="R. Enns" role="editor"><organization/></author>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund" role="editor"><organization/></author>
+<author initials="J." surname="Schoenwaelder" fullname="J. Schoenwaelder" role="editor"><organization/></author>
+<author initials="A." surname="Bierman" fullname="A. Bierman" role="editor"><organization/></author>
+<date year="2011" month="June"/>
+<abstract><t>The Network Configuration Protocol (NETCONF) defined in this document provides mechanisms to install, manipulate, and delete the configuration of network devices.  It uses an Extensible Markup Language (XML)-based data encoding for the configuration data as well as the protocol messages.  The NETCONF protocol operations are realized as remote procedure calls (RPCs).  This document obsoletes RFC 4741.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="6241"/>
+<seriesInfo name="DOI" value="10.17487/RFC6241"/>
+</reference>
+
+      
+
+<reference anchor="RFC6536" target="https://www.rfc-editor.org/info/rfc6536">
+<front>
+<title>Network Configuration Protocol (NETCONF) Access Control Model</title>
+<author initials="A." surname="Bierman" fullname="A. Bierman"><organization/></author>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund"><organization/></author>
+<date year="2012" month="March"/>
+<abstract><t>The standardization of network configuration interfaces for use with the Network Configuration Protocol (NETCONF) requires a structured and secure operating environment that promotes human usability and multi-vendor interoperability.  There is a need for standard mechanisms to restrict NETCONF protocol access for particular users to a pre-configured subset of all available NETCONF protocol operations and content.  This document defines such an access control model.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="6536"/>
+<seriesInfo name="DOI" value="10.17487/RFC6536"/>
+</reference>
+
+	  
+
+<reference anchor="RFC6020" target="https://www.rfc-editor.org/info/rfc6020">
+<front>
+<title>YANG - A Data Modeling Language for the Network Configuration Protocol (NETCONF)</title>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund" role="editor"><organization/></author>
+<date year="2010" month="October"/>
+<abstract><t>YANG is a data modeling language used to model configuration and state data manipulated by the Network Configuration Protocol (NETCONF), NETCONF remote procedure calls, and NETCONF notifications. [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="6020"/>
+<seriesInfo name="DOI" value="10.17487/RFC6020"/>
+</reference>
+
+	  
+
+<reference anchor="RFC3688" target="https://www.rfc-editor.org/info/rfc3688">
+<front>
+<title>The IETF XML Registry</title>
+<author initials="M." surname="Mealling" fullname="M. Mealling"><organization/></author>
+<date year="2004" month="January"/>
+<abstract><t>This document describes an IANA maintained registry for IETF standards which use Extensible Markup Language (XML) related items such as Namespaces, Document Type Declarations (DTDs), Schemas, and Resource Description Framework (RDF) Schemas.</t></abstract>
+</front>
+<seriesInfo name="BCP" value="81"/>
+<seriesInfo name="RFC" value="3688"/>
+<seriesInfo name="DOI" value="10.17487/RFC3688"/>
+</reference>
+
+	  
+
+<reference anchor="RFC7950" target="https://www.rfc-editor.org/info/rfc7950">
+<front>
+<title>The YANG 1.1 Data Modeling Language</title>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund" role="editor"><organization/></author>
+<date year="2016" month="August"/>
+<abstract><t>YANG is a data modeling language used to model configuration data, state data, Remote Procedure Calls, and notifications for network management protocols.  This document describes the syntax and semantics of version 1.1 of the YANG language.  YANG version 1.1 is a maintenance release of the YANG language, addressing ambiguities and defects in the original specification.  There are a small number of backward incompatibilities from YANG version 1.  This document also specifies the YANG mappings to the Network Configuration Protocol (NETCONF).</t></abstract>
+</front>
+<seriesInfo name="RFC" value="7950"/>
+<seriesInfo name="DOI" value="10.17487/RFC7950"/>
+</reference>
+
+	  
+
+<reference anchor="I-D.ietf-spring-sr-yang">
+<front>
+<title>YANG Data Model for Segment Routing</title>
+
+<author initials="S" surname="Litkowski" fullname="Stephane Litkowski">
+    <organization/>
+</author>
+
+<author initials="Y" surname="Qu" fullname="Yingzhen Qu">
+    <organization/>
+</author>
+
+<author initials="P" surname="Sarkar" fullname="Pushpasis Sarkar">
+    <organization/>
+</author>
+
+<author initials="J" surname="Tantsura" fullname="Jeff Tantsura">
+    <organization/>
+</author>
+
+<date month="December" day="28" year="2017"/>
+
+<abstract><t>This document defines a YANG data model ([RFC6020], [RFC7950]) for segment routing ([I-D.ietf-spring-segment-routing]) configuration and operation.  This YANG model is intended to be used on network elements to configure or operate segment routing.  This document defines also generic containers that SHOULD be reused by IGP protocol modules to support segment routing.</t></abstract>
+
+</front>
+
+<seriesInfo name="Internet-Draft" value="draft-ietf-spring-sr-yang-08"/>
+<format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-spring-sr-yang-08.txt"/>
+</reference>
+
+	  
+
+<reference anchor="I-D.ietf-isis-yang-isis-cfg">
+<front>
+<title>YANG Data Model for IS-IS protocol</title>
+
+<author initials="S" surname="Litkowski" fullname="Stephane Litkowski">
+    <organization/>
+</author>
+
+<author initials="D" surname="Yeung" fullname="Derek Yeung">
+    <organization/>
+</author>
+
+<author initials="A" surname="Lindem" fullname="Acee Lindem">
+    <organization/>
+</author>
+
+<author initials="Z" surname="Zhang" fullname="Zhaohui Zhang">
+    <organization/>
+</author>
+
+<author initials="L" surname="Lhotka" fullname="Ladislav Lhotka">
+    <organization/>
+</author>
+
+<date month="November" day="20" year="2017"/>
+
+<abstract><t>This document defines a YANG data model that can be used to configure and manage IS-IS protocol on network elements.</t></abstract>
+
+</front>
+
+<seriesInfo name="Internet-Draft" value="draft-ietf-isis-yang-isis-cfg-19"/>
+<format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-isis-yang-isis-cfg-19.txt"/>
+</reference>
+
+	  
+
+<reference anchor="I-D.ietf-isis-segment-routing-extensions">
+<front>
+<title>IS-IS Extensions for Segment Routing</title>
+
+<author initials="S" surname="Previdi" fullname="Stefano Previdi">
+    <organization/>
+</author>
+
+<author initials="L" surname="Ginsberg" fullname="Les Ginsberg">
+    <organization/>
+</author>
+
+<author initials="C" surname="Filsfils" fullname="Clarence Filsfils">
+    <organization/>
+</author>
+
+<author initials="A" surname="Bashandy" fullname="Ahmed Bashandy">
+    <organization/>
+</author>
+
+<author initials="H" surname="Gredler" fullname="Hannes Gredler">
+    <organization/>
+</author>
+
+<author initials="S" surname="Litkowski" fullname="Stephane Litkowski">
+    <organization/>
+</author>
+
+<author initials="B" surname="Decraene" fullname="Bruno Decraene">
+    <organization/>
+</author>
+
+<author initials="J" surname="Tantsura" fullname="Jeff Tantsura">
+    <organization/>
+</author>
+
+<date month="December" day="19" year="2017"/>
+
+<abstract><t>Segment Routing (SR) allows for a flexible definition of end-to-end paths within IGP topologies by encoding paths as sequences of topological sub-paths, called "segments".  These segments are advertised by the link-state routing protocols (IS-IS and OSPF).  This draft describes the necessary IS-IS extensions that need to be introduced for Segment Routing operating on an MPLS data-plane.</t></abstract>
+
+</front>
+
+<seriesInfo name="Internet-Draft" value="draft-ietf-isis-segment-routing-extensions-15"/>
+<format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-isis-segment-routing-extensions-15.txt"/>
+</reference>
+
+    </references>
+    
+  </back>
+</rfc>
