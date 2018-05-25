@@ -1,38 +1,56 @@
 module ietf-isis {
+  yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-isis";
   
   prefix isis;
   
   import ietf-routing {
     prefix "rt";
+	reference "RFC 8349 - A YANG Data Model for Routing
+               Management (NMDA Version)";
   }
 
   import ietf-inet-types {
     prefix inet;
+	reference "RFC 6021 - Common YANG Data Types";
   }
   
   import ietf-yang-types {
     prefix yang;
+	reference "RFC 6021 - Common YANG Data Types";
   }
   
   import ietf-interfaces {
     prefix "if";
+	reference "RFC 8343 - A YANG Data Model for Interface
+               Management (NDMA Version)";
   }
   
   import ietf-key-chain {
     prefix "key-chain";
+	reference "RFC 8177 - YANG Data Model for Key Chains";
   }
   
   import ietf-routing-types {
     prefix "rt-types";
+	reference "RFC 8291 - Common YANG Data Types for the
+               Routing Area";
   }
   
   import iana-routing-types {
     prefix "iana-rt-types";
+	reference "RFC 8291 - Common YANG Data Types for the
+               Routing Area";
+  }
+  
+  import ietf-bfd-types {
+    prefix "bfd-types";
+    reference "RFC XXXX - YANG Data Model for Bidirectional
+      Forwarding Detection (BFD)";
   }
   
   organization
-   "IETF ISIS Working Group";
+   "IETF IS-IS Working Group";
    
   contact
     "WG List:  &lt;mailto:isis-wg@ietf.org&gt;
@@ -63,9 +81,9 @@ module ietf-isis {
   
   description 
     "The YANG module defines a generic configuration model for 
-    ISIS common across all of the vendor implementations.";
+    IS-IS common across all of the vendor implementations.";
 
-  revision 2017-11-20 {
+  revision 2017-05-25 {
 	description
 	 "Initial revision.";
 	 reference "RFC XXXX";
@@ -75,21 +93,21 @@ module ietf-isis {
  
   identity isis {
     base rt:routing-protocol;
-    description "Identity for the ISIS routing protocol.";
+    description "Identity for the IS-IS routing protocol.";
   }
   
   identity isis-adjacency-change {
-    description "Identity for the ISIS routing protocol 
+    description "Identity for the IS-IS routing protocol 
       adjacency state.";
   }
   
   identity clear-isis-database {
-    description "Identity for the ISIS routing protocol 
+    description "Identity for the IS-IS routing protocol 
       database reset action.";
   }
   
   identity clear-isis-adjacency {
-    description "Identity for the ISIS routing protocol 
+    description "Identity for the IS-IS routing protocol 
       adjacency reset action.";
   }
 
@@ -118,48 +136,57 @@ module ietf-isis {
   feature ietf-spf-delay {
 	description
 	 "Support of IETF SPF delay algorithm.";
+	reference "RFC XXXX - SPF Back-off algorithm for link
+               state IGPs";
   }
   feature bfd {
-	description
-	 "Support of BFD for IS-IS links.";
+    description
+      "Support for BFD detection of IS-IS neighbor reachability.";
+    reference "RFC 5880 - Bidirectional Forwarding Detection (BFD)
+               RFC 5881 - Bidirectional Forwarding Detection
+               (BFD) for IPv4 and IPv6 (Single Hop)";
   }
   feature key-chain {
     description
       "Support of keychain for authentication.";
   }
-  feature segment-routing {
-    description
-     "Support of segment-routing.";
-  }
   feature node-flag {
 	description
 	 "Support of node-flag advertisement
 	 as prefix attribute";
+	reference "RFC7794 - IS-IS Prefix Attributes for 
+	           Extended IP and IPv6 Reachability";
   }
   feature node-tag {
     description
       "Support of node tag.";
+	reference "RFC7917 - Advertising Node Administrative Tags 
+	           in IS-IS";
   }
   feature ldp-igp-sync {
     description
-      "Support of RFC5443.";
+      "Support of synchronization between IS-IS and LDP.";
+	reference "RFC5443 - LDP IGP Synchronization";
   }
   feature fast-reroute {
     description
-      "Support of IPFRR.";
+      "Support of IP Fast Reroute.";
   }
   feature nsr {
 	description
 	 "Support of
 		Non Stop Routing.";
   }
-  feature  lfa {
+  feature lfa {
     description
       "Support of Loop Free Alternates.";
+	reference "RFC5286 - Basic Specification of IP Fast-Reroute:
+	           Loop-free Alternates";
   }
   feature remote-lfa {
     description
       "Support of remote Loop Free Alternates.";
+	reference "RFC7490 - Remote Loop-Free Alternate Fast Reroute";
   }
   
   feature overload-max-metric {
@@ -170,10 +197,14 @@ module ietf-isis {
   feature prefix-tag {
     description
       "Add 32bit tag to prefixes";
+	reference "RFC5130 - A Policy Control Mechanism in 
+	           IS-IS Using Administrative Tags";
   }
   feature prefix-tag64 {
     description
       "Add 64bit tag to prefixes";
+	reference "RFC5130 - A Policy Control Mechanism in 
+	           IS-IS Using Administrative Tags";
   }  
   feature auto-cost {
     description
@@ -181,26 +212,28 @@ module ietf-isis {
   }
   feature ipv4-router-id {
     description
-     "Support of IPv4 router ID configuration under ISIS.";
+     "Support of IPv4 router ID configuration under IS-IS.";
   }
   
   feature ipv6-router-id {
     description
-     "Support of IPv6 router ID configuration under ISIS.";
+     "Support of IPv6 router ID configuration under IS-IS.";
   }
   
   feature multi-topology {
     description
      "Multitopology routing support.";
+	reference "RFC5120 - M-IS-IS: Multi Topology Routing in IS-IS";
   }
   feature nlpid-control {
     description
      "This feature controls the advertisement
-      of support NLPID within ISIS configuration.";
+      of support NLPID within IS-IS configuration.";
   }
   feature graceful-restart {
     description
-      "Graceful restart support as per RFC5306.";
+      "Graceful restart support.";
+	reference "RFC5306 - Restart Signaling in IS-IS";
   }
   
   feature lsp-refresh {
@@ -215,7 +248,7 @@ module ietf-isis {
   
   feature admin-control {
 	description
-	 "Control administrative state of ISIS.";
+	 "Control administrative state of IS-IS.";
   }
   
   /* Type definitions */
@@ -229,7 +262,7 @@ module ietf-isis {
     }
     description
        "This type is used for leaves that reference state data of 
-        an ISIS protocol instance.";
+        an IS-IS protocol instance.";
   }
     
   typedef circuit-id {
@@ -282,28 +315,28 @@ module ietf-isis {
     }
     default "level-all";
     description 
-     "This type defines ISIS level of an object.";
+     "This type defines IS-IS level of an object.";
     
   }
   
   typedef adj-state-type {
 	 type enumeration {
-		enum "Up" {
+		enum "up" {
 		  description
 		   "This state describes that
 			adjacency is established.";
 		}
-		enum "Down" {
+		enum "down" {
 		  description
 		   "This state describes that
 			adjacency is NOT established.";
 		}
-		enum "Init" {
+		enum "init" {
 		  description
 		   "This state describes that
 			adjacency is establishing.";
 		}
-		enum "Failed" {
+		enum "failed" {
 		  description
 		   "This state describes that
 			adjacency is failed.";
@@ -315,12 +348,12 @@ module ietf-isis {
   
   typedef if-state-type {
 	 type enumeration {
-        enum "Up" {
+        enum "up" {
           description
            "Up state.";
             
         }
-        enum "Down" {
+        enum "down" {
           description
            "Down state";
         }
@@ -334,7 +367,7 @@ module ietf-isis {
       range "1 .. 2";
     }
     description
-     "This type defines a current ISIS level.";
+     "This type defines a current IS-IS level.";
   }
   
   typedef lsp-id {
@@ -344,7 +377,7 @@ module ietf-isis {
              +'{4}\.[0-9][0-9]-[0-9][0-9]';
     }
     description 
-     "This type defines ISIS LSP ID using pattern,
+     "This type defines IS-IS LSP ID using pattern,
       system id looks like : 0143.0438.AeF0.02-01";
   }
   
@@ -371,7 +404,7 @@ module ietf-isis {
        '[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}';
     }
     description 
-     "This type defines ISIS system id using pattern,
+     "This type defines IS-IS system id using pattern,
       system id looks like : 0143.0438.AeF0";
   }
   
@@ -381,7 +414,7 @@ module ietf-isis {
     }
     description
      "This type defines wide style format
-      of ISIS metric.";
+      of IS-IS metric.";
   }
   
   typedef std-metric {
@@ -390,20 +423,20 @@ module ietf-isis {
     }
     description
      "This type defines old style format
-      of ISIS metric.";
+      of IS-IS metric.";
   }
   
   typedef mesh-group-state {
     type enumeration {
-      enum "meshInactive" {
+      enum "meshinactive" {
         description
          "Interface is not part of a mesh group.";
       }
-      enum "meshSet" {
+      enum "meshset" {
         description
          "Interface is part of a mesh group.";
       }
-      enum "meshBlocked" {
+      enum "meshblocked" {
         description
          "LSPs must not be flooded over that interface.";
       }
@@ -443,7 +476,7 @@ module ietf-isis {
 		leaf usage {
 		  type level;
 		  description
-		  "How is the adjacency used ?
+		  "Define the level(s) activated on the adjacency.
 		  On a p2p link this might be level 1 and 2,
 		  but on a LAN, the usage will be level 1
 		  between peers at L1 or level 2 between
@@ -707,12 +740,12 @@ module ietf-isis {
 	leaf routing-protocol-name {
       type string;
       description
-       "Describes the name of the ISIS instance.";
+       "Describes the name of the IS-IS instance.";
     }
     leaf isis-level {
       type level;
       description
-       "Describes the ISIS level of the instance.";
+       "Describes the IS-IS level of the instance.";
     }
   }
   
@@ -723,12 +756,12 @@ module ietf-isis {
     leaf interface-name {
       type string;
       description
-       "Describes the name of the ISIS interface.";
+       "Describes the name of the IS-IS interface.";
     }
     leaf interface-level {
       type level;
       description
-       "Describes the ISIS level of the interface.";
+       "Describes the IS-IS level of the interface.";
     }
     leaf extended-circuit-id {
       type extended-circuit-id;
@@ -743,7 +776,7 @@ module ietf-isis {
     leaf metric {
       type uint32;
       description
-       "This leaf describes ISIS metric of a route.";
+       "This leaf describes IS-IS metric of a route.";
     }
     leaf-list tag {
       type uint64;
@@ -788,7 +821,7 @@ module ietf-isis {
         }
       }
       description
-       "This leaf describes the type of ISIS route.";
+       "This leaf describes the type of IS-IS route.";
     }
   }
   
@@ -883,19 +916,19 @@ module ietf-isis {
   grouping ietf-spf-delay-state {
 	leaf current-state {
 		type enumeration {
-			enum "QUIET" {
+			enum "quiet" {
 				description "QUIET state";
 			}
-			enum "SHORT_WAIT" {
+			enum "short-wait" {
 				description "SHORT_WAIT state";
 			}
-			enum "LONG_WAIT" {
+			enum "long-wait" {
 				description "LONG_WAIT state";
 			}
 		}
 		config false;
 		description
-		 "Current state of the algorithm.";
+		 "Current SPF backoff algorithm state.";
 	}
 	leaf remaining-time-to-learn {
 		type rt-types:timer-value-milliseconds;
@@ -979,7 +1012,7 @@ module ietf-isis {
   
   grouping isis-node-tag-cfg {
     description
-	 "ISIS node tag config.";
+	 "IS-IS node tag config.";
 	container node-tags {
 		if-feature node-tag;
 		list node-tag {
@@ -1118,7 +1151,7 @@ module ietf-isis {
                 type uint8;
                 description 
                   "This leaf defines the protocol 
-                   preference for all ISIS routes.";
+                   preference for all IS-IS routes.";
               }
             }
             description
@@ -1254,7 +1287,7 @@ module ietf-isis {
   
   grouping isis-global-cfg {
 	description
-	 "Defines the ISIS global configuration.";
+	 "Defines the IS-IS global configuration.";
 	
         uses admin-control;
 		
@@ -1262,7 +1295,7 @@ module ietf-isis {
           type level;
           default "level-all";
           description
-           "This leaf describes the type of ISIS node.
+           "This leaf describes the type of IS-IS node.
            A node can be level-1-only, level-2-only 
            or level-1-2.
            ";
@@ -1514,7 +1547,7 @@ module ietf-isis {
 	  type level;
 	  default "level-all";
 	  description 
-	   "This leaf defines the associated ISIS 
+	   "This leaf defines the associated IS-IS 
 	   level of the interface.";
 	}
 	leaf lsp-pacing-interval {
@@ -1537,7 +1570,7 @@ module ietf-isis {
 	  default "false";
 	  description 
 	   "This leaf defines if interface is in 
-		passive mode (ISIS not running, 
+		passive mode (IS-IS not running, 
 		but network is advertised).";
 	}
 	leaf csnp-interval {
@@ -1558,7 +1591,7 @@ module ietf-isis {
 		  pad HELLOs.";
 	  } 
 	  description 
-	   "This container handles ISIS hello padding
+	   "This container handles IS-IS hello padding
 		configuration.";
 	}
 	leaf mesh-group-enable {
@@ -1568,10 +1601,10 @@ module ietf-isis {
 		the interface.";
 	}
 	leaf mesh-group {
-	  when "../mesh-group-enable = 'meshSet'" {
+	  when "../mesh-group-enable = 'meshset'" {
 		description
 		 "Only valid when mesh-group-enable
-		  equals meshSet";
+		  equals to meshset";
 	  }
 	  type uint8;
 	  description
@@ -1684,15 +1717,12 @@ module ietf-isis {
 	}	  
 	container bfd {
 		if-feature bfd;
-		leaf enable {
-			type boolean;
-			default false;
-			description "
-				Enables BFD on the interface
-			";
-		}
-		description
-		 "BFD configuration.";
+		description "BFD Client Configuration.";
+        uses bfd-types:client-cfg-parms;
+        
+		reference "draft-ietf-bfd-yang-xx.txt:
+                 YANG Data Model for Bidirectional Forwarding
+                 Detection (BFD)";	
 	}
 	container afs {
 		if-feature nlpid-control;
@@ -1724,13 +1754,13 @@ module ietf-isis {
 	  } 
 	  description
 	   "Container for MPLS specific configuration
-	   for ISIS.";
+	   for IS-IS.";
 	}
   } 
 
   grouping isis-if-topologies-cfg {
 	description
-	 "ISIS interface topology cfg.";
+	 "IS-IS interface topology cfg.";
 	container metric {
 		uses metric-cfg;		
 		container level-1 {
@@ -1754,7 +1784,7 @@ module ietf-isis {
 		leaf level {
 		  type level-number;
 		  description
-		   "This leaf describes the ISIS level.";
+		   "This leaf describes the IS-IS level.";
 		}
 		leaf corrupted-lsps {
 		  type uint32;
@@ -1920,7 +1950,7 @@ module ietf-isis {
 		leaf level {
 		  type level-number;
 		  description
-		   "This leaf describes the ISIS level.";
+		   "This leaf describes the IS-IS level.";
 		}
 		container iih {
 		  leaf in {
@@ -2297,13 +2327,13 @@ module ietf-isis {
     leaf default-metric {
       type std-metric;
       description
-       "This leaf describes the ISIS default metric value";
+       "This leaf describes the IS-IS default metric value";
     }
     container delay-metric {
       leaf metric {
         type std-metric;
         description
-         "This leaf describes the ISIS delay metric value";
+         "This leaf describes the IS-IS delay metric value";
       }
       leaf supported {
         type boolean;
@@ -2313,13 +2343,13 @@ module ietf-isis {
       }
       
       description
-       "This container defines the ISIS delay metric.";
+       "This container defines the IS-IS delay metric.";
     }
     container expense-metric {
       leaf metric {
         type std-metric;
         description
-         "This leaf describes the ISIS expense metric value";
+         "This leaf describes the IS-IS expense metric value";
       }
       leaf supported {
         type boolean;
@@ -2328,13 +2358,13 @@ module ietf-isis {
          "This leaf describes if the metric is supported.";
       }
       description
-       "This container defines the ISIS expense metric.";
+       "This container defines the IS-IS expense metric.";
     }
     container error-metric {
       leaf metric {
         type std-metric;
         description
-         "This leaf describes the ISIS error metric value";
+         "This leaf describes the IS-IS error metric value";
       }
       leaf supported {
         type boolean;
@@ -2344,7 +2374,7 @@ module ietf-isis {
       }
       
       description
-       "This container defines the ISIS error metric.";
+       "This container defines the IS-IS error metric.";
     }
   }
   
@@ -2371,7 +2401,7 @@ module ietf-isis {
     leaf metric {
       type wide-metric;
       description
-       "This leaf describes the ISIS metric value";
+       "This leaf describes the IS-IS metric value";
     }
     leaf-list tag {
       type uint32;
@@ -2410,7 +2440,7 @@ module ietf-isis {
     leaf metric {
       type wide-metric;
       description
-       "This leaf describes the ISIS metric value";
+       "This leaf describes the IS-IS metric value";
     }
     leaf-list tag {
       type uint32;
@@ -2430,7 +2460,7 @@ module ietf-isis {
   grouping neighbor-extended {
     description
      "This group defines attributes of an 
-      ISIS extended neighbor.";
+      IS-IS extended neighbor.";
     leaf neighbor-id {
       type system-id;
       description
@@ -2439,14 +2469,14 @@ module ietf-isis {
     leaf metric {
       type wide-metric;
       description
-       "This leaf describes the ISIS metric value";
+       "This leaf describes the IS-IS metric value";
     }
   }
   
   grouping neighbor {
     description
      "This group defines attributes of an 
-      ISIS standard neighbor.";
+      IS-IS standard neighbor.";
     leaf neighbor-id {
       type system-id;
       description
@@ -2460,13 +2490,13 @@ module ietf-isis {
     leaf default-metric {
       type std-metric;
       description
-       "This leaf describes the ISIS default metric value";
+       "This leaf describes the IS-IS default metric value";
     }
     container delay-metric {
       leaf metric {
         type std-metric;
         description
-         "This leaf describes the ISIS delay metric value";
+         "This leaf describes the IS-IS delay metric value";
       }
       leaf supported {
         type boolean;
@@ -2475,13 +2505,13 @@ module ietf-isis {
          "This leaf describes if the metric is supported.";
       }
       description
-       "This container defines the ISIS delay metric.";
+       "This container defines the IS-IS delay metric.";
     }
     container expense-metric {
       leaf metric {
         type std-metric;
         description
-         "This leaf describes the ISIS delay expense value";
+         "This leaf describes the IS-IS delay expense value";
       }
       leaf supported {
         type boolean;
@@ -2490,13 +2520,13 @@ module ietf-isis {
          "This leaf describes if the metric is supported.";
       }
       description
-       "This container defines the ISIS expense metric.";
+       "This container defines the IS-IS expense metric.";
     }
     container error-metric {
       leaf metric {
         type std-metric;
         description
-         "This leaf describes the ISIS error metric value";
+         "This leaf describes the IS-IS error metric value";
       }
       leaf supported {
         type boolean;
@@ -2505,14 +2535,14 @@ module ietf-isis {
          "This leaf describes if the metric is supported.";
       }
       description
-       "This container defines the ISIS error metric.";
+       "This container defines the IS-IS error metric.";
     }
   }
 
   grouping lsp-entry {
    description
      "This group defines attributes of an 
-      ISIS LSP database entry.";
+      IS-IS LSP database entry.";
 
 	leaf decoded-completed {
       type boolean;
@@ -2588,7 +2618,7 @@ module ietf-isis {
       type inet:ipv4-address;
       description 
         "This leaf describes the IPv4 addresses of the node.
-        ISIS reference is TLV 132.";
+        IS-IS reference is TLV 132.";
     }
 	
     leaf-list ipv6-addresses {
@@ -2596,7 +2626,7 @@ module ietf-isis {
       description 
        "This leaf describes the IPv6 interface 
        addresses of the node.
-       ISIS reference is TLV 232.";
+       IS-IS reference is TLV 232.";
     }
     
     leaf ipv4-te-routerid { 
@@ -2604,7 +2634,7 @@ module ietf-isis {
       description 
         "This leaf describes the IPv4 Traffic Engineering 
         router ID of the node.
-        ISIS reference is TLV 134.";
+        IS-IS reference is TLV 134.";
     }
     
     leaf ipv6-te-routerid {
@@ -2612,7 +2642,7 @@ module ietf-isis {
       description 
        "This leaf describes the IPv6 Traffic Engineering 
         router ID of the node.
-        ISIS reference is TLV 140.";
+        IS-IS reference is TLV 140.";
     }
 
 	leaf-list protocol-supported {
@@ -2620,14 +2650,14 @@ module ietf-isis {
       description
        "This leaf describes the list of 
        supported protocols.
-       ISIS reference is TLV 129.";
+       IS-IS reference is TLV 129.";
     }
 	
     leaf dynamic-hostname {
       type string;
       description 
        "This leaf describes the name of the node.
-       ISIS reference is TLV 137.";
+       IS-IS reference is TLV 137.";
     }
 	
 	container authentication {
@@ -2647,7 +2677,7 @@ module ietf-isis {
           to use MD5 hash to present the authentication-key.";
       }
       description "This container describes authentication 
-      information of the node. ISIS reference is TLV 10.";
+      information of the node. IS-IS reference is TLV 10.";
     }
 
     container mt-entries {
@@ -2685,7 +2715,7 @@ module ietf-isis {
       }
       description 
        "This container describes the topology supported.
-       ISIS reference is TLV 229.";
+       IS-IS reference is TLV 229.";
     }
 
     list router-capabilities {
@@ -2742,7 +2772,7 @@ module ietf-isis {
        "This container describes the capabilities of the node. 
        This container may be extended with detailed 
        information.
-       ISIS reference is TLV 242.";
+       IS-IS reference is TLV 242.";
     }
     
     container is-neighbor {
@@ -2752,8 +2782,8 @@ module ietf-isis {
          "List of neighbors.";
       }
       description 
-       "This leaf describes list of ISIS neighbors.
-       ISIS reference is TLV 2.";
+       "This leaf describes list of IS-IS neighbors.
+       IS-IS reference is TLV 2.";
     }
    
     container extended-is-neighbor {
@@ -2763,9 +2793,9 @@ module ietf-isis {
          "List of neighbors.";
       }
       description 
-       "This container describes list of ISIS extended 
+       "This container describes list of IS-IS extended 
        neighbors.
-       ISIS reference is TLV 22.";
+       IS-IS reference is TLV 22.";
     }
     
     container ipv4-internal-reachability {
@@ -2777,7 +2807,7 @@ module ietf-isis {
       description 
        "This container describes list of IPv4 internal
        reachability information.
-       ISIS reference is TLV 128.";
+       IS-IS reference is TLV 128.";
     }
         
     container ipv4-external-reachability {
@@ -2789,7 +2819,7 @@ module ietf-isis {
       description 
        "This container describes list of IPv4 external
        reachability information.
-       ISIS reference is TLV 130.";
+       IS-IS reference is TLV 130.";
     }
     
     container extended-ipv4-reachability {
@@ -2801,7 +2831,7 @@ module ietf-isis {
       description 
        "This container describes list of IPv4 extended
        reachability information.
-       ISIS reference is TLV 135.";
+       IS-IS reference is TLV 135.";
     }
    
     container mt-is-neighbor {
@@ -2819,9 +2849,9 @@ module ietf-isis {
          "List of neighbors.";
       }
       description 
-       "This container describes list of ISIS multi-topology 
+       "This container describes list of IS-IS multi-topology 
         neighbors.
-        ISIS reference is TLV 223.";
+        IS-IS reference is TLV 223.";
     }
     
     container mt-extended-ipv4-reachability {
@@ -2843,7 +2873,7 @@ module ietf-isis {
        "This container describes list of IPv4 
        reachability information in multi-topology
        environment.
-       ISIS reference is TLV 235.";
+       IS-IS reference is TLV 235.";
     }
     
     container mt-ipv6-reachability {
@@ -2864,7 +2894,7 @@ module ietf-isis {
        "This container describes list of IPv6 
        reachability information in multi-topology
        environment.
-       ISIS reference is TLV 237.";
+       IS-IS reference is TLV 237.";
     }
     
     container ipv6-reachability {
@@ -2876,7 +2906,7 @@ module ietf-isis {
       description 
        "This container describes list of IPv6 
        reachability information.
-       ISIS reference is TLV 236.";
+       IS-IS reference is TLV 236.";
     }
   }
   
@@ -2902,7 +2932,7 @@ module ietf-isis {
 		 in the level x database.";
 	  }         
 	  description 
-	   "This container describes ISIS Link State 
+	   "This container describes IS-IS Link State 
 		databases.";
     }    
 	description
@@ -2917,11 +2947,11 @@ module ietf-isis {
   augment "/rt:routing/"
 	+"rt:ribs/rt:rib/rt:routes/rt:route" {
     when "rt:source-protocol = 'isis:isis'" {
-      description "ISIS-specific route attributes.";
+      description "IS-IS-specific route attributes.";
     }
     uses route-content;
     description
-     "This augments route object in RIB with ISIS-specific
+     "This augments route object in RIB with IS-IS-specific
       attributes.";
   }
   
@@ -2943,7 +2973,7 @@ module ietf-isis {
         instance type is isis.";
     }
     description
-     "This augments a routing protocol instance with ISIS
+     "This augments a routing protocol instance with IS-IS
       specific parameters.";
     container isis {  
         must "count(area-address) > 0" {
@@ -3040,10 +3070,10 @@ module ietf-isis {
 		  uses event-counters;
 		  uses packet-counters;
 		  description
-			"List of ISIS interfaces.";
+			"List of IS-IS interfaces.";
           }
           description
-           "This container defines ISIS interface specific 
+           "This container defines IS-IS interface specific 
            configuration objects.";
        }
        uses spf-log;
@@ -3054,7 +3084,7 @@ module ietf-isis {
 	   uses system-counters;
 		
        description 
-        "This container defines ISIS specific configuration
+        "This container defines IS-IS specific configuration
          objects.";
     }
   }
@@ -3065,8 +3095,8 @@ module ietf-isis {
   rpc clear-adjacency {
     description
      "This RPC request clears a particular
-      set of ISIS adjacencies. If the operation
-      fails for ISIS internal reason, then 
+      set of IS-IS adjacencies. If the operation
+      fails for IS-IS internal reason, then 
       error-tag and error-app-tag should be set
       to a meaningful value.";
     input {
@@ -3075,10 +3105,10 @@ module ietf-isis {
         type instance-state-ref;
         mandatory "true";
         description 
-         "Name of the ISIS protocol instance whose ISIS 
+         "Name of the IS-IS protocol instance whose IS-IS 
           information is being queried.
 
-          If the ISIS instance with name equal to the 
+          If the IS-IS instance with name equal to the 
           value of this parameter doesn't exist, then this 
           operation SHALL fail with error-tag 'data-missing'
           and error-app-tag 
@@ -3087,8 +3117,8 @@ module ietf-isis {
       leaf level {
         type level;
         description
-         "ISIS level of the adjacency to be cleared.
-         If ISIS level is level-1-2, both level 1 and level 2
+         "IS-IS level of the adjacency to be cleared.
+         If IS-IS level is level-1-2, both level 1 and level 2
          adjacencies would be cleared.
          
          If the value provided is different from the one 
@@ -3101,9 +3131,9 @@ module ietf-isis {
       leaf interface {
         type string;
         description 
-         "Name of the ISIS interface.
+         "Name of the IS-IS interface.
 
-          If the ISIS interface with name equal to the 
+          If the IS-IS interface with name equal to the 
           value of this parameter doesn't exist, then this 
           operation SHALL fail with error-tag 'data-missing'
           and error-app-tag 
@@ -3115,8 +3145,8 @@ module ietf-isis {
   rpc clear-database {
     description
      "This RPC request clears a particular
-      ISIS database. If the operation
-      fails for ISIS internal reason, then 
+      IS-IS database. If the operation
+      fails for IS-IS internal reason, then 
       error-tag and error-app-tag should be set
       to a meaningful value.";
     input {
@@ -3124,10 +3154,10 @@ module ietf-isis {
         type instance-state-ref;
         mandatory "true";
         description 
-         "Name of the ISIS protocol instance whose ISIS 
+         "Name of the IS-IS protocol instance whose IS-IS 
           information is being queried.
 
-          If the ISIS instance with name equal to the 
+          If the IS-IS instance with name equal to the 
           value of this parameter doesn't exist, then this 
           operation SHALL fail with error-tag 'data-missing'
           and error-app-tag 
@@ -3136,8 +3166,8 @@ module ietf-isis {
       leaf level {
         type level;
         description
-         "ISIS level of the adjacency to be cleared.
-         If ISIS level is level-1-2, both level 1 and level 2
+         "IS-IS level of the adjacency to be cleared.
+         If IS-IS level is level-1-2, both level 1 and level 2
          adjacencies would be cleared.
          
          If the value provided is different from the one 
@@ -3172,7 +3202,7 @@ module ietf-isis {
          "Describes the new overload state of the instance.";
     }
     description
-      "This notification is sent when an ISIS instance
+      "This notification is sent when an IS-IS instance
        overload condition changes.";
   }
   
@@ -3490,7 +3520,7 @@ module ietf-isis {
 	 
       description
        "This leaf describes the new state of the
-        ISIS adjacency.";
+        IS-IS adjacency.";
     }
     leaf reason {
       type string;
@@ -3502,7 +3532,7 @@ module ietf-isis {
        provided.";
     }
     description
-      "This notification is sent when an ISIS adjacency
+      "This notification is sent when an IS-IS adjacency
        moves to Up state or to Down state.";
   }
   
