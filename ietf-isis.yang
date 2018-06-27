@@ -322,23 +322,19 @@ module ietf-isis {
     type enumeration {
       enum "up" {
         description
-          "This state describes that
-            adjacency is established.";
+          "State indicates the adjacency is established.";
       }
       enum "down" {
         description
-          "This state describes that
-           adjacency is NOT established.";
+          "State indicates the adjacency is NOT established.";
       }
       enum "init" {
         description
-          "This state describes that
-           adjacency is establishing.";
+          "State indicates the adjacency is establishing.";
       }
       enum "failed" {
         description
-          "This state describes that
-           adjacency is failed.";
+          "State indicates the adjacency is failed.";
       }
     }
     description
@@ -616,14 +612,13 @@ module ietf-isis {
                 "Other protection available.";
             }
           }
-          description
-            "Describes protection provided by the alternate.";
+          description "Protection provided by the alternate.";
         }
         leaf alternate-metric1 {
           type uint32;
           description
-            "Metric from PLR to destination
-             through the alternate path.";
+            "Metric from Point of Local Repair (PLR) to
+             destination through the alternate path.";
         }
         leaf alternate-metric2 {
           type uint32;
@@ -713,60 +708,50 @@ module ietf-isis {
 
   grouping notification-instance-hdr {
     description
-      "This group describes common instance specific
-       data for notifications.";
+      "Instance specific IS-IS notification data grouping";
     leaf routing-instance {
       type string;
-      description
-        "Describes the name of the routing-instance instance.";
+      description "Name of the routing-instance instance.";
     }
     leaf routing-protocol-name {
       type string;
-      description
-        "Describes the name of the IS-IS instance.";
+      description "Name of the IS-IS instance.";
     }
     leaf isis-level {
       type level;
-      description
-        "Describes the IS-IS level of the instance.";
+      description "IS-IS level of the instance.";
     }
   }
 
   grouping notification-interface-hdr {
     description
-      "This grouping describes common interface specific
-       data for IS-IS notifications.";
+      "Interface specific IS-IS notification data grouping";
     leaf interface-name {
       type string;
-      description
-        "The name of the IS-IS interface.";
+      description "IS-IS interface name";
     }
     leaf interface-level {
       type level;
-      description
-        "The IS-IS level of the interface.";
+      description "IS-IS level of the interface.";
     }
     leaf extended-circuit-id {
       type extended-circuit-id;
-      description
-        "The extended circuit-id of the interface.";
+      description "Eextended circuit-id of the interface.";
     }
   }
 
   grouping route-content {
     description
-      "This grouping contains isis-specific route properties.";
+      "IS-IS protocol-specific route properties grouping.";
     leaf metric {
       type uint32;
-      description
-        "This leaf describes IS-IS metric of a route.";
+      description "IS-IS metric of a route.";
     }
     leaf-list tag {
       type uint64;
       description
-        "This list includes a list of tags associated
-          with the route. The leaf describes both
-          32-bit and 64-bit tags.";
+        "List of tags associated with the route. The leaf
+         describes both 32-bit and 64-bit tags.";
     }
     leaf route-type {
       type enumeration {
@@ -803,8 +788,7 @@ module ietf-isis {
                        and leaked to a lower level";
         }
       }
-      description
-        "This leaf indicates the IS-IS route type.";
+      description "IS-IS route type.";
     }
   }
 
@@ -822,7 +806,7 @@ module ietf-isis {
 
   grouping fast-reroute-global-cfg {
     description
-      "This group defines global configuration of IPFRR.";
+      "IPFRR global configuration grouping";
     container lfa {
       if-feature lfa;
       description
@@ -834,7 +818,7 @@ module ietf-isis {
 
   grouping fast-reroute-if-cfg {
     description
-      "This group defines interface configuration of IPFRR.";
+      "IPFRR interface configuration grouping";
     container lfa {
       if-feature lfa;
       uses lfa-if-cfg;
@@ -1053,8 +1037,7 @@ module ietf-isis {
       }
       default wide-only;
       description
-        "This leaf describes the type of metric
-         to be generated.
+        "Type of metric to be generated:
          - wide-only means only new metric style
             is generated,
          - old-only means that only old style metric
@@ -1073,7 +1056,7 @@ module ietf-isis {
       description  "Value of the metric";
     }
     description
-      "Grouping for global default metric config.";
+      "Global default metric config grouping.";
   }
 
 
@@ -1092,11 +1075,10 @@ module ietf-isis {
       type rt-types:timer-value-seconds16;
       units "seconds";
       description
-        "This leaf defines the timeout in seconds
-         of the overload condition.";
+        "Timeout (in seconds) of the overload condition.";
     }
     description
-      "Grouping for overload-max-metric config.";
+      "Overload maximum metric configuration grouping";
   }
 
   grouping route-preference-global-cfg {
@@ -1105,29 +1087,26 @@ module ietf-isis {
         leaf internal {
           type uint8;
           description
-            "This leaf defines the protocol
-             preference for internal routes.";
+            "Protocol preference for internal routes.";
         }
         leaf external {
           type uint8;
           description
-            "This leaf defines the protocol
-             preference for external routes.";
+            "Protocol preference for external routes.";
         }
       }
       case coarse {
         leaf default {
           type uint8;
           description
-            "This leaf defines the protocol
-             preference for all IS-IS routes.";
+            "Protocol preference for all IS-IS routes.";
         }
       }
       description
         "Choice for implementation of route preference.";
     }
     description
-      "This grouping defines how route preference is configured.";
+      "Global route preference grouping";
   }
 
   grouping hello-authentication-cfg {
@@ -1142,8 +1121,7 @@ module ietf-isis {
       case password {
         leaf key {
           type string;
-          description
-            "This leaf specifies the authentication key.";
+          description "Authentication key specification";
         }
         leaf crypto-algorithm {
           type identityref {
@@ -1164,11 +1142,11 @@ module ietf-isis {
       units "seconds";
       default 10;
       description
-        "This leaf defines the interval of hello messages.";
+        "Interval (in seconds) between successive hello
+         messages.";
     }
 
-    description
-      "Interval between hello messages.";
+    description "Interval between hello messages.";
   }
 
   grouping hello-multiplier-cfg {
@@ -1176,14 +1154,12 @@ module ietf-isis {
       type uint16;
       default 3;
       description
-        "This leaf defines the number of
-         missed hello messages prior to
+        "Number of missed hello messages prior to
          declaring the adjacency down.";
     }
     description
-        "This grouping defines the number of
-         missed hello messages prior to
-         declaring the adjacency down.";
+        "Number of missed hello messages prior to
+         adjacency down grouping.";
   }
 
   grouping priority-cfg {
@@ -1193,13 +1169,10 @@ module ietf-isis {
       }
       default 64;
       description
-        "This leaf describes the priority of
-         the interface for DIS election.";
+        "Priority of interface for DIS election.";
     }
 
-    description
-      "This grouping leaf describes the priority of
-       the interface for DIS election.";
+    description "Interface DIS election priority grouping";
   }
 
   grouping metric-cfg {
@@ -1208,7 +1181,7 @@ module ietf-isis {
       default "10";
       description "Metric value.";
     }
-    description "Grouping for interface metric";
+    description "Interface metric grouping";
   }
 
   grouping lfa-if-cfg {
@@ -1240,8 +1213,7 @@ module ietf-isis {
   }
 
   grouping isis-global-cfg {
-    description
-      "Defines the IS-IS global configuration.";
+    description "IS-IS global configuration grouping";
 
     uses admin-control;
 
@@ -1249,20 +1221,20 @@ module ietf-isis {
       type level;
       default "level-all";
       description
-        "This leaf describes the type of IS-IS node. A node
-         can be level-1-only, level-2-only or level-1-2.";
+        "Level of an IS-IS node - can be level-1-only,
+         level-2-only or level-1-2.";
     }
 
     leaf system-id {
       type system-id;
-      description "Defines the system-id of the node.";
+      description "System-id of the node.";
     }
 
     leaf maximum-area-addresses {
       if-feature maximum-area-addresses;
       type uint8;
       default 3;
-      description "Defines the maximum areas supported.";
+      description "Maximum areas supported.";
     }
 
     leaf-list area-address {
@@ -1300,9 +1272,7 @@ module ietf-isis {
       leaf reference-bandwidth {
         type uint32;
         units "bps";
-        description
-          "This leaf defines the bandwidth for calculating
-           metric.";
+        description "Bandwidth for calculating metric.";
       }
       leaf enable {
         type boolean;
@@ -1316,8 +1286,7 @@ module ietf-isis {
       units "bytes";
       default 1492;
       description
-        "This leaf defines the maximum size of an
-         LSP PDU in bytes.";
+        "Maximum size of an LSP PDU in bytes.";
     }
     leaf lsp-lifetime {
       type uint16 {
@@ -1325,16 +1294,14 @@ module ietf-isis {
       }
       units "seconds";
       description
-        "This leaf defines the lifetime of the router's
-         LSPs in seconds.";
+        "Lifetime of the router's LSPs in seconds.";
     }
     leaf lsp-refresh {
       if-feature lsp-refresh;
       type rt-types:timer-value-seconds16;
       units "seconds";
       description
-        "This leaf defines the refresh interval of the
-         router's LSPs in seconds.";
+        "Refresh interval of the router's LSPs in seconds.";
     }
     container graceful-restart {
       if-feature graceful-restart;
@@ -1474,38 +1441,36 @@ module ietf-isis {
     leaf level-type {
       type level;
       default "level-all";
-      description
-        "This leaf defines the IS-IS level of the interface.";
+      description "IS-IS level of the interface.";
     }
     leaf lsp-pacing-interval {
       type rt-types:timer-value-milliseconds;
       units "milliseconds";
       default 33;
       description
-        "This leaf defines the interval (in milli-seconds)
-         between LSP transmissions.";
+        "Interval (in milli-seconds) between LSP
+         transmissions.";
     }
     leaf lsp-retransmit-interval {
       type rt-types:timer-value-seconds16;
       units "seconds";
       description
-        "This leaf defines the interval (in seconds)
-         between LSP retransmissions.";
+        "Interval (in seconds) between LSP
+         retransmissions.";
     }
     leaf passive {
       type boolean;
       default "false";
       description
-        "This leaf defines whether the interface is in passive
-          mode (IS-IS not running but network is advertised).";
+        "Indicates whetherthe interface is in passive mode (IS-IS
+         not running but network is advertised).";
     }
     leaf csnp-interval {
       type rt-types:timer-value-seconds16;
       units "seconds";
       default 10;
       description
-         "This leaf defines the interval (in seconds)
-          between CSNP messages.";
+         "Interval (in seconds) between CSNP messages.";
     }
     container hello-padding {
       leaf enable {
@@ -1518,24 +1483,22 @@ module ietf-isis {
     }
     leaf mesh-group-enable {
       type mesh-group-state;
-      description
-        "Describes the IS-IS interface mesh-group state";
+      description "IS-IS interface mesh-group state";
     }
     leaf mesh-group {
       when "../mesh-group-enable = 'mesh-set'" {
-        description "Only valid when mesh-group-enable
-                  equals to meshset";
+        description
+          "Only valid when mesh-group-enable equals meshset";
       }
       type uint8;
-      description "Defines the IS-iS interface mesh-group ID.";
+      description "IS-IS interface mesh-group ID.";
     }
     leaf interface-type {
       type interface-type;
       default "broadcast";
       description
-        "This leaf defines the type of adjacency to be
-         established on the interface. This dictates the
-         type of hello messages that are used.";
+        "Type of adjacency to be established on the interface. This
+         dictates the type of hello messages that are used.";
     }
 
     uses admin-control;
@@ -1544,15 +1507,13 @@ module ietf-isis {
       if-feature prefix-tag;
       type uint32;
       description
-        "This leaf defines list of tags associated
-                with the interface.";
+        "List of tags associated with the interface.";
     }
     leaf-list tag64 {
       if-feature prefix-tag64;
       type uint64;
       description
-        "This leaf defines a list of 64-bit tags
-         associated with the interface.";
+        "List of 64-bit tags associated with the interface.";
     }
     leaf node-flag {
       if-feature node-flag;
@@ -2032,9 +1993,8 @@ module ietf-isis {
               "Sequence number of the LSP.";
           }
           description
-            "This container describes the received LSP, in the
-             case of local LSP update, the local LSP ID is
-             referenced.";
+            "LSP identification container - either the received
+             LSP or the locally generated LSP.";
         }
 
         leaf received-timestamp {
@@ -2059,8 +2019,8 @@ module ietf-isis {
       }
 
       description
-        "This container include a lof of LSP reception and
-         local LSP origination events.";
+        "LSP reception and local LSP origination events
+         container.";
 
     } description "Grouping for LSP log.";
   }
@@ -2270,7 +2230,7 @@ module ietf-isis {
   }
 
   grouping neighbor-extended {
-    description 
+    description
      "Grouping for attributes of an IS-IS extended neighbor.";
     leaf neighbor-id {
       type system-id;
@@ -2283,103 +2243,84 @@ module ietf-isis {
   }
 
   grouping neighbor {
-    description
-      "This group defines attributes of an
-      IS-IS standard neighbor.";
+    description  "IS-IS standard neighbor grouping.";
     leaf neighbor-id {
       type system-id;
-      description
-        "This leaf describes the system-id of the neighbor.";
+      description "IS-IS neighbor system-id";
     }
     leaf i-e {
       type boolean;
       description
-        "This leaf expresses the value of I/E bit.";
+        "Internal or External (I/E) Metric bit value";
     }
     leaf default-metric {
       type std-metric;
-      description
-        "This leaf describes the IS-IS default metric value";
+      description "IS-IS default metric value";
     }
     container delay-metric {
       leaf metric {
         type std-metric;
-        description
-          "This leaf describes the IS-IS delay metric value";
+        description "IS-IS delay metric value";
       }
       leaf supported {
         type boolean;
         default "false";
-        description
-          "This leaf describes if the metric is supported.";
+        description "IS-IS delay metric supported";
       }
-      description
-        "This container defines the IS-IS delay metric.";
+      description "IS-IS delay metric container";
     }
     container expense-metric {
       leaf metric {
         type std-metric;
-        description
-          "This leaf describes the IS-IS delay expense value";
+        description "IS-IS delay expense metric value";
       }
       leaf supported {
         type boolean;
         default "false";
-        description
-          "This leaf describes if the metric is supported.";
+        description "IS-IS delay expense metric supported";
       }
-      description
-        "This container defines the IS-IS expense metric.";
+      description "IS-IS delay expense metric container";
     }
     container error-metric {
       leaf metric {
         type std-metric;
-        description
-          "This leaf describes the IS-IS error metric value";
+        description "IS-IS error metric value";
       }
       leaf supported {
         type boolean;
         default "false";
-        description
-          "This leaf describes if the metric is supported.";
+        description "IS-IS error metric supported";
       }
-      description
-        "This container defines the IS-IS error metric.";
+      description "IS-IS error metric container";
     }
   }
 
   grouping lsp-entry {
-    description
-      "This group defines attributes of an
-      IS-IS LSP database entry.";
+    description "IS-IS LSP database entry groupting";
 
     leaf decoded-completed {
       type boolean;
-      description
-        "The IS-IS body is fully decoded.";
+      description "IS-IS LSP body fully decoded.";
     }
     leaf raw-data {
       type yang:hex-string;
       description
-        "The complete LSP in network byte
-         order hexadecimal as received or originated.";
+        "The hexadecial representation of the complete LSP in
+         network-byte order (NBO) as received or originated.";
     }
     leaf lsp-id {
       type lsp-id;
-      description
-        "This leaf describes the LSP ID of the LSP.";
+      description "LSP ID of the LSP";
     }
     leaf checksum {
       type uint16;
-      description
-        "This leaf describes the checksum of the LSP.";
+      description "LSP checksum";
     }
     leaf remaining-lifetime {
       type uint16;
       units "seconds";
       description
-        "This leaf describes the remaining lifetime
-        in seconds before the LSP expiration.";
+        "Remaining lifetime (in seconds) until LSP expiration.";
     }
     leaf sequence {
       type uint32;
@@ -2388,143 +2329,133 @@ module ietf-isis {
     }
     leaf attributes {
       type bits {
-        bit PARTITIONNED {
-          description
-            "If set, the originator supports partition
-            repair.";
+        bit partitioned {
+          description "Originator partition repair supported";
         }
-        bit ATTACHED-ERROR {
+        bit attached-error {
           description
             "If set, the originator is attached to
-            another area using the referred metric.";
+             another area using the referred metric.";
         }
-        bit ATTACHED-EXPENSE {
+        bit attached-expense {
           description
             "If set, the originator is attached to
-            another area using the referred metric.";
+             another area using the referred metric.";
         }
-        bit ATTACHED-DELAY {
+        bit attached-delay {
           description
             "If set, the originator is attached to
-            another area using the referred metric.";
+             another area using the referred metric.";
         }
-        bit ATTACHED-DEFAULT {
+        bit attached-default {
           description
             "If set, the originator is attached to
-            another area using the referred metric.";
+             another area using the referred metric.";
         }
-        bit OVERLOAD {
+        bit overload {
           description
             "If set, the originator is overloaded,
-            and must be avoided in path calculation.";
+             and must be avoided in path calculation.";
         }
       }
-      description
-        "This leaf describes attributes of the LSP.";
+      description "LSP attributes";
     }
 
     leaf-list ipv4-addresses {
       type inet:ipv4-address;
       description
-        "This leaf describes the IPv4 addresses of the node.
-        IS-IS reference is TLV 132.";
+        "List of IPv4 addresses of the IS-IS node - IS-IS
+         reference is TLV 132.";
     }
 
     leaf-list ipv6-addresses {
       type inet:ipv6-address;
       description
-        "This leaf describes the IPv6 interface
-       addresses of the node.
-       IS-IS reference is TLV 232.";
+        "List of IPv6 addresses of the IS-IS node - IS-IS
+         reference is TLV 232.";
     }
 
     leaf ipv4-te-routerid {
       type inet:ipv4-address;
       description
-        "This leaf describes the IPv4 Traffic Engineering
-        router ID of the node.
-        IS-IS reference is TLV 134.";
+        "IPv4 Traffic Engineering router ID of the IS-IS node -
+         IS-IS reference is TLV 134.";
     }
 
     leaf ipv6-te-routerid {
       type inet:ipv6-address;
       description
-        "This leaf describes the IPv6 Traffic Engineering
-        router ID of the node.
-        IS-IS reference is TLV 140.";
+        "IPv6 Traffic Engineering router ID of the IS-IS node -
+         IS-IS reference is TLV 140.";
     }
 
     leaf-list protocol-supported {
       type uint8;
       description
-        "This leaf describes the list of
-       supported protocols.
+      "List of supported protocols of the IS-IS node -
        IS-IS reference is TLV 129.";
     }
 
     leaf dynamic-hostname {
       type string;
       description
-        "This leaf describes the name of the node.
-       IS-IS reference is TLV 137.";
+        "Host Name of the IS-IS node - IS-IS reference
+         is TLV 137.";
     }
 
     container authentication {
       leaf authentication-type {
         type string;
         description
-          "This leaf describes the authentication type
-          to be used.";
+          "Authentication type to be used with IS-IS node.";
       }
       leaf authentication-key {
         type string;
         description
-          "This leaf describes the authentication key
-          to be used. For security reason, the
-          authentication key MUST NOT be presented
-          in plaintext format. Authors recommends
-          to use MD5 hash to present the authentication-key.";
+          "Authentication keyto be used. For security reasons,
+           the authentication key MUST NOT be presented in
+           plaintext format. It is recommended to use an MD5
+           hash to present the authentication-key.";
       }
-      description "This container describes authentication
-      information of the node. IS-IS reference is TLV 10.";
+      description
+        "IS-IS node authentication information container -
+         IS-IS reference is TLV 10.";
     }
 
     container mt-entries {
       list topology {
+        description
+          "List of topologies supported";
 
         leaf MT-ID {
           type uint16 {
             range "0 .. 4095";
           }
           description
-            "This leaf defines the identifier
-            of a topology.";
+            "Multi-Topolgoy identifier of topology.";
         }
 
         leaf attributes {
           type bits {
-            bit OVERLOAD {
+            bit overload {
               description
                 "If set, the originator is overloaded,
-                and must be avoided in path
-                calculation.";
+                 and must be avoided in path calculation.";
             }
-            bit ATTACHED {
+            bit attached {
               description
                 "If set, the originator is attached to
                 another area using the referred metric.";
             }
           }
           description
-            "This leaf describes attributes of the LSP
-            for the associated topology.";
+            "Attributes of the LSP for the associated
+             topology.";
         }
-        description
-          "List of topologies supported.";
       }
       description
-        "This container describes the topology supported.
-       IS-IS reference is TLV 229.";
+        "IS-IS node topology information container -
+         IS-IS reference is TLV 229.";
     }
 
     list router-capabilities {
@@ -2533,156 +2464,129 @@ module ietf-isis {
           bit flooding {
             position 0;
             description
-              "If the S bit is set(1),
-             the IS-IS Router CAPABILITY TLV
-            MUST be flooded across the entire routing domain.
-            If the S bit is
-            not set(0), the TLV MUST NOT be leaked between levels.
-            This bit MUST NOT be altered during the TLV leaking.";
+              "If the S bit is set, the IS-IS Router CAPABILITY
+               TLV MUST be flooded across the entire routing
+               domain. If the S bit is clear, the TLV MUST NOT
+               be leaked between levels. This bit MUST NOT
+                be altered during the TLV leaking.";
           }
           bit down {
             position 1;
             description
-              "When the IS-IS Router CAPABILITY TLV is
-            leaked from level-2 to level-1, the D bit
-            MUST be set.  Otherwise, this bit MUST
-            be clear.  IS-IS Router capability TLVs
-            with the D bit set MUST NOT
-            be leaked from level-1 to level-2.
-            This is to prevent TLV looping.
-            ";
+              "When the IS-IS Router CAPABILITY TLV is leaked
+               from level-2 to level-1, the D bit MUST be set.
+               Otherwise, this bit MUST be clear.  IS-IS Router
+               capability TLVs with the D bit set MUST NOT be
+               leaked from level-1 to level-2 in to prevent
+               TLV looping.";
           }
         }
-        description
-          "Flags associated with router capability.";
+        description "Router Capability Flags";
       }
       container node-tags {
         if-feature node-tag;
         list node-tag {
           leaf tag {
             type uint32;
-            description
-              "Node tag value.";
+            description "Node tag value.";
           }
-          description
-            "List of tags.";
+          description "List of tags.";
         }
-        description
-          "Container for node tags.";
+        description "Node Tag container";
       }
 
       leaf binary {
         type binary;
         description
-          "This leaf describes the capability of the node.
-         Format is binary according to the protocol encoding.";
+          "Binary encoding of the IS-IS node capabilities";
       }
       description
-        "This container describes the capabilities of the node.
-       This container may be extended with detailed
-       information.
-       IS-IS reference is TLV 242.";
+        "IS-IS node capabilities container. This container may
+         be extended with detailed information -  IS-IS
+         reference is TLV 242.";
     }
 
     container is-neighbor {
       list neighbor {
         uses neighbor;
-        description
-          "List of neighbors.";
+        description "List of neighbors.";
       }
       description
-        "This leaf describes list of IS-IS neighbors.
-       IS-IS reference is TLV 2.";
+        "Standard IS neighbors container - IS-IS reference is
+         TLV 2.";
     }
 
     container extended-is-neighbor {
       list neighbor {
         uses neighbor-extended;
         description
-          "List of neighbors.";
+          "List of extended IS neighbors";
       }
       description
-        "This container describes list of IS-IS extended
-       neighbors.
-       IS-IS reference is TLV 22.";
+        "Standard IS extended neighbors container - IS-IS
+         reference is TLV 22";
     }
 
     container ipv4-internal-reachability {
       list prefixes {
         uses prefix-ipv4-std;
-        description
-          "List of prefixes.";
+        description "List of prefixes.";
       }
       description
-        "This container describes list of IPv4 internal
-       reachability information.
-       IS-IS reference is TLV 128.";
+      "IPv4 internal reachability information container - IS-IS
+       reference is TLV 128.";
     }
 
     container ipv4-external-reachability {
       list prefixes {
         uses prefix-ipv4-std;
-        description
-          "List of prefixes.";
+        description "List of prefixes.";
       }
       description
-        "This container describes list of IPv4 external
-       reachability information.
-       IS-IS reference is TLV 130.";
+        "IPv4 external reachability information container -
+         IS-IS reference is TLV 130.";
     }
 
     container extended-ipv4-reachability {
       list prefixes {
         uses prefix-ipv4-extended;
-        description
-          "List of prefixes.";
+        description "List of prefixes.";
       }
       description
-        "This container describes list of IPv4 extended
-       reachability information.
-       IS-IS reference is TLV 135.";
+        "IPv4 extended reachability information container -
+         IS-IS reference is TLV 135.";
     }
 
     container mt-is-neighbor {
       list neighbor {
-        leaf MT-ID {
+        leaf mt-id {
           type uint16 {
             range "0 .. 4095";
           }
-          description
-            "This leaf defines the identifier
-            of a topology.";
+          description "Multi-topology (MT) identifier";
         }
         uses neighbor-extended;
-        description
-          "List of neighbors.";
+        description "List of neighbors.";
       }
       description
-        "This container describes list of IS-IS multi-topology
-        neighbors.
-        IS-IS reference is TLV 223.";
+        "IS-IS multi-topology neighbor container - IS-IS
+         reference is TLV 223.";
     }
 
     container mt-extended-ipv4-reachability {
       list prefixes {
-        leaf MT-ID {
+        leaf mt-id {
           type uint16 {
             range "0 .. 4095";
           }
-          description
-            "This leaf defines the identifier
-            of a topology.";
+          description  "Multi-topology (MT) identifier";
         }
         uses prefix-ipv4-extended;
-        description
-          "List of prefixes.";
-
+        description "List of extended prefixes.";
       }
       description
-        "This container describes list of IPv4
-       reachability information in multi-topology
-       environment.
-       IS-IS reference is TLV 235.";
+        "IPv4 multi-topolgy (MT) extended reachability
+         information container - IS-IS reference is TLV 235.";
     }
 
     container mt-ipv6-reachability {
@@ -2691,35 +2595,29 @@ module ietf-isis {
           type uint16 {
             range "0 .. 4095";
           }
-          description
-            "This leaf defines the identifier
-            of a topology.";
+          description "Multi-topology (MT) identifier";
         }
         uses prefix-ipv6-extended;
-        description
-          "List of prefixes.";
+        description "List of IPv6 extended prefixes.";
       }
       description
-        "This container describes list of IPv6
-       reachability information in multi-topology
-       environment.
-       IS-IS reference is TLV 237.";
+        "IPv6 multi-topolgy (MT) extended reachability
+         information container - IS-IS reference is TLV 237.";
     }
 
     container ipv6-reachability {
       list prefixes {
         uses prefix-ipv6-extended;
-        description
-          "List of prefixes.";
+        description "List of IPv6 prefixes.";
       }
       description
-        "This container describes list of IPv6
-       reachability information.
-       IS-IS reference is TLV 236.";
+        "IPv6 reachability information container - IS-IS
+         reference is TLV 236.";
     }
   }
 
   grouping lsdb {
+    description "Link State Database (LSDB) grouping";
     container database {
       config false;
       list level-db {
@@ -2727,25 +2625,17 @@ module ietf-isis {
 
         leaf level {
           type level-number;
-          description
-            "Current level number";
+          description "LSDB level number (1 or 2)";
         }
         list lsp {
           key lsp-id;
           uses lsp-entry;
-          description
-            "List of LSPs in LSDB.";
+          description "List of LSPs in LSDB";
         }
-        description
-          "This container describes the list of LSPs
-                 in the level x database.";
+        description "LSP list for LSDB level container";
       }
-      description
-        "This container describes IS-IS Link State
-                databases.";
+      description "IS-IS Link State database container";
     }
-    description
-      "Grouping for LSDB description.";
   }
 
 
@@ -2761,15 +2651,14 @@ module ietf-isis {
     uses route-content;
     description
       "This augments route object in RIB with IS-IS-specific
-      attributes.";
+       attributes.";
   }
 
 
   augment "/if:interfaces/if:interface" {
     leaf clns-mtu {
       type uint16;
-      description
-        "Defines CLNS MTU of the interface.";
+      description "CLNS MTU of the interface";
     }
     description "ISO interface config.";
   }
@@ -2779,15 +2668,15 @@ module ietf-isis {
     when "rt:type = 'isis:isis'" {
       description
         "This augment is only valid when routing protocol
-        instance type is isis.";
+         instance type is 'isis'";
     }
     description
       "This augments a routing protocol instance with IS-IS
-      specific parameters.";
+       specific parameters.";
     container isis {
       must "count(area-address) > 0" {
-        error-message "At least one area-address
-          must be configured.";
+        error-message
+          "At least one area-address must be configured.";
         description
           "Enforce configuration of at least one area.";
       }
@@ -2798,19 +2687,17 @@ module ietf-isis {
         uses fast-reroute-global-cfg;
         uses fast-reroute-global-state;
         description
-          "IPFRR.";
+          "IP Fast ReRoute (IPFRR) global container";
       }
       container spf-control {
         container ietf-spf-delay {
           if-feature ietf-spf-delay;
           uses ietf-spf-delay-cfg;
           uses ietf-spf-delay-state;
-          description
-            "IETF spf delay algorithm configuration.";
+          description "IETF SPF delay algorithm container";
         }
         description
-          "Container for all SPF computation related
-                         operations.";
+          "SPF computation-related information container";
       }
       container topologies {
         if-feature multi-topology;
@@ -2818,24 +2705,22 @@ module ietf-isis {
           key "name";
           leaf enable {
             type boolean;
-            description
-              "Control enabling of topologies";
+            description "Topology enable configuration";
           }
           leaf name {
             type leafref {
               path "../../../../../../rt:ribs/rt:rib/rt:name";
             }
-
-            description "RIB";
+            description
+              "Routing Information Base (RIB) corresponding
+               to topology.";
           }
 
           uses isis-global-topologies-cfg;
 
-          description
-            "List of topologies";
+          description "List of topologies";
         }
-        description
-          "Container for multi-topology";
+        description "Multi-topology container";
       }
       container interfaces {
         list interface {
@@ -2845,14 +2730,14 @@ module ietf-isis {
 
             description
               "Reference to the interface within
-                the routing-instance.";
+               the routing-instance.";
           }
           uses isis-if-cfg;
           container fast-reroute {
             if-feature fast-reroute;
             uses fast-reroute-if-cfg;
             description
-              "IPFRR.";
+              "IP Fast ReRoute (IPFRR) interface container";
           }
           container topologies {
             if-feature multi-topology;
@@ -2866,24 +2751,21 @@ module ietf-isis {
                 }
 
                 description
-                  "Name of RIB.";
+                  "Routing Information Base (RIB) corresponding
+                   to topology.";
               }
               uses isis-if-topologies-cfg;
-              description
-                "List of topologies.";
+              description "List of interface topologies";
             }
-            description
-              "Container for multi-topology";
+            description "Multi-topology container";
           }
           uses adjacency-state;
           uses event-counters;
           uses packet-counters;
-          description
-            "List of IS-IS interfaces.";
+          description "List of IS-IS interfaces.";
         }
         description
-          "This container defines IS-IS interface specific
-           configuration objects.";
+          "IS-IS interface specific configuration container";
       }
       uses spf-log;
       uses lsp-log;
@@ -2893,8 +2775,7 @@ module ietf-isis {
       uses system-counters;
 
       description
-        "This container defines IS-IS specific configuration
-         objects.";
+        "IS-IS configuration/state top-level container";
     }
   }
 
@@ -2903,11 +2784,10 @@ module ietf-isis {
 
   rpc clear-adjacency {
     description
-      "This RPC request clears a particular
-      set of IS-IS adjacencies. If the operation
-      fails for IS-IS internal reason, then
-      error-tag and error-app-tag should be set
-      to a meaningful value.";
+      "This RPC request clears a particular set of IS-IS
+       adjacencies. If the operation fails due to an internal
+       reason, then the error-tag and error-app-tag should be
+       set indicating the reason for the failure.";
     input {
 
       leaf routing-protocol-instance-name {
@@ -2915,76 +2795,68 @@ module ietf-isis {
         mandatory "true";
         description
           "Name of the IS-IS protocol instance whose IS-IS
-          information is being queried.
+           information is being queried.
 
-          If the IS-IS instance with name equal to the
-          value of this parameter doesn't exist, then this
-          operation SHALL fail with error-tag 'data-missing'
-          and error-app-tag
-          'routing-protocol-instance-not-found'.";
+           If the corresponding IS-IS instance doesn't exist,
+           then the operation will fail with an error-tag of
+           'data-missing' and an error-app-tag of
+           'routing-protocol-instance-not-found'.";
       }
       leaf level {
         type level;
         description
-          "IS-IS level of the adjacency to be cleared.
-         If IS-IS level is level-1-2, both level 1 and level 2
-         adjacencies would be cleared.
+          "IS-IS level of the adjacency to be cleared. If the
+           IS-IS level is level-1-2, both level 1 and level 2
+           adjacencies would be cleared.
 
-         If the value provided is different from the one
-         authorized in the enum type, then this
-          operation SHALL fail with error-tag 'data-missing'
-          and error-app-tag
-          'bad-isis-level'.
-         ";
+           If the value provided is different from the one
+           authorized in the enum type, then the operation
+           SHALL fail with an error-tag of 'data-missing' and
+           an error-app-tag of 'bad-isis-level'.";
       }
       leaf interface {
         type string;
         description
-          "Name of the IS-IS interface.
+          "IS-IS interface name.
 
-          If the IS-IS interface with name equal to the
-          value of this parameter doesn't exist, then this
-          operation SHALL fail with error-tag 'data-missing'
-          and error-app-tag
-          'isis-interface-not-found'.";
+           If the corresponding IS-IS interface doesn't exist,
+           then the operation SHALL fail with an error-tag of
+           'data-missing' and an error-app-tag of
+           'isis-interface-not-found'.";
       }
     }
   }
 
   rpc clear-database {
     description
-      "This RPC request clears a particular
-      IS-IS database. If the operation
-      fails for IS-IS internal reason, then
-      error-tag and error-app-tag should be set
-      to a meaningful value.";
+      "This RPC request clears a particular  IS-IS database. If
+       the operation fails for an IS-IS internal reason, then
+       the error-tag and error-app-tag should be set
+       indicating the reason for the failure.";
     input {
       leaf routing-protocol-instance-name {
         type instance-state-ref;
         mandatory "true";
         description
           "Name of the IS-IS protocol instance whose IS-IS
-          information is being queried.
+           database(s) is/are being cleard.
 
-          If the IS-IS instance with name equal to the
-          value of this parameter doesn't exist, then this
-          operation SHALL fail with error-tag 'data-missing'
-          and error-app-tag
-          'routing-protocol-instance-not-found'.";
+           If the corresponding IS-IS instance doesn't exist,
+           then the operation will fail with an error-tag of
+           'data-missing' and an error-app-tag of
+           'routing-protocol-instance-not-found'.";
       }
       leaf level {
         type level;
         description
-          "IS-IS level of the adjacency to be cleared.
-         If IS-IS level is level-1-2, both level 1 and level 2
-         adjacencies would be cleared.
+          "IS-IS level of the adjacency to be cleared. If the
+           IS-IS level is level-1-2, both level 1 and level 2
+           databases would be cleared.
 
-         If the value provided is different from the one
-         authorized in the enum type, then this
-          operation SHALL fail with error-tag 'data-missing'
-          and error-app-tag
-          'bad-isis-level'.
-         ";
+           If the value provided is different from the one
+           authorized in the enum type, then the operation
+           SHALL fail with an error-tag of 'data-missing' and
+           an error-app-tag of 'bad-isis-level'.";
       }
     }
   }
@@ -2997,22 +2869,21 @@ module ietf-isis {
 
     leaf overload {
       type enumeration {
-        enum "off" {
+        enum off {
           description
-            "The system has left overload condition.";
+            "Indicates IS-IS instance has left overload state";
         }
-        enum "on" {
+        enum on {
           description
-            "The system is in overload condition.";
+            "Indicates IS-IS instance has entered overload state";
         }
 
       }
-      description
-        "Describes the new overload state of the instance.";
+      description "New overload state of the IS-IS instance";
     }
     description
       "This notification is sent when an IS-IS instance
-       overload condition changes.";
+       overload state changes.";
   }
 
   notification lsp-too-large {
@@ -3021,21 +2892,18 @@ module ietf-isis {
 
     leaf pdu-size {
       type uint32;
-      description
-        "Size of the PDU";
+      description "Size of the LSP PDU";
     }
     leaf lsp-id {
       type lsp-id;
-      description
-        "LSP ID.";
+      description "LSP ID";
     }
     description
-      "This notification is sent when we attempt
-       to propagate an LSP that is larger than the
-       dataLinkBlockSize for the circuit.
-       The notification generation must be throttled
-       with at least a 5 second gap.
-       ";
+      "This notification is sent when we attempt to propagate
+       an LSP that is larger than the dataLinkBlockSize for the
+       circuit.  The notification generation must be throttled
+       with at least 5 seconds betweeen successive
+       notifications.";
   }
 
   notification if-state-change {
@@ -3048,34 +2916,30 @@ module ietf-isis {
     }
     description
       "This notification is sent when an interface
-      state change is detected.";
+       state change is detected.";
   }
 
   notification corrupted-lsp-detected {
     uses notification-instance-hdr;
     leaf lsp-id {
       type lsp-id;
-      description
-        "LSP ID.";
+      description "LSP ID";
     }
     description
-      "This notification is sent when we find
-       that an LSP that was stored in memory has
-       become corrupted.
-       ";
+      "This notification is sent when we find that
+       an LSP that was stored in memory has become
+       corrupted.";
   }
 
   notification attempt-to-exceed-max-sequence {
     uses notification-instance-hdr;
     leaf lsp-id {
       type lsp-id;
-      description
-        "LSP ID.";
+      description "LSP ID";
     }
     description
       "This notification is sent when the system
-      wraps the 32-bit sequence counter of an LSP.
-       ";
+       wraps the 32-bit sequence counter of an LSP.";
   }
 
   notification id-len-mismatch {
@@ -3084,20 +2948,18 @@ module ietf-isis {
 
     leaf pdu-field-len {
       type uint8;
-      description
-        "Size of the ID length in the received PDU";
+      description "Size of the ID length in the received PDU";
     }
     leaf raw-pdu {
       type binary;
-      description
-        "Received raw PDU.";
+      description "Received raw PDU.";
     }
     description
       "This notification is sent when we receive a PDU
-      with a different value for the System ID length.
-      The notification generation must be throttled
-      with at least a 5 second gap.
-       ";
+       with a different value for the System ID length.
+       The notification generation must be throttled
+       with at least 5 seconds betweeen successive
+       notifications.";
   }
 
   notification max-area-addresses-mismatch {
@@ -3106,20 +2968,18 @@ module ietf-isis {
 
     leaf max-area-addresses {
       type uint8;
-      description
-        "Received number of supported areas";
+      description "Received number of supported areas";
     }
     leaf raw-pdu {
       type binary;
-      description
-        "Received raw PDU.";
+      description "Received raw PDU.";
     }
     description
       "This notification is sent when we receive a PDU
-      with a different value for the Maximum Area Addresses.
-      The notification generation must be throttled
-      with at least a 5 second gap.
-       ";
+       with a different value for the Maximum Area Addresses.
+       The notification generation must be throttled
+       with at least 5 seconds betweeen successive
+       notifications.";
   }
 
   notification own-lsp-purge {
@@ -3127,13 +2987,11 @@ module ietf-isis {
     uses notification-interface-hdr;
     leaf lsp-id {
       type lsp-id;
-      description
-        "LSP ID.";
+      description "LSP ID";
     }
     description
-      "This notification is sent when the system
-      receives a PDU with its own system ID and zero age.
-       ";
+      "This notification is sent when the system receives
+       a PDU with its own system ID and zero age.";
   }
 
   notification sequence-number-skipped {
@@ -3141,15 +2999,13 @@ module ietf-isis {
     uses notification-interface-hdr;
     leaf lsp-id {
       type lsp-id;
-      description
-        "LSP ID.";
+      description "LSP ID";
     }
     description
-      "This notification is sent when the system
-      receives a PDU with its own system ID and
-      different contents. The system has to reissue
-      the LSP with a higher sequence number.
-       ";
+      "This notification is sent when the system receives a
+       PDU with its own system ID and different contents. The
+       system has to reoriginate the LSP with a higher sequence
+       number.";
   }
 
   notification authentication-type-failure {
@@ -3157,16 +3013,14 @@ module ietf-isis {
     uses notification-interface-hdr;
     leaf raw-pdu {
       type binary;
-      description
-        "Received raw PDU.";
+      description "Received raw PDU.";
     }
     description
-      "This notification is sent when the system
-      receives a PDU with the wrong authentication type
-      field.
-      The notification generation must be throttled with
-      at least a 5 second gap.
-       ";
+      "This notification is sent when the system receives a
+       PDU with the wrong authentication type field.
+       The notification generation must be throttled
+       with at least 5 seconds betweeen successive
+       notifications.";
   }
 
   notification authentication-failure {
@@ -3174,16 +3028,14 @@ module ietf-isis {
     uses notification-interface-hdr;
     leaf raw-pdu {
       type binary;
-      description
-        "Received raw PDU.";
+      description "Received raw PDU.";
     }
     description
-      "This notification is sent when the system
-      receives a PDU with the wrong authentication
-      information.
-      The notification generation must be throttled with
-      at least a 5 second gap.
-       ";
+      "This notification is sent when the system receives
+       a PDU with the wrong authentication information.
+       The notification generation must be throttled with
+       with at least 5 seconds betweeen successive
+       notifications.";
   }
 
   notification version-skew {
@@ -3191,21 +3043,18 @@ module ietf-isis {
     uses notification-interface-hdr;
     leaf protocol-version {
       type uint8;
-      description
-        "Protocol version received in the PDU.";
+      description "Protocol version received in the PDU.";
     }
     leaf raw-pdu {
       type binary;
-      description
-        "Received raw PDU.";
+      description "Received raw PDU.";
     }
     description
-      "This notification is sent when the system
-      receives a PDU with a different protocol version
-      number.
-      The notification generation must be throttled with at least
-       a 5 second gap.
-       ";
+      "This notification is sent when the system receives a
+       PDU with a different protocol version number.
+       The notification generation must be throttled
+       with at least 5 seconds betweeen successive
+       notifications.";
   }
 
   notification area-mismatch {
@@ -3213,16 +3062,14 @@ module ietf-isis {
     uses notification-interface-hdr;
     leaf raw-pdu {
       type binary;
-      description
-        "Received raw PDU.";
+      description "Received raw PDU.";
     }
     description
-      "This notification is sent when the system
-      receives a Hello PDU from an IS that does
-      not share any area address.
-      The notification generation must be throttled with at least
-       a 5 second gap.
-       ";
+      "This notification is sent when the system receives a
+       Hello PDU from an IS that does not share any area
+       address. The notification generation must be throttled
+       with at least 5 seconds betweeen successive
+       notifications.";
   }
 
   notification rejected-adjacency {
@@ -3237,16 +3084,15 @@ module ietf-isis {
       type string;
       description
         "The system may provide a reason to reject the
-        adjacency. If the reason is not available,
-        the system use an empty string.";
+         adjacency. If the reason is not available,
+         an empty string will be returned.";
     }
     description
-      "This notification is sent when the system
-      receives a Hello PDU from an IS but does not
-      establish an adjacency for some reason.
-      The notification generation must be throttled with at least
-       a 5 second gap.
-       ";
+      "This notification is sent when the system receives a
+       Hello PDU from an IS but does not establish an adjacency
+       for some reason. The notification generation must be
+       throttled with at least 5 seconds betweeen successive
+       notifications.";
   }
 
 
@@ -3255,22 +3101,19 @@ module ietf-isis {
     uses notification-interface-hdr;
     leaf raw-pdu {
       type binary;
-      description
-        "Received raw PDU.";
+      description "Received raw PDU.";
     }
     leaf-list protocols {
       type uint8;
       description
-        "The list of protocols supported by the
-        remote system.";
+        "List of protocols supported by the remote system.";
     }
     description
-      "This notification is sent when the system
-      receives a non pseudonode LSP that has no matching
-      protocol supported.
-      The notification generation must be throttled with at least
-       a 5 second gap.
-       ";
+      "This notification is sent when the system receives a
+       non-pseudonode LSP that has no matching protocols
+       supported. The notification generation must be throttled
+       with at least 5 seconds betweeen successive
+       notifications.";
   }
 
   notification lsp-error-detected {
@@ -3278,35 +3121,32 @@ module ietf-isis {
     uses notification-interface-hdr;
     leaf lsp-id {
       type lsp-id;
-      description
-        "LSP ID.";
+      description "LSP ID.";
     }
     leaf raw-pdu {
       type binary;
-      description
-        "Received raw PDU.";
+      description "Received raw PDU.";
     }
     leaf error-offset {
       type uint32;
       description
-        "If the problem is a malformed TLV,
-       the error-offset points to the start of the TLV.
-       If the problem is with the LSP header,
-       the error-offset points to the suspicious byte";
+        "If the problem is a malformed TLV, the error-offset
+         points to the start of the TLV. If the problem is with
+         the LSP header, the error-offset points to the errant
+         byte";
     }
     leaf tlv-type {
       type uint8;
       description
-        "if the problem is a malformed TLV, the tlv-type is set
-       to the type value of the suspicious TLV.
-       Otherwise this leaf is not present.";
+        "If the problem is a malformed TLV, the tlv-type is set
+         to the type value of the suspicious TLV. Otherwise,
+         this leaf is not present.";
     }
     description
-      "This notification is sent when the system
-      receives a  LSP with a parse error.
-      The notification generation must be throttled with at least
-       a 5 second gap.
-       ";
+      "This notification is sent when the system  receives an
+'      LSP with a parse error. The notification generation must
+       be throttled with at least 5 seconds betweeen successive
+       notifications.";
   }
 
   notification adjacency-state-change {
@@ -3315,30 +3155,25 @@ module ietf-isis {
     leaf neighbor {
       type string;
       description
-        "Describes the name of the neighbor. If the
-       name of the neighbor is not available, the
-       field would be empty.";
+        "Name of the neighbor. If the name of the neighbor is
+         not available, it is not returned.";
     }
     leaf neighbor-system-id {
       type system-id;
-      description
-        "Describes the system-id of the neighbor.";
+      description "Neighbor system-id";
     }
     leaf state {
       type adj-state-type;
 
-      description
-        "This leaf describes the new state of the
-        IS-IS adjacency.";
+      description "New state of the IS-IS adjacency.";
     }
     leaf reason {
       type string;
       description
-        "If the adjacency is going to DOWN,
-       this leaf provides a reason for the adjacency
-       going down. The reason is provided as a text.
-       If the adjacency is going to UP, no reason is
-       provided.";
+        "If the adjacency is going to DOWN,  this leaf provides
+         a reason for the adjacency going down. The reason is
+         provided as a text. If the adjacency is going to UP, no
+         reason is provided.";
     }
     description
       "This notification is sent when an IS-IS adjacency
@@ -3351,58 +3186,46 @@ module ietf-isis {
 
     leaf lsp-id {
       type lsp-id;
-      description
-        "LSP ID.";
+      description "LSP ID";
     }
     leaf sequence {
       type uint32;
-      description
-        "Sequence number of the received LSP.";
+      description "Sequence number of the received LSP.";
     }
     leaf received-timestamp {
       type yang:timestamp;
 
-      description
-        "This leaf describes the timestamp
-       when the LSP was received. ";
+      description "Timestamp when the LSP was received.";
     }
     leaf neighbor-system-id {
       type system-id;
-      description
-        "Describes the system-id of the neighbor
-       that sent the LSP.";
+      description "Neighbor system-id of LSP sender";
     }
     description
-      "This notification is sent when a LSP
-      is received.
-      The notification generation must be throttled with at least
-       a 5 second gap. ";
-  }
+      "This notification is sent when an LSP is received.
+       The notification generation must be throttled with at
+       least 5 seconds betweeen successive notifications.";
+   }
 
   notification lsp-generation {
     uses notification-instance-hdr;
 
     leaf lsp-id {
       type lsp-id;
-      description
-        "LSP ID.";
+      description "LSP ID";
     }
     leaf sequence {
       type uint32;
-      description
-        "Sequence number of the received LSP.";
+      description "Sequence number of the received LSP.";
     }
     leaf send-timestamp {
       type yang:timestamp;
 
-      description
-        "This leaf describes the timestamp
-       when our LSP was regenerated. ";
+      description "Timestamp when our LSP was regenerated.";
     }
     description
-      "This notification is sent when a LSP
-      is regenerated.
-      The notification generation must be throttled with at least
-      a 5 second gap. ";
+      "This notification is sent when an LSP is regenerated.
+       The notification generation must be throttled with at
+       least 5 seconds betweeen successive notifications.";
   }
 }
