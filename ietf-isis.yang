@@ -83,7 +83,7 @@ module ietf-isis {
     "The YANG module defines a generic configuration model for
      IS-IS common across all of the vendor implementations.";
 
-  revision 2017-05-25 {
+  revision 2017-07-02 {
     description
       "Initial revision.";
     reference "RFC XXXX";
