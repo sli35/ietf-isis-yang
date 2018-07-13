@@ -83,7 +83,7 @@ module ietf-isis {
     "The YANG module defines a generic configuration model for
      IS-IS common across all of the vendor implementations.";
 
-  revision 2017-07-02 {
+  revision 2017-07-13 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -209,16 +209,17 @@ module ietf-isis {
     description
       "Use an automated assignment of metrics.";
   }
-  feature ipv4-router-id {
-    description
-      "Support of IPv4 router ID configuration under IS-IS.";
-  }
 
-  feature ipv6-router-id {
+  feature te-rid {
     description
-      "Support of IPv6 router ID configuration under IS-IS.";
+      "Traffic-Engineering Router-ID.";
+    reference "RFC5305 - IS-IS Extensions for Traffic Engineering
+               RFC6119 - IPv6 Traffic Engineering in IS-IS";
   }
-
+  feature max-ecmp {
+    description
+      "Setting maximum number of ECMP paths.";
+  }
   feature multi-topology {
     description
       "Multitopology routing support.";
@@ -1244,17 +1245,21 @@ module ietf-isis {
     }
 
     container mpls {
-      leaf ipv4-router-id {
-        if-feature ipv4-router-id;
-        type inet:ipv4-address;
+      container te-rid {
+        if-feature te-rid;
         description
-          "Router ID value that would be used in TLV 134.";
-      }
-      leaf ipv6-router-id {
-        if-feature ipv6-router-id;
-        type inet:ipv6-address;
-        description
-          "Router ID value that would be used in TLV 140.";
+          "Stable ISIS Router IP Address used for Traffic
+           Engineering";
+        leaf ipv4-router-id {
+          type inet:ipv4-address;
+          description
+            "Router ID value that would be used in TLV 134.";
+        }
+        leaf ipv6-router-id {
+          type inet:ipv6-address;
+          description
+            "Router ID value that would be used in TLV 140.";
+        }
       }
       container ldp {
         container igp-sync {
@@ -2690,6 +2695,14 @@ module ietf-isis {
           "IP Fast ReRoute (IPFRR) global container";
       }
       container spf-control {
+        leaf paths {
+          if-feature max-ecmp;
+          type uint16 {
+            range "1..32";
+          }
+          description
+            "Maximum number of Equal-Cost Multi-Path (ECMP) paths.";
+        }
         container ietf-spf-delay {
           if-feature ietf-spf-delay;
           uses ietf-spf-delay-cfg;
