@@ -6,7 +6,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc docName="draft-ietf-isis-yang-isis-cfg-23" ipr="trust200902" category="std" obsoletes="" updates="" submissionType="IETF" xml:lang="en">
+<rfc docName="draft-ietf-isis-yang-isis-cfg-24" ipr="trust200902" category="std" obsoletes="" updates="" submissionType="IETF" xml:lang="en">
   <front>
     <title abbrev="isis-cfg">YANG Data Model for IS-IS protocol</title>
     <author fullname="Stephane Litkowski" initials="S" surname="Litkowski">
@@ -4494,7 +4494,7 @@ module ietf-isis {
     </section>
 
 	 <section anchor="change-log" title="Change log for ietf-isis YANG module" toc="default">
-	   <section anchor="v22-23" title="From version -22 to version -23" toc="default">
+	   <section anchor="v22-24" title="From version -22 to version -24" toc="default">
            <t>
            <list style="symbols">
            <t>Fix revision date of the module</t>

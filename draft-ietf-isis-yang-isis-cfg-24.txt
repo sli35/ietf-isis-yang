@@ -1,6 +1,7 @@
 
 
 
+
 IS-IS Working Group                                         S. Litkowski
 Internet-Draft                                                    Orange
 Intended status: Standards Track                                D. Yeung
@@ -15,7 +16,7 @@ Expires: February 10, 2019                                   Arrcus, Inc
 
 
                    YANG Data Model for IS-IS protocol
-                    draft-ietf-isis-yang-isis-cfg-23
+                    draft-ietf-isis-yang-isis-cfg-24
 
 Abstract
 
@@ -43,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 17, 2019.
+   This Internet-Draft will expire on February 10, 2019.
 
 
 
@@ -52,9 +53,9 @@ Status of This Memo
 
 
 
-Litkowski, et al.       Expires January 17, 2019                [Page 1]
+Litkowski, et al.       Expires February 10, 2019               [Page 1]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
 Copyright Notice
@@ -76,8 +77,8 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
      1.1.  Tree diagram  . . . . . . . . . . . . . . . . . . . . . .   3
-   2.  Design of the Data Model  . . . . . . . . . . . . . . . . . .   3
-     2.1.  IS-IS Configuration . . . . . . . . . . . . . . . . . . .   9
+   2.  Design of the Data Model  . . . . . . . . . . . . . . . . . .   4
+     2.1.  IS-IS Configuration . . . . . . . . . . . . . . . . . . .  10
      2.2.  Multitopology Parameters  . . . . . . . . . . . . . . . .  10
      2.3.  Per-Level Parameters  . . . . . . . . . . . . . . . . . .  10
      2.4.  Per-Interface Parameters  . . . . . . . . . . . . . . . .  12
@@ -95,32 +96,33 @@ Table of Contents
    9.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  96
    10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  96
    11. Change log for ietf-isis YANG module  . . . . . . . . . . . .  96
-     11.1.  From version -21 to version -22  . . . . . . . . . . . .  96
-     11.2.  From version -20 to version -21  . . . . . . . . . . . .  96
-     11.3.  From version -19 to version -20  . . . . . . . . . . . .  96
-     11.4.  From version -18 to version -19  . . . . . . . . . . . .  97
-     11.5.  From version -17 to version -18  . . . . . . . . . . . .  97
-     11.6.  From version -16 to version -17  . . . . . . . . . . . .  97
-     11.7.  From version -15 to version -16  . . . . . . . . . . . .  97
-     11.8.  From version -14 to version -15  . . . . . . . . . . . .  97
-     11.9.  From version -13 to version -14  . . . . . . . . . . . .  98
-     11.10. From version -12 to version -13  . . . . . . . . . . . .  98
+     11.1.  From version -22 to version -24  . . . . . . . . . . . .  96
+     11.2.  From version -21 to version -22  . . . . . . . . . . . .  96
+     11.3.  From version -20 to version -21  . . . . . . . . . . . .  96
+     11.4.  From version -19 to version -20  . . . . . . . . . . . .  97
+     11.5.  From version -18 to version -19  . . . . . . . . . . . .  97
+     11.6.  From version -17 to version -18  . . . . . . . . . . . .  97
+     11.7.  From version -16 to version -17  . . . . . . . . . . . .  97
+     11.8.  From version -15 to version -16  . . . . . . . . . . . .  97
+     11.9.  From version -14 to version -15  . . . . . . . . . . . .  97
+     11.10. From version -13 to version -14  . . . . . . . . . . . .  98
 
 
 
-Litkowski, et al.       Expires January 17, 2019                [Page 2]
+Litkowski, et al.       Expires February 10, 2019               [Page 2]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
-     11.11. From version -09 to version -12  . . . . . . . . . . . .  98
-     11.12. From version -08 to version -09  . . . . . . . . . . . .  98
-     11.13. From version -07 to version -08  . . . . . . . . . . . .  98
-     11.14. From version -05 to version -07  . . . . . . . . . . . .  99
-     11.15. From version -03 to version -05  . . . . . . . . . . . .  99
-     11.16. From version -02 to version -03  . . . . . . . . . . . .  99
-     11.17. From version -01 to version -02  . . . . . . . . . . . .  99
-     11.18. From version -00 to version -01  . . . . . . . . . . . . 100
+     11.11. From version -12 to version -13  . . . . . . . . . . . .  98
+     11.12. From version -09 to version -12  . . . . . . . . . . . .  98
+     11.13. From version -08 to version -09  . . . . . . . . . . . .  98
+     11.14. From version -07 to version -08  . . . . . . . . . . . .  99
+     11.15. From version -05 to version -07  . . . . . . . . . . . .  99
+     11.16. From version -03 to version -05  . . . . . . . . . . . .  99
+     11.17. From version -02 to version -03  . . . . . . . . . . . .  99
+     11.18. From version -01 to version -02  . . . . . . . . . . . . 100
+     11.19. From version -00 to version -01  . . . . . . . . . . . . 100
    12. Normative References  . . . . . . . . . . . . . . . . . . . . 101
    Appendix A.  Example of IS-IS configuration in XML  . . . . . . . 102
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . 104
@@ -156,18 +158,22 @@ Internet-Draft                  isis-cfg                       July 2018
    o  Ellipsis ("...") stands for contents of subtrees that are not
       shown.
 
+
+
+
+
+
+
+
+Litkowski, et al.       Expires February 10, 2019               [Page 3]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
 2.  Design of the Data Model
 
    The IS-IS YANG module augments the "control-plane-protocol" list in
    ietf-routing module with specific IS-IS parameters.
-
-
-
-
-Litkowski, et al.       Expires January 17, 2019                [Page 3]
-
-Internet-Draft                  isis-cfg                       July 2018
-
 
    The module is designed as per NMDA (Network Management Datastore
    Architecture).
@@ -212,19 +218,19 @@ Internet-Draft                  isis-cfg                       July 2018
          +--rw node-tags {node-tag}?
          |  +--rw node-tag* [tag]
          |        ...
+
+
+
+Litkowski, et al.       Expires February 10, 2019               [Page 4]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
          +--rw authentication
          |  +--rw (authentication-type)?
          |  |     ...
          |  +--rw level-1
          |  |     ...
-
-
-
-Litkowski, et al.       Expires January 17, 2019                [Page 4]
-
-Internet-Draft                  isis-cfg                       July 2018
-
-
          |  +--rw level-2
          |        ...
          +--rw metric-type
@@ -268,19 +274,19 @@ Internet-Draft                  isis-cfg                       July 2018
          |  +--rw interface* [name]
          |        ...
          +--ro spf-log
+
+
+
+Litkowski, et al.       Expires February 10, 2019               [Page 5]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
          |  +--ro event* [id]
          |        ...
          +--ro lsp-log
          |  +--ro event* [id]
          |        ...
-
-
-
-Litkowski, et al.       Expires January 17, 2019                [Page 5]
-
-Internet-Draft                  isis-cfg                       July 2018
-
-
          +--ro hostnames
          |  +--ro hostname* [system-id]
          |        ...
@@ -324,19 +330,19 @@ Internet-Draft                  isis-cfg                       July 2018
       |  +--ro routing-instance?        string
       |  +--ro routing-protocol-name?   string
       |  +--ro isis-level?              level
+
+
+
+Litkowski, et al.       Expires February 10, 2019               [Page 6]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
       |  +--ro interface-name?          string
       |  +--ro interface-level?         level
       |  +--ro extended-circuit-id?     extended-circuit-id
       |  +--ro state?                   if-state-type
       +---n corrupted-lsp-detected
-
-
-
-Litkowski, et al.       Expires January 17, 2019                [Page 6]
-
-Internet-Draft                  isis-cfg                       July 2018
-
-
       |  +--ro routing-instance?        string
       |  +--ro routing-protocol-name?   string
       |  +--ro isis-level?              level
@@ -380,19 +386,19 @@ Internet-Draft                  isis-cfg                       July 2018
       |  +--ro interface-level?         level
       |  +--ro extended-circuit-id?     extended-circuit-id
       |  +--ro lsp-id?                  lsp-id
+
+
+
+Litkowski, et al.       Expires February 10, 2019               [Page 7]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
       +---n authentication-type-failure
       |  +--ro routing-instance?        string
       |  +--ro routing-protocol-name?   string
       |  +--ro isis-level?              level
       |  +--ro interface-name?          string
-
-
-
-Litkowski, et al.       Expires January 17, 2019                [Page 7]
-
-Internet-Draft                  isis-cfg                       July 2018
-
-
       |  +--ro interface-level?         level
       |  +--ro extended-circuit-id?     extended-circuit-id
       |  +--ro raw-pdu?                 binary
@@ -436,19 +442,19 @@ Internet-Draft                  isis-cfg                       July 2018
       |  +--ro isis-level?              level
       |  +--ro interface-name?          string
       |  +--ro interface-level?         level
+
+
+
+Litkowski, et al.       Expires February 10, 2019               [Page 8]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
       |  +--ro extended-circuit-id?     extended-circuit-id
       |  +--ro raw-pdu?                 binary
       |  +--ro protocols*               uint8
       +---n lsp-error-detected
       |  +--ro routing-instance?        string
-
-
-
-Litkowski, et al.       Expires January 17, 2019                [Page 8]
-
-Internet-Draft                  isis-cfg                       July 2018
-
-
       |  +--ro routing-protocol-name?   string
       |  +--ro isis-level?              level
       |  +--ro interface-name?          string
@@ -488,6 +494,18 @@ Internet-Draft                  isis-cfg                       July 2018
          +--ro sequence?                uint32
          +--ro send-timestamp?          yang:timestamp
 
+
+
+
+
+
+
+
+Litkowski, et al.       Expires February 10, 2019               [Page 9]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
 2.1.  IS-IS Configuration
 
    The IS-IS configuration container is divided in:
@@ -495,15 +513,6 @@ Internet-Draft                  isis-cfg                       July 2018
    o  Global parameters.
 
    o  Per interface configuration (see Section 2.4).
-
-
-
-
-
-Litkowski, et al.       Expires January 17, 2019                [Page 9]
-
-Internet-Draft                  isis-cfg                       July 2018
-
 
    Additional modules may be created this to support any additional
    parameters.  These additional modules should augment the ietf-isis
@@ -546,20 +555,16 @@ Internet-Draft                  isis-cfg                       July 2018
    o  a top level container: corresponds to level-1-2, so the
       configuration applies to both levels.
 
+
+
+Litkowski, et al.       Expires February 10, 2019              [Page 10]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
    o  a level-1 container: corresponds to level-1 specific parameters.
 
    o  a level-2 container: corresponds to level-2 specific parameters.
-
-
-
-
-
-
-
-Litkowski, et al.       Expires January 17, 2019               [Page 10]
-
-Internet-Draft                  isis-cfg                       July 2018
-
 
                +--rw priority
                |  +--rw value?     uint8
@@ -608,13 +613,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-
-
-
-
-Litkowski, et al.       Expires January 17, 2019               [Page 11]
+Litkowski, et al.       Expires February 10, 2019              [Page 11]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
    augment "/rt:routing/" +
@@ -668,9 +669,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 12]
+Litkowski, et al.       Expires February 10, 2019              [Page 12]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        +--rw interfaces
@@ -724,9 +725,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 13]
+Litkowski, et al.       Expires February 10, 2019              [Page 13]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        |     |  +--rw value?     uint16
@@ -780,9 +781,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 14]
+Litkowski, et al.       Expires February 10, 2019              [Page 14]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        |     +--rw topologies {multi-topology}?
@@ -836,9 +837,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 15]
+Litkowski, et al.       Expires February 10, 2019              [Page 15]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        |           +--ro psnp
@@ -892,9 +893,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 16]
+Litkowski, et al.       Expires February 10, 2019              [Page 16]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        |        +--ro protocol-supported*              uint8
@@ -948,9 +949,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 17]
+Litkowski, et al.       Expires February 10, 2019              [Page 17]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        |        |        +--ro supported?   boolean
@@ -1004,9 +1005,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 18]
+Litkowski, et al.       Expires February 10, 2019              [Page 18]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        |        |     +--ro ipv6-source-router-id?   inet:ipv6-address
@@ -1060,9 +1061,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 19]
+Litkowski, et al.       Expires February 10, 2019              [Page 19]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
              +--ro sequence-number-skipped?         uint32
@@ -1116,9 +1117,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 20]
+Litkowski, et al.       Expires February 10, 2019              [Page 20]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
     |  +--ro isis-level?              level
@@ -1172,9 +1173,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 21]
+Litkowski, et al.       Expires February 10, 2019              [Page 21]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
     |  +--ro interface-name?          string
@@ -1228,9 +1229,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 22]
+Litkowski, et al.       Expires February 10, 2019              [Page 22]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
     |  +--ro error-offset?            uint32
@@ -1284,9 +1285,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 23]
+Litkowski, et al.       Expires February 10, 2019              [Page 23]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
    "interface" allows activation of the mechanism on a per interface
@@ -1340,9 +1341,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 24]
+Litkowski, et al.       Expires February 10, 2019              [Page 24]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
    o  lsp-log: provides informations about LSP events on the node
@@ -1396,9 +1397,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 25]
+Litkowski, et al.       Expires February 10, 2019              [Page 25]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
       own-lsp-purge : This notification is sent when the system receives
@@ -1452,9 +1453,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 26]
+Litkowski, et al.       Expires February 10, 2019              [Page 26]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
    The "isis" module augments "/if:interfaces/if:interface" with ISO
@@ -1508,9 +1509,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 27]
+Litkowski, et al.       Expires February 10, 2019              [Page 27]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        prefix "key-chain";
@@ -1564,9 +1565,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 28]
+Litkowski, et al.       Expires February 10, 2019              [Page 28]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
                      &lt;mailto:jefftant.ietf@gmail.com&gt;
@@ -1620,9 +1621,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 29]
+Litkowski, et al.       Expires February 10, 2019              [Page 29]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        base lsp-log-reason;
@@ -1676,9 +1677,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 30]
+Litkowski, et al.       Expires February 10, 2019              [Page 30]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
      }
@@ -1732,9 +1733,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 31]
+Litkowski, et al.       Expires February 10, 2019              [Page 31]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
      }
@@ -1788,9 +1789,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 32]
+Litkowski, et al.       Expires February 10, 2019              [Page 32]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        description
@@ -1844,9 +1845,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 33]
+Litkowski, et al.       Expires February 10, 2019              [Page 33]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          "This type defines IS-IS level of an object.";
@@ -1900,9 +1901,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 34]
+Litkowski, et al.       Expires February 10, 2019              [Page 34]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
      typedef lsp-id {
@@ -1956,9 +1957,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 35]
+Litkowski, et al.       Expires February 10, 2019              [Page 35]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          range "0 .. 63";
@@ -2012,9 +2013,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 36]
+Litkowski, et al.       Expires February 10, 2019              [Page 36]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
            leaf neighbor-snpa {
@@ -2068,9 +2069,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 37]
+Litkowski, et al.       Expires February 10, 2019              [Page 37]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
              "List of operational adjacencies.";
@@ -2124,9 +2125,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 38]
+Litkowski, et al.       Expires February 10, 2019              [Page 38]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
                     (like RSVP-TE or GRE).";
@@ -2180,9 +2181,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 39]
+Litkowski, et al.       Expires February 10, 2019              [Page 39]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
                  description
@@ -2236,9 +2237,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 40]
+Litkowski, et al.       Expires February 10, 2019              [Page 40]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
            description
@@ -2292,9 +2293,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 41]
+Litkowski, et al.       Expires February 10, 2019              [Page 41]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          }
@@ -2348,9 +2349,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 42]
+Litkowski, et al.       Expires February 10, 2019              [Page 42]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        leaf-list tag {
@@ -2404,9 +2405,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 43]
+Litkowski, et al.       Expires February 10, 2019              [Page 43]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          type boolean;
@@ -2460,9 +2461,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 44]
+Litkowski, et al.       Expires February 10, 2019              [Page 44]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        }
@@ -2516,9 +2517,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 45]
+Litkowski, et al.       Expires February 10, 2019              [Page 45]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        }
@@ -2572,9 +2573,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 46]
+Litkowski, et al.       Expires February 10, 2019              [Page 46]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
            }
@@ -2628,9 +2629,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 47]
+Litkowski, et al.       Expires February 10, 2019              [Page 47]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
            "Container for node tags.";
@@ -2684,9 +2685,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 48]
+Litkowski, et al.       Expires February 10, 2019              [Page 48]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          default wide-only;
@@ -2740,9 +2741,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 49]
+Litkowski, et al.       Expires February 10, 2019              [Page 49]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          case detail {
@@ -2796,9 +2797,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 50]
+Litkowski, et al.       Expires February 10, 2019              [Page 50]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          description "Choice of authentication.";
@@ -2852,9 +2853,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 51]
+Litkowski, et al.       Expires February 10, 2019              [Page 51]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          description "Metric value.";
@@ -2908,9 +2909,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 52]
+Litkowski, et al.       Expires February 10, 2019              [Page 52]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          description "System-id of the node.";
@@ -2964,9 +2965,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 53]
+Litkowski, et al.       Expires February 10, 2019              [Page 53]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
            units "bps";
@@ -3020,9 +3021,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 54]
+Litkowski, et al.       Expires February 10, 2019              [Page 54]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
            default true;
@@ -3076,9 +3077,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 55]
+Litkowski, et al.       Expires February 10, 2019              [Page 55]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          uses default-metric-global-cfg;
@@ -3132,9 +3133,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 56]
+Litkowski, et al.       Expires February 10, 2019              [Page 56]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
             metric advertisement configuration.";
@@ -3188,9 +3189,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 57]
+Litkowski, et al.       Expires February 10, 2019              [Page 57]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
             not running but network is advertised).";
@@ -3244,9 +3245,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 58]
+Litkowski, et al.       Expires February 10, 2019              [Page 58]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          type uint64;
@@ -3300,9 +3301,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 59]
+Litkowski, et al.       Expires February 10, 2019              [Page 59]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        container priority {
@@ -3356,9 +3357,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 60]
+Litkowski, et al.       Expires February 10, 2019              [Page 60]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          description "Interface address-families";
@@ -3412,9 +3413,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 61]
+Litkowski, et al.       Expires February 10, 2019              [Page 61]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
                 LSPs received from the wire with parse errors
@@ -3468,9 +3469,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 62]
+Litkowski, et al.       Expires February 10, 2019              [Page 62]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
                 than that of the receiving system.";
@@ -3524,9 +3525,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 63]
+Litkowski, et al.       Expires February 10, 2019              [Page 63]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          leaf adjacency-rejects {
@@ -3580,9 +3581,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 64]
+Litkowski, et al.       Expires February 10, 2019              [Page 64]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
            key level;
@@ -3636,9 +3637,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 65]
+Litkowski, et al.       Expires February 10, 2019              [Page 65]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
              }
@@ -3692,9 +3693,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 66]
+Litkowski, et al.       Expires February 10, 2019              [Page 66]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          list event {
@@ -3748,9 +3749,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 67]
+Litkowski, et al.       Expires February 10, 2019              [Page 67]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
              leaf sequence {
@@ -3804,9 +3805,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 68]
+Litkowski, et al.       Expires February 10, 2019              [Page 68]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
              }
@@ -3840,7 +3841,7 @@ Internet-Draft                  isis-cfg                       July 2018
            "LSP reception and local LSP origination events
             container.";
 
-       } 
+       }
        description "Grouping for LSP log.";
      }
 
@@ -3857,15 +3858,15 @@ Internet-Draft                  isis-cfg                       July 2018
            leaf hostname {
              type string;
              description
-               "Hostname associated with the system ID.";
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 69]
+Litkowski, et al.       Expires February 10, 2019              [Page 69]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
+               "Hostname associated with the system ID.";
            }
            description
              "List of system-id/hostname associations.";
@@ -3916,10 +3917,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-
-Litkowski, et al.       Expires January 17, 2019               [Page 70]
+Litkowski, et al.       Expires February 10, 2019              [Page 70]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        leaf ipv6-source-router-id {
@@ -3973,9 +3973,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 71]
+Litkowski, et al.       Expires February 10, 2019              [Page 71]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          description "IS-IS delay metric container.";
@@ -4029,9 +4029,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 72]
+Litkowski, et al.       Expires February 10, 2019              [Page 72]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          description "IS-IS wide metric value";
@@ -4085,9 +4085,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 73]
+Litkowski, et al.       Expires February 10, 2019              [Page 73]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
         "Grouping for attributes of an IS-IS extended neighbor.";
@@ -4141,9 +4141,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 74]
+Litkowski, et al.       Expires February 10, 2019              [Page 74]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          description "IS-IS delay expense metric container";
@@ -4197,9 +4197,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 75]
+Litkowski, et al.       Expires February 10, 2019              [Page 75]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        leaf attributes {
@@ -4253,9 +4253,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 76]
+Litkowski, et al.       Expires February 10, 2019              [Page 76]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        leaf ipv4-te-routerid {
@@ -4309,9 +4309,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 77]
+Litkowski, et al.       Expires February 10, 2019              [Page 77]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          list topology {
@@ -4365,9 +4365,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 78]
+Litkowski, et al.       Expires February 10, 2019              [Page 78]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
                position 1;
@@ -4421,9 +4421,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 79]
+Litkowski, et al.       Expires February 10, 2019              [Page 79]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
            description
@@ -4477,9 +4477,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 80]
+Litkowski, et al.       Expires February 10, 2019              [Page 80]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          }
@@ -4533,9 +4533,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 81]
+Litkowski, et al.       Expires February 10, 2019              [Page 81]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
      grouping lsdb {
@@ -4589,9 +4589,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 82]
+Litkowski, et al.       Expires February 10, 2019              [Page 82]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        +"rt:control-plane-protocol" {
@@ -4645,9 +4645,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 83]
+Litkowski, et al.       Expires February 10, 2019              [Page 83]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
                type boolean;
@@ -4701,9 +4701,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 84]
+Litkowski, et al.       Expires February 10, 2019              [Page 84]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
                       to topology.";
@@ -4757,9 +4757,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 85]
+Litkowski, et al.       Expires February 10, 2019              [Page 85]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
               'routing-protocol-instance-not-found'.";
@@ -4813,9 +4813,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 86]
+Litkowski, et al.       Expires February 10, 2019              [Page 86]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
            description
@@ -4869,9 +4869,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 87]
+Litkowski, et al.       Expires February 10, 2019              [Page 87]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          description "LSP ID";
@@ -4925,9 +4925,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 88]
+Litkowski, et al.       Expires February 10, 2019              [Page 88]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        uses notification-interface-hdr;
@@ -4981,9 +4981,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 89]
+Litkowski, et al.       Expires February 10, 2019              [Page 89]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
      }
@@ -5037,9 +5037,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 90]
+Litkowski, et al.       Expires February 10, 2019              [Page 90]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        uses notification-interface-hdr;
@@ -5093,9 +5093,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 91]
+Litkowski, et al.       Expires February 10, 2019              [Page 91]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          "This notification is sent when the system receives a
@@ -5149,9 +5149,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 92]
+Litkowski, et al.       Expires February 10, 2019              [Page 92]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
          type uint8;
@@ -5205,9 +5205,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 93]
+Litkowski, et al.       Expires February 10, 2019              [Page 93]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
        leaf lsp-id {
@@ -5261,9 +5261,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 94]
+Litkowski, et al.       Expires February 10, 2019              [Page 94]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
 7.  Security Considerations
@@ -5317,9 +5317,9 @@ Internet-Draft                  isis-cfg                       July 2018
 
 
 
-Litkowski, et al.       Expires January 17, 2019               [Page 95]
+Litkowski, et al.       Expires February 10, 2019              [Page 95]
 
-Internet-Draft                  isis-cfg                       July 2018
+Internet-Draft                  isis-cfg                     August 2018
 
 
 8.  Contributors
@@ -5351,10 +5351,10 @@ Internet-Draft                  isis-cfg                       July 2018
 
 11.  Change log for ietf-isis YANG module
 
-11.1.  From version -22 to version -23
+11.1.  From version -22 to version -24
 
    o  Fix revision date of the module
- 
+
 11.2.  From version -21 to version -22
 
    o  TE router-id modeling alignment with OSPF.
@@ -5366,6 +5366,18 @@ Internet-Draft                  isis-cfg                       July 2018
 
    o  Model revision date fix
 
+
+
+
+
+
+
+
+Litkowski, et al.       Expires February 10, 2019              [Page 96]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
 11.4.  From version -19 to version -20
 
    o  Moved to Yang 1.1
@@ -5373,14 +5385,6 @@ Internet-Draft                  isis-cfg                       July 2018
    o  Lower case enumerations
 
    o  Add RFC references to features
-
-
-
-
-Litkowski, et al.       Expires January 17, 2019               [Page 96]
-
-Internet-Draft                  isis-cfg                       July 2018
-
 
    o  Remove segment-routing feature
 
@@ -5422,6 +5426,14 @@ Internet-Draft                  isis-cfg                       July 2018
       *  Added spf-control container with IETF SPF delay algorithm as a
          feature.
 
+
+
+
+Litkowski, et al.       Expires February 10, 2019              [Page 97]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
       *  Added graceful-restart options.
 
       *  Added nsr as a feature.
@@ -5429,14 +5441,6 @@ Internet-Draft                  isis-cfg                       July 2018
       *  Removed per topology FRR.  Need to be augmented if necessary.
 
       *  Created an ldp container within mpls.
-
-
-
-
-Litkowski, et al.       Expires January 17, 2019               [Page 97]
-
-Internet-Draft                  isis-cfg                       July 2018
-
 
       *  Renamed igp-ldp-sync to igp-sync.
 
@@ -5478,6 +5482,14 @@ Internet-Draft                  isis-cfg                       July 2018
 
    o  Align to draft-ietf-netmod-routing-cfg-23.
 
+
+
+
+Litkowski, et al.       Expires February 10, 2019              [Page 98]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
 11.14.  From version -07 to version -08
 
    o  Remove selector from system-id type.
@@ -5485,14 +5497,6 @@ Internet-Draft                  isis-cfg                       July 2018
    o  Add some default values.
 
    o  Moved lists to containers+groupings for per level configuration.
-
-
-
-
-Litkowski, et al.       Expires January 17, 2019               [Page 98]
-
-Internet-Draft                  isis-cfg                       July 2018
-
 
    o  remove routing-instance as per core routing model v21.
 
@@ -5535,6 +5539,13 @@ Internet-Draft                  isis-cfg                       July 2018
 
    o  Segment routing is part os a separate module.
 
+
+
+Litkowski, et al.       Expires February 10, 2019              [Page 99]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
 11.18.  From version -01 to version -02
 
    o  Adding IPFRR.
@@ -5542,13 +5553,6 @@ Internet-Draft                  isis-cfg                       July 2018
    o  Adding igp-ldp-sync.
 
    o  Adding segment-routing.
-
-
-
-Litkowski, et al.       Expires January 17, 2019               [Page 99]
-
-Internet-Draft                  isis-cfg                       July 2018
-
 
    o  Adding instance reference to operational states.
 
@@ -5590,6 +5594,14 @@ Internet-Draft                  isis-cfg                       July 2018
 
    o  Change hello-padding to container.
 
+
+
+
+Litkowski, et al.       Expires February 10, 2019             [Page 100]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
    o  Change bfd to container.
 
    o  Make BFD a feature.
@@ -5597,14 +5609,6 @@ Internet-Draft                  isis-cfg                       July 2018
    o  Create mpls-te container and put router-id inside.
 
    o  Remove GR helper disable and timers.
-
-
-
-
-Litkowski, et al.       Expires January 17, 2019              [Page 100]
-
-Internet-Draft                  isis-cfg                       July 2018
-
 
 12.  Normative References
 
@@ -5647,20 +5651,17 @@ Internet-Draft                  isis-cfg                       July 2018
               DOI 10.17487/RFC6020, October 2010,
               <https://www.rfc-editor.org/info/rfc6020>.
 
+
+
+Litkowski, et al.       Expires February 10, 2019             [Page 101]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
    [RFC6241]  Enns, R., Ed., Bjorklund, M., Ed., Schoenwaelder, J., Ed.,
               and A. Bierman, Ed., "Network Configuration Protocol
               (NETCONF)", RFC 6241, DOI 10.17487/RFC6241, June 2011,
               <https://www.rfc-editor.org/info/rfc6241>.
-
-
-
-
-
-
-Litkowski, et al.       Expires January 17, 2019              [Page 101]
-
-Internet-Draft                  isis-cfg                       July 2018
-
 
    [RFC6242]  Wasserman, M., "Using the NETCONF Protocol over Secure
               Shell (SSH)", RFC 6242, DOI 10.17487/RFC6242, June 2011,
@@ -5705,19 +5706,19 @@ Appendix A.  Example of IS-IS configuration in XML
                           <level-type>level-2</level-type>
               <system-id>87FC.FCDF.4432</system-id>
               <area-address>49.0001</area-address>
+
+
+
+Litkowski, et al.       Expires February 10, 2019             [Page 102]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
               <mpls-te>
                 <ipv4-router-id>1.1.1.1</ipv4-router-id>
               </mpls-te>
               <lsp-lifetime>65535</lsp-lifetime>
               <lsp-refresh>65000</lsp-refresh>
-
-
-
-Litkowski, et al.       Expires January 17, 2019              [Page 102]
-
-Internet-Draft                  isis-cfg                       July 2018
-
-
               <metric-type>
                 <value>wide</value>
               </metric-type>
@@ -5761,18 +5762,18 @@ Internet-Draft                  isis-cfg                       July 2018
       <ipv4 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip">
         <mtu/>
         <address>
+
+
+
+Litkowski, et al.       Expires February 10, 2019             [Page 103]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
           <ip>1.1.1.1</ip>
           <prefix-length>32</prefix-length>
         </address>
       </ipv4>
-
-
-
-
-Litkowski, et al.       Expires January 17, 2019              [Page 103]
-
-Internet-Draft                  isis-cfg                       July 2018
-
 
     </interface>
         <interface>
@@ -5818,6 +5819,13 @@ Authors' Addresses
    Email: zzhang@juniper.net
 
 
+
+
+Litkowski, et al.       Expires February 10, 2019             [Page 104]
+
+Internet-Draft                  isis-cfg                     August 2018
+
+
    Ladislav Lhotka
    CZ.NIC
 
@@ -5825,5 +5833,48 @@ Authors' Addresses
 
 
 
-Litkowski, et al.       Expires January 17, 2019              [Page 104]
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Litkowski, et al.       Expires February 10, 2019             [Page 105]
