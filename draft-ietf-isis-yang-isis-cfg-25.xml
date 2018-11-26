@@ -1,158 +1,82 @@
+<?xml version="1.0"?>
+<?rfc strict="yes" ?>
+<?rfc toc="yes"?>
+<?rfc tocdepth="3"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes" ?>
+<?rfc compact="yes" ?>
+<?rfc subcompact="no" ?>
+<rfc docName="draft-ietf-isis-yang-isis-cfg-25" ipr="trust200902" category="std" obsoletes="" updates="" submissionType="IETF" xml:lang="en">
+  <front>
+    <title abbrev="isis-cfg">YANG Data Model for IS-IS protocol</title>
+    <author fullname="Stephane Litkowski" initials="S" surname="Litkowski">
+      <organization>Orange</organization>
+      <address>
+        <email>stephane.litkowski@orange.com</email>
+      </address>
+    </author>
+	<author fullname="Derek Yeung" initials="D" surname="Yeung">
+      <organization>Arrcus, Inc</organization>
+      <address>
+        <email>derek@arrcus.com</email>
+      </address>
+    </author>
+	<author fullname="Acee Lindem" initials="A" surname="Lindem">
+      <organization>Cisco Systems</organization>
+      <address>
+        <email>acee@cisco.com</email>
+      </address>
+    </author>
+	<author fullname="Jeffrey Zhang" initials="J" surname="Zhang">
+      <organization>Juniper Networks</organization>
+      <address>
+        <email>zzhang@juniper.net</email>
+      </address>
+    </author>
+	<author fullname="Ladislav Lhotka" initials="L" surname="Lhotka">
+      <organization>CZ.NIC</organization>
+      <address>
+        <email>lhotka@nic.cz</email>
+      </address>
+    </author>
+    <date day="26" month="November" year="2018"/>
+    <area/>
+    <workgroup>IS-IS Working Group</workgroup>
 
-
-
-
-IS-IS Working Group                                         S. Litkowski
-Internet-Draft                                                    Orange
-Intended status: Standards Track                                D. Yeung
-Expires: May 30, 2019                                        Arrcus, Inc
-                                                               A. Lindem
-                                                           Cisco Systems
-                                                                J. Zhang
-                                                        Juniper Networks
-                                                               L. Lhotka
-                                                                  CZ.NIC
-                                                       November 26, 2018
-
-
-                   YANG Data Model for IS-IS protocol
-                    draft-ietf-isis-yang-isis-cfg-25
-
-Abstract
-
-   This document defines a YANG data model that can be used to configure
-   and manage IS-IS protocol on network elements.
-
-Requirements Language
-
-   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+    <abstract>
+      <t>This document defines a YANG data model that can be used to
+      configure and manage IS-IS protocol on network elements.
+	  </t>
+    </abstract>
+    <note title="Requirements Language">
+    <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in BCP
-   14 [RFC2119] [RFC8174] when, and only when, they appear in all
-   capitals, as shown here.
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 <xref target="RFC2119" pageno="false" format="default"/> <xref target="RFC8174" pageno="false" format="default"/> when, and only when, they appear in all
+   capitals, as shown here.</t>
+    </note>
+  </front>
+  <middle>
+    <section anchor="introduction" title="Introduction" toc="default">
+      <t>
+      This document defines a YANG (<xref target="RFC7950" pageno="false" format="default"/>) data model for IS-IS routing
+      protocol.</t>
+      <t>The data model covers configuration of an IS-IS routing
+      protocol instance as well as operational states.</t>
+      <t>A simplified tree representation of the data model is
+        presented in <xref target="design" pageno="false" format="default"/>. 
+	Tree diagrams used in this document follow the notation defined in <xref target="RFC8340" pageno="false" format="default"/>.</t>	
+    <t>The module is designed as per NMDA (Network Management Datastore Architecture) <xref target="RFC8342" pageno="false" format="default"/>.</t>
+    </section>
+    <section anchor="design" title="Design of the Data Model" toc="default">
+      <t>The IS-IS YANG module augments the
+      "control-plane-protocol" list in ietf-routing module (defined in <xref target="RFC8349" pageno="false" format="default"/>) with specific
+      IS-IS parameters.</t>
+      <t>The figure below describes the overall structure of the isis
+      YANG module:</t>
 
-Status of This Memo
-
-   This Internet-Draft is submitted in full conformance with the
-   provisions of BCP 78 and BCP 79.
-
-   Internet-Drafts are working documents of the Internet Engineering
-   Task Force (IETF).  Note that other groups may also distribute
-   working documents as Internet-Drafts.  The list of current Internet-
-   Drafts is at https://datatracker.ietf.org/drafts/current/.
-
-   Internet-Drafts are draft documents valid for a maximum of six months
-   and may be updated, replaced, or obsoleted by other documents at any
-   time.  It is inappropriate to use Internet-Drafts as reference
-   material or to cite them other than as "work in progress."
-
-   This Internet-Draft will expire on May 30, 2019.
-
-
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                  [Page 1]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-Copyright Notice
-
-   Copyright (c) 2018 IETF Trust and the persons identified as the
-   document authors.  All rights reserved.
-
-   This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document.  Please review these documents
-   carefully, as they describe your rights and restrictions with respect
-   to this document.  Code Components extracted from this document must
-   include Simplified BSD License text as described in Section 4.e of
-   the Trust Legal Provisions and are provided without warranty as
-   described in the Simplified BSD License.
-
-Table of Contents
-
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
-   2.  Design of the Data Model  . . . . . . . . . . . . . . . . . .   3
-     2.1.  IS-IS Configuration . . . . . . . . . . . . . . . . . . .   9
-     2.2.  Multitopology Parameters  . . . . . . . . . . . . . . . .   9
-     2.3.  Per-Level Parameters  . . . . . . . . . . . . . . . . . .  10
-     2.4.  Per-Interface Parameters  . . . . . . . . . . . . . . . .  11
-     2.5.  Authentication Parameters . . . . . . . . . . . . . . . .  17
-     2.6.  IGP/LDP synchronization . . . . . . . . . . . . . . . . .  17
-     2.7.  ISO parameters  . . . . . . . . . . . . . . . . . . . . .  17
-     2.8.  IP FRR  . . . . . . . . . . . . . . . . . . . . . . . . .  18
-     2.9.  Operational States  . . . . . . . . . . . . . . . . . . .  18
-   3.  RPC Operations  . . . . . . . . . . . . . . . . . . . . . . .  19
-   4.  Notifications . . . . . . . . . . . . . . . . . . . . . . . .  19
-   5.  Interaction with Other YANG Modules . . . . . . . . . . . . .  20
-   6.  IS-IS YANG Module . . . . . . . . . . . . . . . . . . . . . .  21
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . . 100
-   8.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . . 101
-   9.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . 101
-   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . . 101
-   11. Change log for ietf-isis YANG module  . . . . . . . . . . . . 101
-     11.1.  From version -24 to version -25  . . . . . . . . . . . . 101
-     11.2.  From version -22 to version -24  . . . . . . . . . . . . 102
-     11.3.  From version -21 to version -22  . . . . . . . . . . . . 102
-     11.4.  From version -20 to version -21  . . . . . . . . . . . . 103
-     11.5.  From version -19 to version -20  . . . . . . . . . . . . 103
-     11.6.  From version -18 to version -19  . . . . . . . . . . . . 103
-     11.7.  From version -17 to version -18  . . . . . . . . . . . . 103
-     11.8.  From version -16 to version -17  . . . . . . . . . . . . 103
-     11.9.  From version -15 to version -16  . . . . . . . . . . . . 103
-     11.10. From version -14 to version -15  . . . . . . . . . . . . 104
-     11.11. From version -13 to version -14  . . . . . . . . . . . . 104
-
-
-
-Litkowski, et al.         Expires May 30, 2019                  [Page 2]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-     11.12. From version -12 to version -13  . . . . . . . . . . . . 104
-     11.13. From version -09 to version -12  . . . . . . . . . . . . 104
-     11.14. From version -08 to version -09  . . . . . . . . . . . . 105
-     11.15. From version -07 to version -08  . . . . . . . . . . . . 105
-     11.16. From version -05 to version -07  . . . . . . . . . . . . 105
-     11.17. From version -03 to version -05  . . . . . . . . . . . . 105
-     11.18. From version -02 to version -03  . . . . . . . . . . . . 106
-     11.19. From version -01 to version -02  . . . . . . . . . . . . 106
-     11.20. From version -00 to version -01  . . . . . . . . . . . . 106
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . . 107
-     12.1.  Normative References . . . . . . . . . . . . . . . . . . 107
-     12.2.  Informative References . . . . . . . . . . . . . . . . . 109
-   Appendix A.  Example of IS-IS configuration in XML  . . . . . . . 109
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . 112
-
-1.  Introduction
-
-   This document defines a YANG ([RFC7950]) data model for IS-IS routing
-   protocol.
-
-   The data model covers configuration of an IS-IS routing protocol
-   instance as well as operational states.
-
-   A simplified tree representation of the data model is presented in
-   Section 2.  Tree diagrams used in this document follow the notation
-   defined in [RFC8340].
-
-   The module is designed as per NMDA (Network Management Datastore
-   Architecture) [RFC8342].
-
-2.  Design of the Data Model
-
-   The IS-IS YANG module augments the "control-plane-protocol" list in
-   ietf-routing module (defined in [RFC8349]) with specific IS-IS
-   parameters.
-
-   The figure below describes the overall structure of the isis YANG
-   module:
-
+      <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+	<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
 
 module: ietf-isis
   augment /rt:routing/rt:ribs/rt:rib/rt:routes/rt:route:
@@ -161,16 +85,7 @@ module: ietf-isis
     +--ro route-type?   enumeration
   augment /if:interfaces/if:interface:
     +--rw clns-mtu?   uint16
-  augment 
-/rt:routing/rt:control-plane-protocols/rt:control-plane-protocol:
-
-
-
-Litkowski, et al.         Expires May 30, 2019                  [Page 3]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
+  augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol:
     +--rw isis
        +--rw enable?                   boolean {admin-control}?
        +--rw level-type?               level
@@ -179,8 +94,7 @@ Internet-Draft                  isis-cfg                   November 2018
        +--rw area-address*             area-address
        +--rw lsp-mtu?                  uint16
        +--rw lsp-lifetime?             uint16
-       +--rw lsp-refresh?              rt-types:timer-value-seconds16 
-{lsp-refresh}?
+       +--rw lsp-refresh?              rt-types:timer-value-seconds16 {lsp-refresh}?
        +--rw poi-tlv?                  boolean {poi-tlv}?
        +--rw graceful-restart {graceful-restart}?
        |  +--rw enable?             boolean
@@ -220,14 +134,6 @@ Internet-Draft                  isis-cfg                   November 2018
        |  +--rw te-rid {te-rid}?
        |  |     ...
        |  +--rw ldp
-
-
-
-Litkowski, et al.         Expires May 30, 2019                  [Page 4]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
        |        ...
        +--rw spf-control
        |  +--rw paths?            uint16 {max-ecmp}?
@@ -277,35 +183,24 @@ Internet-Draft                  isis-cfg                   November 2018
           +--rw interface* [name]
                 ...
 
-
-
-Litkowski, et al.         Expires May 30, 2019                  [Page 5]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
   rpcs:
     +---x clear-adjacency
     |  +---w input
-    |     +---w routing-protocol-instance-name    -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |     +---w routing-protocol-instance-name    -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |     +---w level?                            level
     |     +---w interface?                        if:interface-ref
     +---x clear-database
        +---w input
-          +---w routing-protocol-instance-name    -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+          +---w routing-protocol-instance-name    -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
           +---w level?                            level
 
   notifications:
     +---n database-overload
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro overload?                enumeration
     +---n lsp-too-large
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -313,26 +208,22 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro pdu-size?                uint32
     |  +--ro lsp-id?                  lsp-id
     +---n if-state-change
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro state?                   if-state-type
     +---n corrupted-lsp-detected
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro lsp-id?                  lsp-id
     +---n attempt-to-exceed-max-sequence
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro lsp-id?                  lsp-id
     +---n id-len-mismatch
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -340,16 +231,7 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro pdu-field-len?           uint8
     |  +--ro raw-pdu?                 binary
     +---n max-area-addresses-mismatch
-
-
-
-Litkowski, et al.         Expires May 30, 2019                  [Page 6]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -357,40 +239,35 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro max-area-addresses?      uint8
     |  +--ro raw-pdu?                 binary
     +---n own-lsp-purge
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro lsp-id?                  lsp-id
     +---n sequence-number-skipped
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro lsp-id?                  lsp-id
     +---n authentication-type-failure
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro raw-pdu?                 binary
     +---n authentication-failure
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro raw-pdu?                 binary
     +---n version-skew
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -398,24 +275,14 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro protocol-version?        uint8
     |  +--ro raw-pdu?                 binary
     +---n area-mismatch
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
-
-
-
-Litkowski, et al.         Expires May 30, 2019                  [Page 7]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro raw-pdu?                 binary
     +---n rejected-adjacency
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -423,8 +290,7 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro raw-pdu?                 binary
     |  +--ro reason?                  string
     +---n protocols-supported-mismatch
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -432,8 +298,7 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro raw-pdu?                 binary
     |  +--ro protocols*               uint8
     +---n lsp-error-detected
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -443,8 +308,7 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro error-offset?            uint32
     |  +--ro tlv-type?                uint8
     +---n adjacency-state-change
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -454,8 +318,7 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro state?                   adj-state-type
     |  +--ro reason?                  string
     +---n lsp-received
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -464,194 +327,142 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro sequence?                uint32
     |  +--ro received-timestamp?      yang:timestamp
     |  +--ro neighbor-system-id?      system-id
-
-
-
-Litkowski, et al.         Expires May 30, 2019                  [Page 8]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     +---n lsp-generation
-       +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+       +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
        +--ro isis-level?              level
        +--ro lsp-id?                  lsp-id
        +--ro sequence?                uint32
        +--ro send-timestamp?          yang:timestamp
+</artwork>
 
-2.1.  IS-IS Configuration
+      </figure>
 
-   The IS-IS configuration container is divided in:
+      <section anchor="yang-isis-global" title="IS-IS Configuration" toc="default">
+        <t>The IS-IS configuration container is divided in:
+	<list style="symbols">
+	  <t>Global parameters.</t>
+	  <t>Per interface configuration (see <xref target="yang-interface" pageno="false" format="default"/>).</t>
+	</list></t>
+		<t>Additional modules may be created to support
+		any additional parameters. These additional modules MUST augment the ietf-isis module.</t>
+		<t>The model implements features, thus some of the configuration statement becomes optional.
+		As an example, the ability to control the administrative state of a particular IS-IS instance is optional.
+		By advertising the feature "admin-control", a device communicates to the client that it supports the ability to shutdown a particular IS-IS instance.</t>
+		<t>
+		The global configuration contains usual IS-IS parameters such as lsp-mtu, lsp-lifetime, lsp-refresh, default-metric...
+		</t>
+      </section>
 
-   o  Global parameters.
+      <section anchor="yang-multitopology" title="Multitopology Parameters" toc="default">
+		<t>The model supports multitopology (MT) IS-IS as defined in <xref target="RFC5120" pageno="false" format="default"/>.</t>
+	   <t>The "topologies" container is used to enable support of MT
+        extensions.</t>
+		<t>The "name" used in the topology list should refer to an existing RIB of the device.</t>
+		<t>Some specific parameters could be defined on a per topology basis
+		both at global level and at interface level: for example, an interface metric can be defined per topology.</t>
+		<t>Multiple address families (like IPv4 or IPv6) can also be activated within the default topology. 
+		This can be achieved using the "afs" container (requiring "nlpid-control" feature to be advertised).</t>
+		
+      </section>
 
-   o  Per interface configuration (see Section 2.4).
+      <section anchor="yang-level" title="Per-Level Parameters" toc="default">
+        <t>Some parameters allow a per level configuration. In this case, 
+		the parameter is modeled as a container with three configuration locations:
+		<list style="symbols">
+		<t>a top level container: corresponds to level-1-2, so the configuration applies to both levels.</t>
+		<t>a level-1 container: corresponds to level-1 specific parameters.</t>
+		<t>a level-2 container: corresponds to level-2 specific parameters.</t>
+		</list>
+		</t>
+		<figure title="" suppress-title="false" align="left" alt="" width="" height="">
+		<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+            +--rw priority
+            |  +--rw value?     uint8
+            |  +--rw level-1
+            |  |  +--rw value?   uint8
+            |  +--rw level-2
+            |     +--rw value?   uint8
+		</artwork>
+		</figure>
+		<t>Example:</t>
+		<figure title="" suppress-title="false" align="left" alt="" width="" height="">
+		<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+        &lt;priority&gt;
+            &lt;value&gt;250&lt;/value&gt;
+            &lt;level-1&gt;
+                &lt;value&gt;100&lt;/value&gt;
+            &lt;/level-1&gt;
+            &lt;level-2&gt;
+                &lt;value&gt;200&lt;/value&gt;
+            &lt;/level-2&gt;
+        &lt;/priority&gt;
+		</artwork>
+		</figure>
+		<t>
+		An implementation SHOULD prefer a level specific parameter over a level-all parameter. 
+		As example, if the priority is 100 for the level-1, 200 for the level-2 and 250 for the top level configuration, the implementation should use 100 for the level-1 and 200 for the level-2.
+		</t>
+		<t>
+		Some parameters like "overload bit" and "route preference" are not modeled to support a per level configuration. If an implementation supports per level configuration for such parameter,
+		this implementation SHOULD augment the current model by adding both level-1 and level-2 containers and SHOULD reuse existing configuration groupings.
+		</t>
+		
+		<t>Example of augmentation:</t>
+		<figure title="" suppress-title="false" align="left" alt="" width="" height="">
+		<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+augment "/rt:routing/" +
+        "rt:control-plane-protocols/rt:control-plane-protocol"+
+        "/isis:isis/isis:overload" {
+	when "rt:type = 'isis:isis'" {
+          description
+           "This augment IS-IS routing protocol when used";
+        }
+        description
+          "This augments IS-IS overload configuration
+           with per level configuration.";
+	
+        container level-1 {
+          uses isis:overload-global-cfg;
+          description
+            "Level 1 configuration.";
+	}
+        container level-2 {
+          uses isis:overload-global-cfg;
+          description
+            "Level 2 configuration.";
+	}
+}
+		</artwork>
+		</figure>
+		<t>
+		If an implementation does not support per level configuration for a parameter modeled with per level configuration, the implementation SHOULD advertise a deviation to announce the non support of the level-1 and level-2 containers.
+		</t>
+		<t>
+		Finally, if an implementation supports per level configuration but does not support the level-1-2 configuration, it SHOULD also advertise a deviation.
+		</t>
+      </section>
 
-   Additional modules may be created to support any additional
-   parameters.  These additional modules MUST augment the ietf-isis
-   module.
+      <section anchor="yang-interface" title="Per-Interface Parameters" toc="default">
+        <t>The per-interface section of the IS-IS instance describes
+        the interface specific parameters.</t>
+		<t>The interface is modeled as a reference to an existing interface defined in the "ietf-interfaces" YANG model (<xref target="RFC8343" pageno="false" format="default"/>.</t>
+        <t>Each interface has some interface-specific parameters that may have
+		a different per level value as described in previous section.
+		An interface-specific parameter always override an IS-IS global
+        parameter.</t>
+		<t>Some parameters like hello-padding are defined as containers
+		to allow easy extension by vendor specific modules.</t>
 
-   The model implements features, thus some of the configuration
-   statement becomes optional.  As an example, the ability to control
-   the administrative state of a particular IS-IS instance is optional.
-   By advertising the feature "admin-control", a device communicates to
-   the client that it supports the ability to shutdown a particular IS-
-   IS instance.
-
-   The global configuration contains usual IS-IS parameters such as lsp-
-   mtu, lsp-lifetime, lsp-refresh, default-metric...
-
-2.2.  Multitopology Parameters
-
-   The model supports multitopology (MT) IS-IS as defined in [RFC5120].
-
-   The "topologies" container is used to enable support of MT
-   extensions.
-
-   The "name" used in the topology list should refer to an existing RIB
-   of the device.
-
-   Some specific parameters could be defined on a per topology basis
-   both at global level and at interface level: for example, an
-   interface metric can be defined per topology.
-
-   Multiple address families (like IPv4 or IPv6) can also be activated
-   within the default topology.  This can be achieved using the "afs"
-   container (requiring "nlpid-control" feature to be advertised).
-
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                  [Page 9]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-2.3.  Per-Level Parameters
-
-   Some parameters allow a per level configuration.  In this case, the
-   parameter is modeled as a container with three configuration
-   locations:
-
-   o  a top level container: corresponds to level-1-2, so the
-      configuration applies to both levels.
-
-   o  a level-1 container: corresponds to level-1 specific parameters.
-
-   o  a level-2 container: corresponds to level-2 specific parameters.
-
-               +--rw priority
-               |  +--rw value?     uint8
-               |  +--rw level-1
-               |  |  +--rw value?   uint8
-               |  +--rw level-2
-               |     +--rw value?   uint8
-
-   Example:
-
-           <priority>
-               <value>250</value>
-               <level-1>
-                   <value>100</value>
-               </level-1>
-               <level-2>
-                   <value>200</value>
-               </level-2>
-           </priority>
-
-   An implementation SHOULD prefer a level specific parameter over a
-   level-all parameter.  As example, if the priority is 100 for the
-   level-1, 200 for the level-2 and 250 for the top level configuration,
-   the implementation should use 100 for the level-1 and 200 for the
-   level-2.
-
-   Some parameters like "overload bit" and "route preference" are not
-   modeled to support a per level configuration.  If an implementation
-   supports per level configuration for such parameter, this
-   implementation SHOULD augment the current model by adding both
-   level-1 and level-2 containers and SHOULD reuse existing
-   configuration groupings.
-
-   Example of augmentation:
-
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 10]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-   augment "/rt:routing/" +
-           "rt:control-plane-protocols/rt:control-plane-protocol"+
-           "/isis:isis/isis:overload" {
-           when "rt:type = 'isis:isis'" {
-             description
-              "This augment IS-IS routing protocol when used";
-           }
-           description
-             "This augments IS-IS overload configuration
-              with per level configuration.";
-
-           container level-1 {
-             uses isis:overload-global-cfg;
-             description
-               "Level 1 configuration.";
-           }
-           container level-2 {
-             uses isis:overload-global-cfg;
-             description
-               "Level 2 configuration.";
-           }
-   }
-
-   If an implementation does not support per level configuration for a
-   parameter modeled with per level configuration, the implementation
-   SHOULD advertise a deviation to announce the non support of the
-   level-1 and level-2 containers.
-
-   Finally, if an implementation supports per level configuration but
-   does not support the level-1-2 configuration, it SHOULD also
-   advertise a deviation.
-
-2.4.  Per-Interface Parameters
-
-   The per-interface section of the IS-IS instance describes the
-   interface specific parameters.
-
-   The interface is modeled as a reference to an existing interface
-   defined in the "ietf-interfaces" YANG model ([RFC8343].
-
-   Each interface has some interface-specific parameters that may have a
-   different per level value as described in previous section.  An
-   interface-specific parameter always override an IS-IS global
-   parameter.
-
-   Some parameters like hello-padding are defined as containers to allow
-   easy extension by vendor specific modules.
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 11]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
+	<figure title="" suppress-title="false" align="left" alt="" width="" height="">
+	    <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
        +--rw interfaces
           +--rw interface* [name]
              +--rw name                       if:interface-ref
              +--rw level-type?                level
-             +--rw lsp-pacing-interval?       
-rt-types:timer-value-milliseconds
-             +--rw lsp-retransmit-interval?   
-rt-types:timer-value-seconds16
+             +--rw lsp-pacing-interval?       rt-types:timer-value-milliseconds
+             +--rw lsp-retransmit-interval?   rt-types:timer-value-seconds16
              +--rw passive?                   boolean
-             +--rw csnp-interval?             
-rt-types:timer-value-seconds16
+             +--rw csnp-interval?             rt-types:timer-value-seconds16
              +--rw hello-padding
              |  +--rw enable?   boolean
              +--rw mesh-group-enable?         mesh-group-state
@@ -671,16 +482,14 @@ rt-types:timer-value-seconds16
              |  +--rw level-1
              |  |  +--rw (authentication-type)?
              |  |     +--:(key-chain) {key-chain}?
-             |  |     |  +--rw key-chain?          
-key-chain:key-chain-ref
+             |  |     |  +--rw key-chain?          key-chain:key-chain-ref
              |  |     +--:(password)
              |  |        +--rw key?                string
              |  |        +--rw crypto-algorithm?   identityref
              |  +--rw level-2
              |     +--rw (authentication-type)?
              |        +--:(key-chain) {key-chain}?
-             |        |  +--rw key-chain?          
-key-chain:key-chain-ref
+             |        |  +--rw key-chain?          key-chain:key-chain-ref
              |        +--:(password)
              |           +--rw key?                string
              |           +--rw crypto-algorithm?   identityref
@@ -694,14 +503,6 @@ key-chain:key-chain-ref
              |  +--rw value?     uint16
              |  +--rw level-1
              |  |  +--rw value?   uint16
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 12]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
              |  +--rw level-2
              |     +--rw value?   uint16
              +--rw priority
@@ -749,16 +550,7 @@ Internet-Draft                  isis-cfg                   November 2018
              |           +--rw enable?   boolean
              +--rw topologies {multi-topology}?
                 +--rw topology* [name]
-                   +--rw name      -> 
-../../../../../../../../rt:ribs/rib/name
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 13]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
+                   +--rw name      -&gt; ../../../../../../../../rt:ribs/rib/name
                    +--rw metric
                       +--rw value?     wide-metric
                       +--rw level-1
@@ -769,25 +561,21 @@ Internet-Draft                  isis-cfg                   November 2018
   rpcs:
     +---x clear-adjacency
     |  +---w input
-    |     +---w routing-protocol-instance-name    -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |     +---w routing-protocol-instance-name    -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |     +---w level?                            level
     |     +---w interface?                        if:interface-ref
     +---x clear-database
        +---w input
-          +---w routing-protocol-instance-name    -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+          +---w routing-protocol-instance-name    -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
           +---w level?                            level
 
   notifications:
     +---n database-overload
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro overload?                enumeration
     +---n lsp-too-large
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -795,34 +583,22 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro pdu-size?                uint32
     |  +--ro lsp-id?                  lsp-id
     +---n if-state-change
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro state?                   if-state-type
     +---n corrupted-lsp-detected
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro lsp-id?                  lsp-id
     +---n attempt-to-exceed-max-sequence
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro lsp-id?                  lsp-id
     +---n id-len-mismatch
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 14]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -830,8 +606,7 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro pdu-field-len?           uint8
     |  +--ro raw-pdu?                 binary
     +---n max-area-addresses-mismatch
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -839,65 +614,50 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro max-area-addresses?      uint8
     |  +--ro raw-pdu?                 binary
     +---n own-lsp-purge
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro lsp-id?                  lsp-id
     +---n sequence-number-skipped
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro lsp-id?                  lsp-id
     +---n authentication-type-failure
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro raw-pdu?                 binary
     +---n authentication-failure
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro raw-pdu?                 binary
     +---n version-skew
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 15]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     |  +--ro protocol-version?        uint8
     |  +--ro raw-pdu?                 binary
     +---n area-mismatch
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro raw-pdu?                 binary
     +---n rejected-adjacency
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -905,8 +665,7 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro raw-pdu?                 binary
     |  +--ro reason?                  string
     +---n protocols-supported-mismatch
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -914,8 +673,7 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro raw-pdu?                 binary
     |  +--ro protocols*               uint8
     +---n lsp-error-detected
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -925,8 +683,7 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro error-offset?            uint32
     |  +--ro tlv-type?                uint8
     +---n adjacency-state-change
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -936,17 +693,8 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro state?                   adj-state-type
     |  +--ro reason?                  string
     +---n lsp-received
-    |  +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 16]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
@@ -955,229 +703,178 @@ Internet-Draft                  isis-cfg                   November 2018
     |  +--ro received-timestamp?      yang:timestamp
     |  +--ro neighbor-system-id?      system-id
     +---n lsp-generation
-       +--ro routing-protocol-name?   -> 
-/rt:routing/control-plane-protocols/control-plane-protocol/name
+       +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
        +--ro isis-level?              level
        +--ro lsp-id?                  lsp-id
        +--ro sequence?                uint32
        +--ro send-timestamp?          yang:timestamp
-
-2.5.  Authentication Parameters
-
-   The module enables authentication configuration through the IETF key-
-   chain module ([RFC8177]).  The IS-IS module imports the "ietf-key-
-   chain" module and reuses some groupings to allow global and per
-   interface configuration of authentication.  If a global
-   authentication is configured, an implementation SHOULD authenticate
-   PSNPs, CSNPs and LSPs with the authentication parameters supplied.
-   The authentication of hello PDUs can be activated on a per interface
-   basis.
-
-2.6.  IGP/LDP synchronization
-
-   [RFC5443] defines a mechanism where IGP needs to be synchronized with
-   LDP.  An "ldp-igp-sync" feature has been defined in the model to
-   support this mechanism.  The "mpls/ldp/igp-sync" leaf under
-   "interface" allows activation of the mechanism on a per interface
-   basis.  The "mpls/ldp/igp-sync" container in the global configuration
-   is empty on purpose and is not required for the activation.  The goal
-   of this empty container is to allow easy augmentation with additional
-   parameters like timers for example.
-
-2.7.  ISO parameters
-
-   As IS-IS protocol is based on ISO protocol suite, some ISO parameters
-   may be required.
-
-   This module augments interface configuration model to support ISO
-   configuration parameters.
-
-   The clns-mtu can be defined under the interface.
-
-
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 17]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-2.8.  IP FRR
-
-   This YANG model supports LFA ([RFC5286]) and remote LFA ([RFC7490])
-   as IP FRR techniques.  The "fast-reroute" container may be augmented
-   by other models to support other IPFRR flavors (MRT, TILFA ...).
-
-   The current version of the model supports activation of LFA and
-   remote LFA at interface only.  The global "lfa" container is present
-   but kept empty to allow augmentation with vendor specific properties
-   like policies.
-
-   Remote LFA is considered as a child of LFA.  Remote LFA cannot be
-   enabled if LFA is not enabled.
-
-   The "candidate-disabled" allows to mark an interface to not be used
-   as a backup.
-
-2.9.  Operational States
-
-   Operational states are provided in the module in various places:
-
-   o  system-counters: provides statistical informations about the
-      global system.
-
-   o  interface : provides configuration state informations for each
-      interface.
-
-   o  adjacencies: provides state informations about current IS-IS
-      adjacencies.
-
-   o  spf-log: provides informations about SPF events on the node.  This
-      SHOULD be implemented as a wrapping buffer.
-
-   o  lsp-log: provides informations about LSP events on the node
-      (reception of an LSP or modification of local LSP).  This SHOULD
-      be implemented as a wrapping buffer and an implementation MAY
-      decide to log refresh LSPs or not.
-
-   o  local-rib: provides the IS-IS internal routing table view.
-
-   o  database: provides details on the current LSDB.
-
-   o  hostnames: provides informations about system-id to hostname
-      mappings.
-
-   o  fast-reroute: provides informations about IP FRR.
-
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 18]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-3.  RPC Operations
-
-   The "ietf-isis" module defines two RPC operations:
-
-   o  clear-database: reset the content of a particular IS-IS database
-      and restart database synchronization with the neighbors.
-
-   o  clear-adjacency: restart a particular set of IS-IS adjacencies.
-
-
-4.  Notifications
-
-   The "ietf-isis" module introduces some notifications :
-
-      database-overload: raised when overload condition is changed.
-
-      lsp-too-large: raised when the system tries to propagate a too
-      large PDU.
-
-      if-state-change: raise when the state of an interface changes.
-
-      corrupted-lsp-detected: raised when the system find that an LSP
-      that was stored in memory has become corrupted.
-
-      attempt-to-exceed-max-sequence: This notification is sent when the
-      system wraps the 32-bit sequence counter of an LSP.
-
-      id-len-mismatch: This notification is sent when we receive a PDU
-      with a different value for the System ID length.
-
-      max-area-addresses-mismatch: This notification is sent when we
-      receive a PDU with a different value for the Maximum Area
-      Addresses.
-
-      own-lsp-purge: This notification is sent when the system receives
-      a PDU with its own system ID and zero age.
-
-      sequence-number-skipped: This notification is sent when the system
-      receives a PDU with its own system ID and different contents.  The
-      system has to reissue the LSP with a higher sequence number.
-
-      authentication-type-failure: This notification is sent when the
-      system receives a PDU with the wrong authentication type field.
-
-      authentication-failure: This notification is sent when the system
-      receives a PDU with the wrong authentication information.
-
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 19]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-      version-skew: This notification is sent when the system receives a
-      PDU with a different protocol version number.
-
-      area-mismatch: This notification is sent when the system receives
-      a Hello PDU from an IS that does not share any area address.
-
-      rejected-adjacency: This notification is sent when the system
-      receives a Hello PDU from an IS but does not establish an
-      adjacency for some reason.
-
-      protocols-supported-mismatch: This notification is sent when the
-      system receives a non pseudonode LSP that has no matching protocol
-      supported.
-
-      lsp-error-detected: This notification is sent when the system
-      receives a LSP with a parse error.
-
-      adjacency-state-change: This notification is sent when an IS-IS
-      adjacency moves to Up state or to Down state.
-
-      lsp-received: This notification is sent when a LSP is received.
-
-      lsp-generation: This notification is sent when a LSP is
-      regenerated.
-
-
-5.  Interaction with Other YANG Modules
-
-   The "isis" configuration container augments the "/rt:routing/
-   rt:control-plane-protocols/control-plane-protocol" container of the
-   ietf-routing [RFC8349] module by defining IS-IS specific parameters.
-
-   The "isis" module augments "/if:interfaces/if:interface" defined by
-   [RFC8343] with ISO specific parameters.
-
-   The "isis" operational state container augments the "/rt:routing-
-   state/rt:control-plane-protocols/control-plane-protocol" container of
-   the ietf-routing module by defining IS-IS specific operational
-   states.
-
-   Some IS-IS specific routes attributes are added to route objects of
-   the ietf-routing module by augmenting "/rt:routing-
-   state/rt:ribs/rt:rib/rt:routes/rt:route".
-
-   The modules defined in this document use some groupings from ietf-
-   keychain [RFC8177].
-
-   The module reuses types from [RFC6991] and [RFC8294].
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 20]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-   To support BFD for fast detection, the module relies on
-   [I-D.ietf-bfd-yang].
-
-6.  IS-IS YANG Module
-
-<CODE BEGINS> file "ietf-isis@2018-11-26.yang"
+</artwork>
+
+	</figure>
+
+      </section>
+	   <section anchor="yang-authentication" title="Authentication Parameters" toc="default">
+	   <t>
+	   The module enables authentication configuration through the IETF key-chain module (<xref target="RFC8177" pageno="false" format="default"/>).
+	   The IS-IS module imports the "ietf-key-chain" module and reuses some groupings to allow global and per interface configuration of authentication.
+	   If a global authentication is configured, an implementation SHOULD authenticate PSNPs, CSNPs and LSPs with the authentication parameters supplied.
+	   The authentication of hello PDUs can be activated on a per interface basis.
+	   </t>
+	   </section>
+	   <section anchor="yang-igp-ldp" title="IGP/LDP synchronization" toc="default">
+	   <t>
+	   <xref target="RFC5443" pageno="false" format="default"/> defines a mechanism where IGP needs to be synchronized with LDP.
+	   An "ldp-igp-sync" feature has been defined in the model to support this mechanism.
+	   The "mpls/ldp/igp-sync" leaf under "interface" allows activation of the mechanism on a per interface basis.
+	   The "mpls/ldp/igp-sync" container in the global configuration is empty on purpose and is not required for the activation. 
+	   The goal of this empty container is to allow easy augmentation with additional parameters like timers for example.
+	   </t>
+	   </section>
+	   <section anchor="yang-iso" title="ISO parameters" toc="default">
+	   <t>As IS-IS protocol is based on ISO protocol suite, some ISO parameters may be required.</t>
+	   <t>This module augments interface configuration model to support ISO configuration parameters.</t>
+	   <t>The clns-mtu can be defined under the interface.</t>
+	  </section>
+	  <section anchor="yang-frr" title="IP FRR" toc="default">
+	  <t>
+	  This YANG model supports LFA (<xref target="RFC5286" pageno="false" format="default"/>) and remote LFA (<xref target="RFC7490" pageno="false" format="default"/>) as IP FRR techniques.
+	  The "fast-reroute" container may be augmented by other models to support other IPFRR flavors (MRT, TILFA ...).
+	  </t>
+	  <t>
+	  The current version of the model supports activation of LFA and remote LFA at interface only.
+	  The global "lfa" container is present but kept empty to allow augmentation with vendor specific properties like policies.
+	  </t>
+	  <t>Remote LFA is considered as a child of LFA. Remote LFA cannot be enabled if LFA is not enabled.</t>
+	  <t>The "candidate-disabled" allows to mark an interface to not be used as a backup.</t>
+	  </section>
+	  
+	  
+      <section anchor="yang-op" title="Operational States" toc="default">
+        <t>Operational states are provided in the module in various places:
+	<list style="symbols">
+		<t>system-counters: provides statistical informations about
+		the global system.</t>
+		<t>interface : provides configuration state informations for
+		each interface.</t>
+	  <t>adjacencies: provides state informations about current
+	  IS-IS adjacencies.</t>
+	  <t>spf-log: provides informations about SPF events on the
+	  node. This SHOULD be implemented as a wrapping buffer.</t>
+	  <t>lsp-log: provides informations about LSP events on the
+	  node (reception of an LSP or modification of local LSP).
+	  This SHOULD be implemented as a wrapping buffer and an implementation MAY decide to log refresh LSPs or not.</t>
+	  <t>local-rib: provides the IS-IS internal routing table view.</t>
+	  <t>database: provides details on the current LSDB.</t>
+	  <t>hostnames: provides informations about system-id to
+	  hostname mappings.</t>
+	  <t>fast-reroute: provides informations about IP FRR.</t>
+	</list></t>
+      </section>
+
+    </section>
+
+    <section anchor="RPC" title="RPC Operations" toc="default">
+      <t>The "ietf-isis" module defines two RPC operations:
+      <list style="symbols">
+	<t>clear-database: reset the content of a particular IS-IS
+	database and restart database synchronization with the
+	neighbors.</t>
+	<t>clear-adjacency: restart a particular set of IS-IS
+	adjacencies.</t>
+      </list></t>
+
+      <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+	  <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+</artwork>
+
+      </figure>
+
+    </section>
+
+    <section anchor="notif" title="Notifications" toc="default">
+      <t>The "ietf-isis" module introduces some notifications :
+	  <list>
+	  <t>database-overload: raised when overload condition is changed.</t>
+	  <t>lsp-too-large: raised when the system tries to propagate a too large PDU.</t>
+          <t>if-state-change: raise when the state of an interface changes.</t>
+	  <t>corrupted-lsp-detected: raised when the system find
+		   that an LSP that was stored in memory has
+		   become corrupted.</t>
+		<t>attempt-to-exceed-max-sequence: This notification is sent when the system
+		  wraps the 32-bit sequence counter of an LSP.</t>
+		<t>id-len-mismatch: This notification is sent when we receive a PDU
+		  with a different value for the System ID length.</t>
+		<t>max-area-addresses-mismatch: This notification is sent when we receive a PDU
+		  with a different value for the Maximum Area Addresses.</t>
+		<t>own-lsp-purge: This notification is sent when the system
+		  receives a PDU with its own system ID and zero age.</t>
+		<t>sequence-number-skipped: This notification is sent when the system
+		  receives a PDU with its own system ID and 
+		  different contents. The system has to reissue
+		  the LSP with a higher sequence number.</t>
+		<t>authentication-type-failure: This notification is sent when the system
+		  receives a PDU with the wrong authentication type
+		  field.</t>
+		<t>authentication-failure: This notification is sent when the system
+		  receives a PDU with the wrong authentication 
+		  information.</t>
+		<t>version-skew: This notification is sent when the system
+		  receives a PDU with a different protocol version
+		  number.</t>
+		<t>area-mismatch: This notification is sent when the system
+		  receives a Hello PDU from an IS that does
+		  not share any area address.</t>
+		<t>rejected-adjacency: This notification is sent when the system
+		  receives a Hello PDU from an IS but does not
+		  establish an adjacency for some reason.</t>
+		<t>protocols-supported-mismatch: This notification is sent when the system
+		  receives a non pseudonode LSP that has no matching
+		  protocol supported.</t>
+		<t>lsp-error-detected: This notification is sent when the system
+		  receives a  LSP with a parse error.</t>
+		<t>adjacency-state-change: This notification is sent when an IS-IS adjacency
+		   moves to Up state or to Down state.</t>
+		<t>lsp-received: This notification is sent when a LSP
+		  is received.</t>
+		<t>lsp-generation: This notification is sent when a LSP
+		  is regenerated.</t>
+	  </list>
+      </t>
+
+      <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+	<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+</artwork>
+
+      </figure>
+
+    </section>
+
+
+    <section anchor="interaction" title="Interaction with Other YANG Modules" toc="default">
+      <t>The "isis" configuration container augments the
+      "/rt:routing/rt:control-plane-protocols/control-plane-protocol"
+      container of the ietf-routing <xref target="RFC8349" pageno="false" format="default"/> module by defining IS-IS specific
+      parameters.</t>
+	  <t>The "isis" module augments
+      "/if:interfaces/if:interface" defined by <xref target="RFC8343" pageno="false" format="default"/>
+      with ISO specific parameters.</t>
+      <t>The "isis" operational state container augments the
+      "/rt:routing-state/rt:control-plane-protocols/control-plane-protocol"
+      container of the ietf-routing module by defining IS-IS specific
+      operational states.</t>
+      <t>Some IS-IS specific routes attributes are added to route
+      objects of the ietf-routing module by augmenting
+      "/rt:routing-state/rt:ribs/rt:rib/rt:routes/rt:route".</t>
+	  <t>The modules defined in this document use some groupings from ietf-keychain <xref target="RFC8177" pageno="false" format="default"/>.</t>
+      <t>The module reuses types from <xref target="RFC6991" pageno="false" format="default"/> and <xref target="RFC8294" pageno="false" format="default"/>.</t>
+      <t>To support BFD for fast detection, the module relies on <xref target="I-D.ietf-bfd-yang" pageno="false" format="default"/>.</t>
+    </section>
+
+    <section anchor="isis-yang" title="IS-IS YANG Module" toc="default">
+
+      <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+	<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+&lt;CODE BEGINS&gt; file "ietf-isis@2018-11-26.yang"
 
 module ietf-isis {
   yang-version 1.1;
@@ -1220,14 +917,6 @@ module ietf-isis {
 
   import iana-routing-types {
     prefix "iana-rt-types";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 21]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     reference "RFC 8294 - Common YANG Data Types for the
                Routing Area";
   }
@@ -1236,54 +925,46 @@ Internet-Draft                  isis-cfg                   November 2018
     prefix "bfd-types";
     reference "RFC XXXX - YANG Data Model for Bidirectional
                Forwarding Detection (BFD).Please replace YYYY with
-                                                         published RFC 
-number for draft-ietf-bfd-yang.";
+							 published RFC number for draft-ietf-bfd-yang.";
   }
 
   organization
     "IETF LSR Working Group";
 
   contact
-    "WG List:  &lt;mailto:lsr@ietf.org&gt;
+    "WG List:  &amp;lt;mailto:lsr@ietf.org&amp;gt;
 
     Editor:    Stephane Litkowski
-          &lt;mailto:stephane.litkowski@orange.com&gt;
+          &amp;lt;mailto:stephane.litkowski@orange.com&amp;gt;
 
         Derek Yeung
-          &lt;mailto:derek@arrcus.com&gt;
+          &amp;lt;mailto:derek@arrcus.com&amp;gt;
         Acee Lindem
-          &lt;mailto:acee@cisco.com&gt;
+          &amp;lt;mailto:acee@cisco.com&amp;gt;
         Jeffrey Zhang
-          &lt;mailto:zzhang@juniper.net&gt;
+          &amp;lt;mailto:zzhang@juniper.net&amp;gt;
         Ladislav Lhotka
-          &lt;mailto:llhotka@nic.cz&gt;
+          &amp;lt;mailto:llhotka@nic.cz&amp;gt;
         Yi Yang
-          &lt;mailto:yiya@cisco.com&gt;
+          &amp;lt;mailto:yiya@cisco.com&amp;gt;
         Dean Bogdanovic
-          &lt;mailto:deanb@juniper.net&gt;
+          &amp;lt;mailto:deanb@juniper.net&amp;gt;
         Kiran Agrahara Sreenivasa
-          &lt;mailto:kkoushik@brocade.com&gt;
+          &amp;lt;mailto:kkoushik@brocade.com&amp;gt;
         Yingzhen Qu
-          &lt;mailto:yiqu@cisco.com&gt;
+          &amp;lt;mailto:yiqu@cisco.com&amp;gt;
         Jeff Tantsura
-          &lt;mailto:jefftant.ietf@gmail.com&gt;
+          &amp;lt;mailto:jefftant.ietf@gmail.com&amp;gt;
 
     ";
 
   description
     "This YANG module defines the generic configuration and
-      operational state for the IS-IS protocol.
-                        It is intended that the module
+      operational state for the IS-IS protocol. 
+			It is intended that the module
       will be extended by vendors to define vendor-specific
       IS-IS configuration parameters and policies,
       for example route maps or route policies.
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 22]
-
-Internet-Draft                  isis-cfg                   November 2018
-
 
       This YANG model conforms to the Network Management
       Datastore Architecture (NDMA) as described in RFC 8242.
@@ -1299,9 +980,9 @@ Internet-Draft                  isis-cfg                   November 2018
        (http://trustee.ietf.org/license-info).
 
        This version of this YANG module is part of RFC XXXX;
-       see the RFC itself for full legal notices.";
+       see the RFC itself for full legal notices."; 
 
-  revision 2018-11-21 {
+  revision 2018-11-26 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -1331,14 +1012,6 @@ Internet-Draft                  isis-cfg                   November 2018
       "Identity used when the LSP log reason is
        a change in the content of the LSP.";
   }
-
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 23]
-
-Internet-Draft                  isis-cfg                   November 2018
 
 
   /* Feature definitions */
@@ -1389,14 +1062,6 @@ Internet-Draft                  isis-cfg                   November 2018
   }
   feature nsr {
     description
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 24]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       "Non-Stop-Routing (NSR) support.";
   }
   feature lfa {
@@ -1445,14 +1110,6 @@ Internet-Draft                  isis-cfg                   November 2018
       "Setting maximum number of ECMP paths.";
   }
   feature multi-topology {
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 25]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     description
       "Support for Multiple-Topology Routing (MTR).";
     reference "RFC5120 - M-IS-IS: Multi Topology Routing in IS-IS";
@@ -1501,14 +1158,6 @@ Internet-Draft                  isis-cfg                   November 2018
 
   typedef interface-type {
     type enumeration {
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 26]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       enum broadcast {
         description
           "Broadcast interface type.";
@@ -1557,14 +1206,6 @@ Internet-Draft                  isis-cfg                   November 2018
         description
           "State indicates the adjacency is NOT established.";
       }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 27]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       enum "init" {
         description
           "State indicates the adjacency is establishing.";
@@ -1613,14 +1254,6 @@ Internet-Draft                  isis-cfg                   November 2018
 
   typedef area-address {
     type string {
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 28]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       pattern '[0-9A-Fa-f]{2}(\.[0-9A-Fa-f]{4}){0,3}';
     }
     description
@@ -1645,16 +1278,15 @@ Internet-Draft                  isis-cfg                   November 2018
       "This type defines IS-IS system-id using pattern,
        An example system-id is 0143.0438.AEF0";
   }
-        typedef extended-system-id {
+	typedef extended-system-id {
     type string {
       pattern
         '[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9][0-9]';
     }
     description
       "This type defines IS-IS system-id using pattern. The extended
-                         system id contains the pseudonode number in 
-addition to the
-                         system id.
+			 system id contains the pseudonode number in addition to the
+			 system id.
        An example system-id is 0143.0438.AEF0.00";
   }
 
@@ -1670,14 +1302,6 @@ addition to the
     type uint8 {
       range "0 .. 63";
     }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 29]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     description
       "This type defines old style format of IS-IS metric.";
   }
@@ -1702,7 +1326,7 @@ Internet-Draft                  isis-cfg                   November 2018
   }
 
   /* Grouping for notifications */
-
+  
   grouping notification-instance-hdr {
     description
       "Instance specific IS-IS notification data grouping";
@@ -1726,14 +1350,6 @@ Internet-Draft                  isis-cfg                   November 2018
       type if:interface-ref;
       description "IS-IS interface name";
     }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 30]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     leaf interface-level {
       type level;
       description "IS-IS level of the interface.";
@@ -1782,14 +1398,6 @@ Internet-Draft                  isis-cfg                   November 2018
     }
     container remote-lfa {
       if-feature remote-lfa;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 31]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       leaf enable {
         type boolean;
         default false;
@@ -1828,7 +1436,7 @@ Internet-Draft                  isis-cfg                   November 2018
   }
   grouping instance-fast-reroute-state {
     description "IPFRR state data grouping";
-
+		
     container protected-routes {
       config false;
       list address-family-stats {
@@ -1838,14 +1446,6 @@ Internet-Draft                  isis-cfg                   November 2018
           type iana-rt-types:address-family;
           description
             "Address-family";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 32]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         }
         leaf prefix {
           type string;
@@ -1894,14 +1494,6 @@ Internet-Draft                  isis-cfg                   November 2018
         }
         leaf best {
           type boolean;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 33]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
           description
             "Indicates if the alternate is the preferred.";
         }
@@ -1950,14 +1542,6 @@ Internet-Draft                  isis-cfg                   November 2018
         leaf alternate-metric2 {
           type uint32;
           description
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 34]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
             "Metric from PLR to the alternate node";
         }
         leaf alternate-metric3 {
@@ -2006,14 +1590,6 @@ Internet-Draft                  isis-cfg                   November 2018
         leaf address-family {
           type iana-rt-types:address-family;
 
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 35]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
           description "Address-family";
         }
         leaf total-routes {
@@ -2048,7 +1624,7 @@ Internet-Draft                  isis-cfg                   November 2018
     }
   }
 
-        /* Route table and local RIB groupings */
+	/* Route table and local RIB groupings */
 
   grouping local-rib {
     description "Local-rib - RIB for Routes computed by the local
@@ -2062,14 +1638,6 @@ Internet-Draft                  isis-cfg                   November 2018
         leaf prefix {
           type inet:ip-prefix;
           description "Destination prefix.";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 36]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         }
         container next-hops {
           description "Next hops for the route.";
@@ -2102,7 +1670,7 @@ Internet-Draft                  isis-cfg                   November 2018
       }
     }
   }
-
+	
   grouping route-content {
     description
       "IS-IS protocol-specific route properties grouping.";
@@ -2118,14 +1686,6 @@ Internet-Draft                  isis-cfg                   November 2018
     }
     leaf route-type {
       type enumeration {
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 37]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         enum l2-up-internal {
           description "Level 2 internal route
                        and not leaked to a lower level";
@@ -2162,9 +1722,9 @@ Internet-Draft                  isis-cfg                   November 2018
       description "IS-IS route type.";
     }
   }
-
-
-        /* Grouping definitions for configuration and ops state */
+	
+	
+	/* Grouping definitions for configuration and ops state */
 
 
   grouping adjacency-state {
@@ -2174,14 +1734,6 @@ Internet-Draft                  isis-cfg                   November 2018
         leaf neighbor-sys-type {
           type level;
           description
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 38]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
             "Level capability of neighboring system";
         }
         leaf neighbor-sysid {
@@ -2230,14 +1782,6 @@ Internet-Draft                  isis-cfg                   November 2018
           description
             "When the adjacency most recently entered
              state 'up', measured in hundredths of a
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 39]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
              second since the last reinitialization of
              the network management subsystem.
              The value is 0 if the adjacency has never
@@ -2286,14 +1830,6 @@ Internet-Draft                  isis-cfg                   November 2018
         "Delay used while in SHORT_WAIT state (milliseconds).";
     }
     leaf long-delay {
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 40]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       type rt-types:timer-value-milliseconds;
       units msec;
       description
@@ -2305,7 +1841,7 @@ Internet-Draft                  isis-cfg                   November 2018
       units msec;
       description
         "Timer used to consider an IGP stability period
-                                 (milliseconds).";
+				 (milliseconds).";
     }
     leaf time-to-learn {
       type rt-types:timer-value-milliseconds;
@@ -2342,14 +1878,6 @@ Internet-Draft                  isis-cfg                   November 2018
       units "msec";
       config false;
       description
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 41]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         "Remaining time until hold-down timer fires.";
     }
     leaf last-event-received {
@@ -2398,14 +1926,6 @@ Internet-Draft                  isis-cfg                   November 2018
 
   grouping authentication-global-cfg {
     choice authentication-type {
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 42]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       case key-chain {
         if-feature key-chain;
         leaf key-chain {
@@ -2454,14 +1974,6 @@ Internet-Draft                  isis-cfg                   November 2018
          - wide-only means only new metric style
             is generated,
          - old-only means that only old style metric
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 43]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
            is generated,
          - both means that both are advertised.
          This leaf is only affecting IPv4 metrics.";
@@ -2510,14 +2022,6 @@ Internet-Draft                  isis-cfg                   November 2018
           description
             "Protocol preference for internal routes.";
         }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 44]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         leaf external {
           type uint8;
           description
@@ -2566,14 +2070,6 @@ Internet-Draft                  isis-cfg                   November 2018
   }
 
   grouping hello-interval-cfg {
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 45]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     leaf value {
       type rt-types:timer-value-seconds16;
       units "seconds";
@@ -2620,14 +2116,6 @@ Internet-Draft                  isis-cfg                   November 2018
     }
     description "Interface metric grouping";
   }
-
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 46]
-
-Internet-Draft                  isis-cfg                   November 2018
 
 
   grouping metric-parameters {
@@ -2678,14 +2166,6 @@ Internet-Draft                  isis-cfg                   November 2018
            determine interface cost (Mbits). The cost is the
            reference bandwidth divided by the interface speed
            with 1 being the minimum cost.";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 47]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       }
     }
 
@@ -2734,14 +2214,6 @@ Internet-Draft                  isis-cfg                   November 2018
       container level-1 {
         uses authentication-global-cfg;
         description "level-1 specific configuration";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 48]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       }
       container level-2 {
         uses authentication-global-cfg;
@@ -2790,14 +2262,6 @@ Internet-Draft                  isis-cfg                   November 2018
           type inet:ipv6-address;
           description
             "Router ID value that would be used in TLV 140.";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 49]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         }
       }
       container ldp {
@@ -2846,14 +2310,6 @@ Internet-Draft                  isis-cfg                   November 2018
     }
     description "Grouping for LSP global parameters.";
   }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 50]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
   grouping spf-parameters {
     container spf-control {
         leaf paths {
@@ -2872,7 +2328,7 @@ Internet-Draft                  isis-cfg                   November 2018
         description
           "SPF calculation control.";
     }
-                description "Grouping for SPF global parameters.";
+		description "Grouping for SPF global parameters.";
   }
   grouping instance-config {
     description "IS-IS global configuration grouping";
@@ -2902,14 +2358,6 @@ Internet-Draft                  isis-cfg                   November 2018
     leaf-list area-address {
       type area-address;
       description
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 51]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         "List of areas supported by the protocol instance.";
     }
 
@@ -2922,7 +2370,7 @@ Internet-Draft                  isis-cfg                   November 2018
     uses mpls-parameters;
     uses spf-parameters;
     uses instance-fast-reroute-config;
-
+		
     container preference {
       uses route-preference-global-cfg;
       description "Router preference configuration for IS-IS
@@ -2955,17 +2403,9 @@ Internet-Draft                  isis-cfg                   November 2018
       uses system-counters;
       uses instance-fast-reroute-state;
   }
-
+	
   grouping multi-topology-config {
     description "Per-topology configuration";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 52]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     container default-metric {
       uses default-metric-global-cfg;
       container level-1 {
@@ -3014,14 +2454,6 @@ Internet-Draft                  isis-cfg                   November 2018
       type rt-types:timer-value-seconds16;
       units "seconds";
       default 10;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 53]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       description
          "Interval (in seconds) between CSNP messages.";
     }
@@ -3070,14 +2502,6 @@ Internet-Draft                  isis-cfg                   November 2018
     }
     leaf node-flag {
       if-feature node-flag;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 54]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       type boolean;
       default false;
       description
@@ -3126,14 +2550,6 @@ Internet-Draft                  isis-cfg                   November 2018
           "Priority only applies to broadcast interfaces.";
         description "Check for broadcast interface.";
       }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 55]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       uses priority-cfg;
       container level-1 {
         uses priority-cfg;
@@ -3182,14 +2598,6 @@ Internet-Draft                  isis-cfg                   November 2018
       container ldp {
         leaf igp-sync {
           if-feature ldp-igp-sync;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 56]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
           type boolean;
           default false;
           description "Enables IGP/LDP synchronization";
@@ -3223,9 +2631,9 @@ Internet-Draft                  isis-cfg                   November 2018
     uses event-counters;
     uses packet-counters;
   }
-
+	
  /* Grouping for the hostname database */
-
+	
   grouping hostname-db {
     container hostnames {
       config false;
@@ -3238,14 +2646,6 @@ Internet-Draft                  isis-cfg                   November 2018
         }
         leaf hostname {
           type string;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 57]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
           description
             "Hostname associated with the system ID.";
         }
@@ -3260,7 +2660,7 @@ Internet-Draft                  isis-cfg                   November 2018
   }
 
   /* Groupings for counters */
-
+	
   grouping system-counters {
     container system-counters {
       config false;
@@ -3294,14 +2694,6 @@ Internet-Draft                  isis-cfg                   November 2018
           type uint32;
           description
             "Number of times the database has become
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 58]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
              overloaded.";
         }
         leaf own-lsp-purge {
@@ -3350,14 +2742,6 @@ Internet-Draft                  isis-cfg                   November 2018
           description
             "Number of times we ran SPF at this level.";
         }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 59]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         description
           "List of supported levels.";
       }
@@ -3406,14 +2790,6 @@ Internet-Draft                  isis-cfg                   November 2018
         type uint32;
         description
           "The number of times an IS-IS PDU has been
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 60]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
            received on this interface with the
            max area address field differing from that of
            this system.";
@@ -3462,14 +2838,6 @@ Internet-Draft                  isis-cfg                   November 2018
           }
           description "Number of IIH PDUs received/sent.";
         }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 61]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         container ish {
           leaf in {
             type uint32;
@@ -3518,14 +2886,6 @@ Internet-Draft                  isis-cfg                   November 2018
         container csnp {
           leaf in {
             type uint32;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 62]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
             description "Received CSNP PDUs.";
           }
           leaf out {
@@ -3554,7 +2914,7 @@ Internet-Draft                  isis-cfg                   November 2018
       "Grouping for per IS-IS Level packet counters.";
   }
 
-        /* Groupings for various log buffers */
+	/* Groupings for various log buffers */
   grouping spf-log {
     container spf-log {
       config false;
@@ -3574,14 +2934,6 @@ Internet-Draft                  isis-cfg                   November 2018
             enum route-only {
               description
                 "Route reachability only SPF computation";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 63]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
             }
           }
           description "Type of SPF computation performed.";
@@ -3630,14 +2982,6 @@ Internet-Draft                  isis-cfg                   November 2018
       }
 
       description
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 64]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         "This container lists the SPF computation events.";
     }
     description "Grouping for spf-log events.";
@@ -3686,14 +3030,6 @@ Internet-Draft                  isis-cfg                   November 2018
         leaf reason {
           type identityref {
             base lsp-log-reason;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 65]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
           }
           description "Type of LSP change.";
         }
@@ -3742,20 +3078,12 @@ Internet-Draft                  isis-cfg                   November 2018
       list unknown-tlv {
         description "Unknown TLV.";
         uses tlv;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 66]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       }
     }
   }
 
   /* TLVs and subTLVs for prefixes */
-
+	
   grouping prefix-reachability-attributes {
     description
       "Grouping for extended reachability attributes of an
@@ -3798,14 +3126,6 @@ Internet-Draft                  isis-cfg                   November 2018
   }
 
   grouping prefix-attributes-extension {
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 67]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     description "Prefix extended attributes.";
 
     uses prefix-reachability-attributes;
@@ -3854,14 +3174,6 @@ Internet-Draft                  isis-cfg                   November 2018
         type std-metric;
         description "IS-IS expense metric for IPv4 prefix";
       }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 68]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       leaf supported {
         type boolean;
         default "false";
@@ -3910,14 +3222,6 @@ Internet-Draft                  isis-cfg                   November 2018
       description
         "List of 32-bit tags associated with the IPv4 prefix.";
     }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 69]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     leaf-list tag64 {
       type uint64;
       description
@@ -3957,432 +3261,309 @@ Internet-Draft                  isis-cfg                   November 2018
     uses prefix-attributes-extension;
   }
 
-        /* TLVs and subTLVs for neighbors */
-
-        grouping neighbor-link-attributes {
-                description
-                        "Grouping for link attributes as defined
-                        in RFC5029";
-                leaf link-attributes-flags {
-                        type uint16;
-                        description
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 70]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-                                "Flags for the link attributes";
-                }
-        }
-        grouping neighbor-gmpls-extensions {
-                description
-                        "Grouping for GMPLS attributes of a neighbor as 
-defined
-                        in RFC5307";
-                leaf link-local-id {
-                        type uint32;
-                        description
-                                "Local identifier of the link.";
-                }
-                leaf remote-local-id {
-                        type uint32;
-                        description
-                                "Remote identifier of the link.";
-                }
-                leaf protection-capability {
-                        type uint8;
-                        description
-                                "Describes the protection capabilities
-                                of the link. This is the value of the
-                                first octet of the sub-TLV type 20 
-value.";
-                }
-                container interface-switching-capability {
-                        description
-                                "Interface switching capabilities of 
-the link.";
-                        leaf switching-capability {
-                                type uint8;
-                                description
-                                        "Switching capability of the 
-link.";
-                        }
-                        leaf encoding {
-                                type uint8;
-                                description
-                                        "Type of encoding of the LSP 
-being used.";
-                        }
-                        container max-lsp-bandwidths {
-                                description "Per priority max LSP 
-bandwidths.";
-                                list max-lsp-bandwidth {
-                                        leaf priority {
-                                                type uint8 {
-                                                        range "0 .. 7";
-                                                }
-                                                description "Priority 
-from 0 to 7.";
-                                        }
-                                        leaf bandwidth {
-                                                type 
-rt-types:bandwidth-ieee-float32;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 71]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-                                                description "max LSP 
-bandwidth.";
-                                        }
-                                        description
-                                                "List of max LSP 
-bandwidths for different
-                                                 priorities.";
-                                }
-                        }
-                        container tdm-specific {
-                                when "switching-capability = 100";
-                                description
-                                        "Switching Capability-specific 
-information applicable
-                                        when switching type is TDM.";
-
-                                leaf minimum-lsp-bandwidth {
-                                        type 
-rt-types:bandwidth-ieee-float32;
-                                        description "minimum LSP 
-bandwidth.";
-                                }
-                                leaf indication {
-                                        type uint8;
-                                        description
-                                                "The indication whether 
-the interface supports Standard or Arbitrary
-                                                SONET/SDH.";
-                                }
-                        }
-                        container psc-specific {
-                                when "switching-capability >= 1 and 
-switching-capability <= 4";
-                                description
-                                        "Switching Capability-specific 
-information applicable
-                                        when switching type is 
-PSC1,PSC2,PSC3 or PSC4.";
-
-                                leaf minimum-lsp-bandwidth {
-                                        type 
-rt-types:bandwidth-ieee-float32;
-                                        description "minimum LSP 
-bandwidth.";
-                                }
-                                leaf mtu {
-                                        type uint16;
-                                        units bytes;
-                                        description
-                                                "Interface MTU";
-                                }
-                        }
-                }
-        }
-
-        grouping neighbor-extended-te-extensions {
-                description
-                        "Grouping for TE attributes of a neighbor as 
-defined
-                        in RFC7810";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 72]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-                container unidirectional-link-delay {
-                        description
-                                "Container for the average delay
-                                from the local neighbor to the remote 
-one.";
-                        leaf flags {
-                                type bits {
-                                        bit A {
-                                                position 7;
-                                                description
-                                                        "The A bit 
-represents the Anomalous (A) bit.
-                                                        The A bit is 
-set when the measured value of
-                                                        this parameter 
-exceeds its configured
-                                                        maximum 
-threshold.
-                                                        The A bit is 
-cleared when the measured value
-                                                        falls below its 
-configured reuse threshold.
-                                                        If the A bit is 
-clear,
-                                                        the value 
-represents steady-state link performance.";
-                                        }
-                                }
-                                description
-                                        "Flags.";
-                        }
-                        leaf value {
-                                type uint32;
-                                units usec;
-                                description
-                                        "Delay value expressed in 
-microseconds.";
-                        }
-                }
-                container min-max-unidirectional-link-delay {
-                        description
-                                "Container for the min and max delay
-                                from the local neighbor to the remote 
-one.";
-                        leaf flags {
-                                type bits {
-                                        bit A {
-                                                position 7;
-                                                description
-                                                        "The A bit 
-represents the Anomalous (A) bit.
-                                                        The A bit is 
-set when the measured value of
-                                                        this parameter 
-exceeds its configured
-                                                        maximum 
-threshold.
-                                                        The A bit is 
-cleared when the measured value
-                                                        falls below its 
-configured reuse threshold.
-                                                        If the A bit is 
-clear,
-                                                        the value 
-represents steady-state link performance.";
-                                        }
-                                }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 73]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-                                description
-                                        "Flags.";
-                        }
-                        leaf min-value {
-                                type uint32;
-                                units usec;
-                                description
-                                        "Minimum delay value expressed 
-in microseconds.";
-                        }
-                        leaf max-value {
-                                type uint32;
-                                units usec;
-                                description
-                                        "Maximum delay value expressed 
-in microseconds.";
-                        }
-                }
-                container unidirectional-link-delay-variation {
-                        description
-                                "Container for the average delay 
-variation
-                                from the local neighbor to the remote 
-one.";
-                        leaf value {
-                                type uint32;
-                                units usec;
-                                description
-                                        "Delay variation value 
-expressed in microseconds.";
-                        }
-                }
-                container unidirectional-link-loss{
-                        description
-                                "Container for the packet loss
-                                from the local neighbor to the remote 
-one.";
-                        leaf flags {
-                                type bits {
-                                        bit A {
-                                                position 7;
-                                                description
-                                                        "The A bit 
-represents the Anomalous (A) bit.
-                                                        The A bit is 
-set when the measured value of
-                                                        this parameter 
-exceeds its configured
-                                                        maximum 
-threshold.
-                                                        The A bit is 
-cleared when the measured value
-                                                        falls below its 
-configured reuse threshold.
-                                                        If the A bit is 
-clear,
-                                                        the value 
-represents steady-state link performance.";
-                                        }
-                                }
-                                description
-                                        "Flags.";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 74]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-                        }
-                        leaf value {
-                                type uint32;
-                                units percent;
-                                description
-                                        "Link packet loss expressed as 
-a percentage
-                                        of the total traffic sent over 
-a configurable interval.";
-                        }
-                }
-                container unidirectional-link-residual-bandwidth {
-                        description
-                                "Container for the residual bandwidth
-                                from the local neighbor to the remote 
-one.";
-                        leaf value {
-                                type rt-types:bandwidth-ieee-float32;
-                                units Bps;
-                                description
-                                        "Residual bandwidth.";
-                        }
-                }
-                container unidirectional-link-available-bandwidth {
-                        description
-                                "Container for the available bandwidth
-                                from the local neighbor to the remote 
-one.";
-                        leaf value {
-                                type rt-types:bandwidth-ieee-float32;
-                                units Bps;
-                                description
-                                        "Available bandwidth.";
-                        }
-                }
-                container unidirectional-link-utilized-bandwidth {
-                        description
-                                "Container for the utilized bandwidth
-                                from the local neighbor to the remote 
-one.";
-                        leaf value {
-                                type rt-types:bandwidth-ieee-float32;
-                                units Bps;
-                                description
-                                        "Utilized bandwidth.";
-                        }
-                }
-        }
-
-        grouping neighbor-te-extensions {
-                description
-                        "Grouping for TE attributes of a neighbor as 
-defined
-                        in RFC5305";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 75]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-                leaf admin-group {
-                        type uint32;
-                        description
-                                "Administrative group/Resource 
-Class/Color.";
-                }
-                container local-if-ipv4-addrs {
-                        description "All local interface IPv4 
-addresses.";
-                        leaf-list local-if-ipv4-addr {
-                                type inet:ipv4-address;
-                                description
-                                        "List of local interface IPv4 
-addresses.";
-                        }
-                }
-                container remote-if-ipv4-addrs {
-                        description "All remote interface IPv4 
-addresses.";
-                        leaf-list remote-if-ipv4-addr {
-                                type inet:ipv4-address;
-                                description
-                                        "List of remote interface IPv4 
-addresses.";
-                        }
-                }
-                leaf te-metric {
-                        type uint32;
-                        description "TE metric.";
-                }
-                leaf max-bandwidth {
-                        type rt-types:bandwidth-ieee-float32;
-                        description "Maximum bandwidth.";
-                }
-                leaf max-reservable-bandwidth {
-                        type rt-types:bandwidth-ieee-float32;
-                        description "Maximum reservable bandwidth.";
-                }
-                container unreserved-bandwidths {
-                        description "All unreserved bandwidths.";
-                        list unreserved-bandwidth {
-                                leaf priority {
-                                        type uint8 {
-                                                range "0 .. 7";
-                                        }
-                                        description "Priority from 0 to 
-7.";
-                                }
-                                leaf unreserved-bandwidth {
-                                        type 
-rt-types:bandwidth-ieee-float32;
-                                        description "Unreserved 
-bandwidth.";
-                                }
-                                description
-                                        "List of unreserved bandwidths 
-for different
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 76]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-                                         priorities.";
-                        }
-                }
-        }
-
+	/* TLVs and subTLVs for neighbors */
+	
+	grouping neighbor-link-attributes {
+		description
+			"Grouping for link attributes as defined
+			in RFC5029";
+		leaf link-attributes-flags {
+			type uint16;
+			description
+				"Flags for the link attributes";
+		}
+	}
+	grouping neighbor-gmpls-extensions {
+		description
+			"Grouping for GMPLS attributes of a neighbor as defined
+			in RFC5307";
+		leaf link-local-id {
+			type uint32;
+			description
+				"Local identifier of the link.";
+		}
+		leaf remote-local-id {
+			type uint32;
+			description
+				"Remote identifier of the link.";
+		}
+		leaf protection-capability {
+			type uint8;
+			description
+				"Describes the protection capabilities
+				of the link. This is the value of the
+				first octet of the sub-TLV type 20 value.";
+		}
+		container interface-switching-capability {
+			description
+				"Interface switching capabilities of the link.";
+			leaf switching-capability {
+				type uint8;
+				description
+					"Switching capability of the link.";
+			}
+			leaf encoding {
+				type uint8;
+				description
+					"Type of encoding of the LSP being used.";
+			}
+			container max-lsp-bandwidths {
+				description "Per priority max LSP bandwidths.";
+				list max-lsp-bandwidth {
+					leaf priority {
+						type uint8 {
+							range "0 .. 7";
+						}
+						description "Priority from 0 to 7.";
+					}
+					leaf bandwidth {
+						type rt-types:bandwidth-ieee-float32;
+						description "max LSP bandwidth.";
+					}
+					description
+						"List of max LSP bandwidths for different
+						 priorities.";
+				}
+			}
+			container tdm-specific {
+				when "switching-capability = 100";
+				description
+					"Switching Capability-specific information applicable
+					when switching type is TDM.";
+				
+				leaf minimum-lsp-bandwidth {
+					type rt-types:bandwidth-ieee-float32;
+					description "minimum LSP bandwidth.";
+				}
+				leaf indication {
+					type uint8;
+					description
+						"The indication whether the interface supports Standard or Arbitrary
+						SONET/SDH.";
+				}
+			}
+			container psc-specific {
+				when "switching-capability &gt;= 1 and switching-capability &lt;= 4";
+				description
+					"Switching Capability-specific information applicable
+					when switching type is PSC1,PSC2,PSC3 or PSC4.";
+				
+				leaf minimum-lsp-bandwidth {
+					type rt-types:bandwidth-ieee-float32;
+					description "minimum LSP bandwidth.";
+				}
+				leaf mtu {
+					type uint16;
+					units bytes;
+					description
+						"Interface MTU";
+				}
+			}
+		}
+	}
+	
+	grouping neighbor-extended-te-extensions {
+		description
+			"Grouping for TE attributes of a neighbor as defined
+			in RFC7810";
+			
+		container unidirectional-link-delay {
+			description
+				"Container for the average delay
+				from the local neighbor to the remote one.";
+			leaf flags {
+				type bits {
+					bit A {
+						position 7;
+						description
+							"The A bit represents the Anomalous (A) bit.  
+							The A bit is set when the measured value of 
+							this parameter exceeds its configured
+							maximum threshold.  
+							The A bit is cleared when the measured value
+							falls below its configured reuse threshold.  
+							If the A bit is clear,
+							the value represents steady-state link performance.";
+					}
+				}
+				description
+					"Flags.";
+			}
+			leaf value {
+				type uint32;
+				units usec;
+				description 
+					"Delay value expressed in microseconds.";
+			}
+		}
+		container min-max-unidirectional-link-delay {
+			description
+				"Container for the min and max delay
+				from the local neighbor to the remote one.";
+			leaf flags {			
+				type bits {
+					bit A {
+						position 7;
+						description
+							"The A bit represents the Anomalous (A) bit.  
+							The A bit is set when the measured value of 
+							this parameter exceeds its configured
+							maximum threshold.  
+							The A bit is cleared when the measured value
+							falls below its configured reuse threshold.  
+							If the A bit is clear,
+							the value represents steady-state link performance.";
+					}
+				}
+				description
+					"Flags.";
+			}
+			leaf min-value {
+				type uint32;
+				units usec;
+				description 
+					"Minimum delay value expressed in microseconds.";
+			}
+			leaf max-value {
+				type uint32;
+				units usec;
+				description 
+					"Maximum delay value expressed in microseconds.";
+			}
+		}
+		container unidirectional-link-delay-variation {
+			description
+				"Container for the average delay variation
+				from the local neighbor to the remote one.";
+			leaf value {
+				type uint32;
+				units usec;
+				description 
+					"Delay variation value expressed in microseconds.";
+			}
+		}
+		container unidirectional-link-loss{
+			description
+				"Container for the packet loss
+				from the local neighbor to the remote one.";
+			leaf flags {
+				type bits {
+					bit A {
+						position 7;
+						description
+							"The A bit represents the Anomalous (A) bit.  
+							The A bit is set when the measured value of 
+							this parameter exceeds its configured
+							maximum threshold.  
+							The A bit is cleared when the measured value
+							falls below its configured reuse threshold.  
+							If the A bit is clear,
+							the value represents steady-state link performance.";
+					}
+				}
+				description
+					"Flags.";
+			}
+			leaf value {
+				type uint32;
+				units percent;
+				description 
+					"Link packet loss expressed as a percentage
+					of the total traffic sent over a configurable interval.";
+			}
+		}
+		container unidirectional-link-residual-bandwidth {
+			description
+				"Container for the residual bandwidth
+				from the local neighbor to the remote one.";
+			leaf value {
+				type rt-types:bandwidth-ieee-float32;
+				units Bps;
+				description 
+					"Residual bandwidth.";
+			}
+		}
+		container unidirectional-link-available-bandwidth {
+			description
+				"Container for the available bandwidth
+				from the local neighbor to the remote one.";
+			leaf value {
+				type rt-types:bandwidth-ieee-float32;
+				units Bps;
+				description 
+					"Available bandwidth.";
+			}
+		}
+		container unidirectional-link-utilized-bandwidth {
+			description
+				"Container for the utilized bandwidth
+				from the local neighbor to the remote one.";
+			leaf value {
+				type rt-types:bandwidth-ieee-float32;
+				units Bps;
+				description 
+					"Utilized bandwidth.";
+			}
+		}
+	}
+	
+	grouping neighbor-te-extensions {
+		description
+			"Grouping for TE attributes of a neighbor as defined
+			in RFC5305";
+		leaf admin-group {
+			type uint32;
+			description
+				"Administrative group/Resource Class/Color.";
+		}
+		container local-if-ipv4-addrs {
+			description "All local interface IPv4 addresses.";
+			leaf-list local-if-ipv4-addr {
+				type inet:ipv4-address;
+				description
+					"List of local interface IPv4 addresses.";
+			}
+		}
+		container remote-if-ipv4-addrs {
+			description "All remote interface IPv4 addresses.";
+			leaf-list remote-if-ipv4-addr {
+				type inet:ipv4-address;
+				description
+					"List of remote interface IPv4 addresses.";
+			}
+		}
+		leaf te-metric {
+			type uint32;
+			description "TE metric.";
+		}
+		leaf max-bandwidth {
+			type rt-types:bandwidth-ieee-float32;
+			description "Maximum bandwidth.";
+		}
+		leaf max-reservable-bandwidth {
+			type rt-types:bandwidth-ieee-float32;
+			description "Maximum reservable bandwidth.";
+		}
+		container unreserved-bandwidths {
+			description "All unreserved bandwidths.";
+			list unreserved-bandwidth {
+				leaf priority {
+					type uint8 {
+						range "0 .. 7";
+					}
+					description "Priority from 0 to 7.";
+				}
+				leaf unreserved-bandwidth {
+					type rt-types:bandwidth-ieee-float32;
+					description "Unreserved bandwidth.";
+				}
+				description
+					"List of unreserved bandwidths for different
+					 priorities.";
+			}
+		}
+	}
+	
   grouping neighbor-extended {
     description
      "Grouping for attributes of an IS-IS extended neighbor.";
@@ -4426,13 +3607,6 @@ Internet-Draft                  isis-cfg                   November 2018
                    system and the neighbor system-id.";
       list instance {
         key id;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 77]
-
-Internet-Draft                  isis-cfg                   November 2018
-
 
         leaf id {
           type uint32;
@@ -4482,14 +3656,6 @@ Internet-Draft                  isis-cfg                   November 2018
             default "false";
             description "IS-IS error metric supported";
           }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 78]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
           description "IS-IS error metric container";
         }
         description "Instance of a particular adjacency.";
@@ -4538,14 +3704,6 @@ Internet-Draft                  isis-cfg                   November 2018
   grouping tlv129-protocols {
     leaf-list protocol-supported {
       type uint8;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 79]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       description
       "List of supported protocols of the IS-IS node -
        IS-IS reference is TLV 129.";
@@ -4594,14 +3752,6 @@ Internet-Draft                  isis-cfg                   November 2018
           }
           description
             "Multi-Topology identifier of topology.";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 80]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         }
 
         leaf attributes {
@@ -4625,10 +3775,10 @@ Internet-Draft                  isis-cfg                   November 2018
       description
         "IS-IS node topology information container -
          IS-IS reference is TLV 229.";
-    }
+    }  
     description "Grouping for TLV229.";
   }
-
+  
   grouping tlv242-router-capabilities {
     container router-capabilities {
       list router-capability {
@@ -4650,14 +3800,6 @@ Internet-Draft                  isis-cfg                   November 2018
                    from level-2 to level-1, the D bit MUST be set.
                    Otherwise, this bit MUST be clear.  IS-IS Router
                    capability TLVs with the D bit set MUST NOT be
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 81]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
                    leaked from level-1 to level-2 in to prevent
                    TLV looping.";
               }
@@ -4675,9 +3817,9 @@ Internet-Draft                  isis-cfg                   November 2018
             }
             description "Container for node admin tags";
           }
-
+          
           uses unknown-tlvs;
-
+          
           leaf binary {
             type binary;
             description
@@ -4692,7 +3834,7 @@ Internet-Draft                  isis-cfg                   November 2018
       }
       description "Grouping for TLV242.";
   }
-
+    
   grouping tlv138-srlg {
     description
       "Grouping for TLV138.";
@@ -4706,21 +3848,13 @@ Internet-Draft                  isis-cfg                   November 2018
           type uint8;
           description
             "Flags associated with the link.";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 82]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         }
         leaf link-local-id {
           type union {
             type inet:ip-address;
             type uint32;
           }
-          description
+          description 
             "Local identifier of the link.
             It could be an IPv4 address or a local identifier.";
         }
@@ -4729,9 +3863,9 @@ Internet-Draft                  isis-cfg                   November 2018
             type inet:ip-address;
             type uint32;
           }
-          description
+          description 
             "Remote identifier of the link.
-            It could be an IPv4 address or a remotely learned
+            It could be an IPv4 address or a remotely learned 
             identifier.";
         }
         container srlgs {
@@ -4749,9 +3883,9 @@ Internet-Draft                  isis-cfg                   November 2018
         "List of links with SRLGs";
     }
   }
-
+    
   /* Grouping for LSDB description */
-
+  
   grouping lsp-entry {
     description "IS-IS LSP database entry groupting";
 
@@ -4762,14 +3896,6 @@ Internet-Draft                  isis-cfg                   November 2018
     leaf raw-data {
       type yang:hex-string;
       description
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 83]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         "The hexadecial representation of the complete LSP in
          network-byte order (NBO) as received or originated.";
     }
@@ -4818,14 +3944,6 @@ Internet-Draft                  isis-cfg                   November 2018
              another area using the referred metric.";
         }
         bit overload {
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 84]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
           description
             "If set, the originator is overloaded,
              and must be avoided in path calculation.";
@@ -4845,7 +3963,7 @@ Internet-Draft                  isis-cfg                   November 2018
     uses tlv242-router-capabilities;
     uses tlv138-srlg;
     uses unknown-tlvs;
-
+    
     container is-neighbor {
       list neighbor {
         key neighbor-id;
@@ -4874,14 +3992,6 @@ Internet-Draft                  isis-cfg                   November 2018
     container ipv4-internal-reachability {
       list prefixes {
         uses prefix-ipv4-std;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 85]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         description "List of prefixes.";
       }
       description
@@ -4930,14 +4040,6 @@ Internet-Draft                  isis-cfg                   November 2018
       list prefixes {
         leaf mt-id {
           type uint16 {
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 86]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
             range "0 .. 4095";
           }
           description  "Multi-topology (MT) identifier";
@@ -4987,13 +4089,6 @@ Internet-Draft                  isis-cfg                   November 2018
       list level-db {
         key level;
 
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 87]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
         leaf level {
           type level-number;
           description "LSDB level number (1 or 2)";
@@ -5042,18 +4137,10 @@ Internet-Draft                  isis-cfg                   November 2018
          instance type is 'isis'";
     }
     description
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 88]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       "This augments a routing protocol instance with IS-IS
        specific parameters.";
     container isis {
-      must "count(area-address) > 0" {
+      must "count(area-address) &gt; 0" {
         error-message
           "At least one area-address must be configured.";
         description
@@ -5098,14 +4185,6 @@ Internet-Draft                  isis-cfg                   November 2018
           }
           uses interface-config;
           container topologies {
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 89]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
             if-feature multi-topology;
             list topology {
               key name;
@@ -5151,17 +4230,9 @@ Internet-Draft                  isis-cfg                   November 2018
         type leafref {
           path "/rt:routing/rt:control-plane-protocols/"
              + "rt:control-plane-protocol/rt:name";
-        }
+        } 
         mandatory "true";
         description
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 90]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
           "Name of the IS-IS protocol instance whose IS-IS
            information is being queried.
 
@@ -5206,18 +4277,10 @@ Internet-Draft                  isis-cfg                   November 2018
         type leafref {
           path "/rt:routing/rt:control-plane-protocols/"
              + "rt:control-plane-protocol/rt:name";
-        }
+        }        
         mandatory "true";
         description
           "Name of the IS-IS protocol instance whose IS-IS
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 91]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
            database(s) is/are being cleared.
 
            If the corresponding IS-IS instance doesn't exist,
@@ -5266,14 +4329,6 @@ Internet-Draft                  isis-cfg                   November 2018
   }
 
   notification lsp-too-large {
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 92]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     uses notification-instance-hdr;
     uses notification-interface-hdr;
 
@@ -5322,14 +4377,6 @@ Internet-Draft                  isis-cfg                   November 2018
     uses notification-instance-hdr;
     leaf lsp-id {
       type lsp-id;
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 93]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       description "LSP ID";
     }
     description
@@ -5378,14 +4425,6 @@ Internet-Draft                  isis-cfg                   November 2018
   }
 
   notification own-lsp-purge {
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 94]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     uses notification-instance-hdr;
     uses notification-interface-hdr;
     leaf lsp-id {
@@ -5434,14 +4473,6 @@ Internet-Draft                  isis-cfg                   November 2018
       description "Received raw PDU.";
     }
     description
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 95]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
       "This notification is sent when the system receives
        a PDU with the wrong authentication information.
        The notification generation must be throttled with
@@ -5490,14 +4521,6 @@ Internet-Draft                  isis-cfg                   November 2018
       type binary;
       description
         "Received raw PDU.";
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 96]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     }
     leaf reason {
       type string;
@@ -5546,14 +4569,6 @@ Internet-Draft                  isis-cfg                   November 2018
       type binary;
       description "Received raw PDU.";
     }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 97]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     leaf error-offset {
       type uint32;
       description
@@ -5602,14 +4617,6 @@ Internet-Draft                  isis-cfg                   November 2018
          provided as a text. If the adjacency is going to UP, no
          reason is provided.";
     }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 98]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     description
       "This notification is sent when an IS-IS adjacency
        moves to Up state or to Down state.";
@@ -5658,14 +4665,6 @@ Internet-Draft                  isis-cfg                   November 2018
 
       description "Timestamp when our LSP was regenerated.";
     }
-
-
-
-Litkowski, et al.         Expires May 30, 2019                 [Page 99]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
     description
       "This notification is sent when an LSP is regenerated.
        The notification generation must be throttled with at
@@ -5673,720 +4672,762 @@ Internet-Draft                  isis-cfg                   November 2018
   }
 }
 
-<CODE ENDS>
+&lt;CODE ENDS&gt;</artwork>
 
-7.  Security Considerations
+      </figure>
 
-   The YANG module specified in this document defines a schema for data
-   that is designed to be accessed via network management protocols such
-   as NETCONF [RFC6241] or RESTCONF [RFC8040].  The lowest NETCONF layer
-   is the secure transport layer, and the mandatory-to-implement secure
-   transport is Secure Shell (SSH) [RFC6242].  The lowest RESTCONF layer
-   is HTTPS, and the mandatory-to-implement secure transport is TLS
-   [RFC8446]
-
-   The Network Configuration Access Control Model (NACM) [RFC8341]
-   provides the means to restrict access for particular NETCONF or
-   RESTCONF users to a preconfigured subset of all available NETCONF or
-   RESTCONF protocol operations and content.
-
-   There are a number of data nodes defined in this YANG module that are
-   writable/creatable/deletable (i.e., config true, which is the
-   default).  These data nodes may be considered sensitive or vulnerable
-   in some network environments.  Write operations (e.g., edit-config)
-   to these data nodes without proper protection can have a negative
-   effect on network operations.  For IS-IS, the ability to modify IS-IS
-   configuration will allow the entire IS-IS domain to be compromised
-   including creating adjacencies with unauthorized routers to misroute
-   traffic, isolate routers, or mount a massive Denial-of-Service (DoS)
-   attack.  A user should consider all the configuration nodes are
-   sensible.
-
-   Some of the readable data nodes in this YANG module may be considered
-   sensitive or vulnerable in some network environments.  It is thus
-   important to control read access (e.g., via get, get-config, or
-   notification) to these data nodes.  The exposure of the Link State
-   Database (LSDB) will expose the detailed topology of the network
-   including authentication parameters.  Implementations MUST NOT
-   provide a configured authentication key in a clear text format in
-   response to any request (e.g., via get, get-config).
-
-   For IS-IS authentication, configuration is supported vua the
-   specification of key-chain [RFC8177] or the direction specification
-   of key and authentication algorithm.  Hence, authentification
+    </section>
 
 
+    <section anchor="Security" title="Security Considerations" toc="default">
+    <t>The YANG module specified in this document defines a schema for data that is designed to be accessed via network management protocols such as NETCONF <xref target="RFC6241" pageno="false" format="default"/> or RESTCONF <xref target="RFC8040" pageno="false" format="default"/>. The lowest NETCONF layer is the secure transport layer, and the mandatory-to-implement secure transport is Secure Shell (SSH) <xref target="RFC6242" pageno="false" format="default"/>. The lowest RESTCONF layer is HTTPS, and the mandatory-to-implement secure transport is TLS <xref target="RFC8446" pageno="false" format="default"/></t>
+    <t>The Network Configuration Access Control Model (NACM)  <xref target="RFC8341" pageno="false" format="default"/> provides the means to restrict access for particular NETCONF or RESTCONF users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.</t> 
 
-Litkowski, et al.         Expires May 30, 2019                [Page 100]
-
-Internet-Draft                  isis-cfg                   November 2018
+    <t>There are a number of data nodes defined in this YANG module that are writable/creatable/deletable (i.e., config true, which is the default). These data nodes may be considered sensitive or vulnerable in some network environments. Write operations (e.g., edit-config) to these data nodes without proper protection can have a negative effect on network operations. For IS-IS, the ability to modify IS-IS configuration will allow the entire IS-IS domain to be compromised including creating adjacencies with unauthorized routers to misroute traffic, isolate routers, or mount a massive Denial-of-Service (DoS) attack. A user should consider all the configuration nodes are sensible.</t>
 
-
+    <t>Some of the readable data nodes in this YANG module may be considered sensitive or vulnerable in some network environments. It is thus important to control read access (e.g., via get, get-config, or notification) to these data nodes. The exposure of the Link State Database (LSDB) will expose the detailed topology of the network including authentication parameters. Implementations MUST NOT provide a configured authentication key in a clear text format in response to any request (e.g., via get, get-config).</t>
+    <t>For IS-IS authentication, configuration is supported vua the specification of key-chain <xref target="RFC8177" pageno="false" format="default"/> or the direction specification of key and authentication algorithm. Hence, authentification
    configuration using the "auth-table-trailer" case in the
-   "authentication" container inherits the security considerations of
-   [RFC8177].  This includes the considerations with respect to the
-   local storage and handling of authentication keys.
+   "authentication" container inherits the security considerations of <xref target="RFC8177" pageno="false" format="default"/>. This includes the considerations with respect to the
+   local storage and handling of authentication keys.</t> 
 
-   Some of the RPC operations in this YANG module may be considered
-   sensitive or vulnerable in some network environments.  It is thus
-   important to control access to these operations.  The OSPF YANG
+    <t>Some of the RPC operations in this YANG module may be considered sensitive or vulnerable in some network environments. It is thus important to control access to these operations. The OSPF YANG
    module support the "clear-adjacency" and "clear-database" RPCs.  If
    access too either of these is compromised, they can result in
    temporary network outages be employed to mount DoS attacks.
-
-8.  Contributors
-
-   Authors would like to thank Kiran Agrahara Sreenivasa, Dean
-   Bogdanovic, Yingzhen Qu, Yi Yang for their major contributions to the
-   draft.
-
-9.  Acknowledgements
-
-   TBD.
-
-10.  IANA Considerations
-
-   The IANA is requested to assign two new URIs from the IETF XML
-   registry ([RFC3688]).  Authors are suggesting the following URI:
-
-           URI: urn:ietf:params:xml:ns:yang:ietf-isis
-           Registrant Contact: IS-IS WG
-           XML: N/A, the requested URI is an XML namespace
-
-   This document also requests one new YANG module name in the YANG
-   Module Names registry ([RFC6020]) with the following suggestion:
-
-           name: ietf-isis
-           namespace: urn:ietf:params:xml:ns:yang:ietf-isis
-           prefix: isis
-           reference: RFC XXXX
-
-11.  Change log for ietf-isis YANG module
-
-11.1.  From version -24 to version -25
-
-   o  RPC clear-adjacency uses now an interface reference instead of a
-      string.
-
-   o  Use expanded "address-family" rather than "af" in the model.
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                [Page 101]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-   o  Fix pattern for area-address.
-
-   o  Removed unnecessary identities.
-
-   o  Added an instances container and list in the modeling of neighbors
-      in the LSDB.  This is to manage the case where there are parallel
-      links between two neighbors.
-
-   o  Notification instance header: removed routing-instance leaf
-      (alignment with OSPF).
-
-   o  Notification instance header: changed routing-protocol-name to a
-      reference.
-
-   o  Notification interface header: changed interface to a reference.
-
-   o  RPCs: changed instance-state-ref typedef to a leafref.  Removed
-      associated typedef.
-
-   o  Revised some groupings and their names (alignment with OSPF).
-
-   o  Some description alignment with OSPF.
-
-   o  auto-cost container alignment with OSPF.
-
-   o  MT-ID leaf in database description renamed (lower-case) mt-id.
-
-   o  In lsp-log grouping, leaf change is renamed reason to align with
-      OSPF.
-
-   o  Added some link attributes (GMPLS, TE, extended TE, SRLGs) in the
-      LSDB.
-
-   o  Added extended-system-id typedef which contains the systemid plus
-      the pseudonode number.
-
-   o  Add support of POI Purge Originator Identification.
-
-11.2.  From version -22 to version -24
-
-   o  Fix revision date of the module.
-
-11.3.  From version -21 to version -22
-
-   o  TE router-id modeling alignment with OSPF.
-
-   o  Add max-ecmp + feature in spf-control container (alignment with
-      OSPF).
-
-
-
-Litkowski, et al.         Expires May 30, 2019                [Page 102]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-11.4.  From version -20 to version -21
-
-   o  Model revision date fix
-
-11.5.  From version -19 to version -20
-
-   o  Moved to Yang 1.1
-
-   o  Lower case enumerations
-
-   o  Add RFC references to features
-
-   o  Remove segment-routing feature
-
-   o  Modified BFD activation modeling
-
-11.6.  From version -18 to version -19
-
-   o  Align with draft-ietf-netmod-rfc8022bis.
-
-   o  Modify address family types as per draft-ietf-rtgwg-routing-types-
-      17.
-
-11.7.  From version -17 to version -18
-
-   o  NMDA compliancy.
-
-   o  Set some default values.
-
-   o  Align with iana-rt-types module.
-
-11.8.  From version -16 to version -17
-
-   o  Cosmetic fixes.
-
-   o  Use of rt-types model.
-
-11.9.  From version -15 to version -16
-
-   o  Alignment with last IETF key chain model.
-
-   o  lsp-log "change" leaf moved as an identity.
-
-   o  Incremental SPF removed from spf-log types.
-
-
-
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                [Page 103]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-11.10.  From version -14 to version -15
-
-   o  Alignment with OSPF model done:
-
-      *  Added spf-control container with IETF SPF delay algorithm as a
-         feature.
-
-      *  Added graceful-restart options.
-
-      *  Added nsr as a feature.
-
-      *  Removed per topology FRR.  Need to be augmented if necessary.
-
-      *  Created an ldp container within mpls.
-
-      *  Renamed igp-ldp-sync to igp-sync.
-
-      *  Added auto-cost container.
-
-      *  Moved reference-bandwidth under auto-cost container.
-
-      *  Added IS-IS local RIB as operational state.
-
-      *  Added decode-completed and raw-data leaves in the LSDB model.
-
-      *  Modified the notification header.
-
-11.11.  From version -13 to version -14
-
-   o  Segment Routing extensions are now in a separate document.
-
-11.12.  From version -12 to version -13
-
-   o  Move feature nlpid-control to container rather than list.
-
-   o  Rename multi-topology to topologies to align with OSPF.
-
-   o  Rename bfd/enabled to bfd/enable for consistency reason.
-
-   o  Add support for NSR with a feature.
-
-11.13.  From version -09 to version -12
-
-   o  Rename node-tag container to node-tags.
-
-
-
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                [Page 104]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-11.14.  From version -08 to version -09
-
-   o  Added container before af list.
-
-   o  Added container before topology list.
-
-   o  Aligned LFA if per level cfg.
-
-   o  Align to draft-ietf-netmod-routing-cfg-23.
-
-11.15.  From version -07 to version -08
-
-   o  Remove selector from system-id type.
-
-   o  Add some default values.
-
-   o  Moved lists to containers+groupings for per level configuration.
-
-   o  remove routing-instance as per core routing model v21.
-
-   o  added BFD leaf (no more BFD protocol model).
-
-   o  changed keychain module reference.
-
-11.16.  From version -05 to version -07
-
-   o  Move Overload config from list to container.
-
-   o  Move Overload-max-metric config from list to container.
-
-   o  Move preference config from list to container.
-
-   o  Add Node flag in config.
-
-   o  Removed BFD config => moved to isis-bfd module.
-
-   o  Remove call to routing policy model.
-
-11.17.  From version -03 to version -05
-
-   o  Correct invalid references to previous versions of core routing
-      model.
-
-   o  Remove BFD config and replace by groupings from ietf-bfd.
-
-   o  Adding routing-policy support through routing-policy model.
-
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                [Page 105]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-11.18.  From version -02 to version -03
-
-   o  Reviewed config and op state groupings.
-
-   o  Add default value to lfa candidate-disabled.
-
-   o  Add enable leaf to isis container to reflect admin state.
-
-   o  Move to VRF centric only.
-
-   o  Segment routing is part os a separate module.
-
-11.19.  From version -01 to version -02
-
-   o  Adding IPFRR.
-
-   o  Adding igp-ldp-sync.
-
-   o  Adding segment-routing.
-
-   o  Adding instance reference to operational states.
-
-   o  Move AF type from string to identity.
-
-   o  Updated router-capability in LSDB description.
-
-   o  packet counters moved to interface-packet-counters.
-
-   o  Added modification information in lsp-log.
-
-   o  Removing igp-ldp-sync timer in IS-IS.
-
-   o  Defining hierarchy for operational states.
-
-   o  Adding clns-mtu.
-
-   o  Adding key-chain.
-
-11.20.  From version -00 to version -01
-
-   o  Interface metric move from af container to interface container.
-
-   o  Hello-padding on interface moved to hello-padding-disable with
-      empty type.
-
-   o  three-way-handshake removed.
-
-   o  route preference changed to a choice.
-
-
-
-Litkowski, et al.         Expires May 30, 2019                [Page 106]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-   o  csnp-authentication/psnp-authentication merged to authentication
-      container.
-
-   o  lsp-gen-interval-exp-delay removed.
-
-   o  Added overload-max-metric feature.
-
-   o  overload-max-metric is in a separate container.
-
-   o  Change hello-padding to container.
-
-   o  Change bfd to container.
-
-   o  Make BFD a feature.
-
-   o  Create mpls-te container and put router-id inside.
-
-   o  Remove GR helper disable and timers.
-
-12.  References
-
-12.1.  Normative References
-
-   [I-D.ietf-bfd-yang]
-              Rahman, R., Zheng, L., Jethanandani, M., Networks, J., and
-              G. Mirsky, "YANG Data Model for Bidirectional Forwarding
-              Detection (BFD)", draft-ietf-bfd-yang-17 (work in
-              progress), August 2018.
-
-   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-              Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997,
-              <https://www.rfc-editor.org/info/rfc2119>.
-
-   [RFC3688]  Mealling, M., "The IETF XML Registry", BCP 81, RFC 3688,
-              DOI 10.17487/RFC3688, January 2004,
-              <https://www.rfc-editor.org/info/rfc3688>.
-
-   [RFC5120]  Przygienda, T., Shen, N., and N. Sheth, "M-ISIS: Multi
-              Topology (MT) Routing in Intermediate System to
-              Intermediate Systems (IS-ISs)", RFC 5120,
-              DOI 10.17487/RFC5120, February 2008,
-              <https://www.rfc-editor.org/info/rfc5120>.
-
-   [RFC5286]  Atlas, A., Ed. and A. Zinin, Ed., "Basic Specification for
-              IP Fast Reroute: Loop-Free Alternates", RFC 5286,
-              DOI 10.17487/RFC5286, September 2008,
-              <https://www.rfc-editor.org/info/rfc5286>.
-
-
-
-Litkowski, et al.         Expires May 30, 2019                [Page 107]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-   [RFC5443]  Jork, M., Atlas, A., and L. Fang, "LDP IGP
-              Synchronization", RFC 5443, DOI 10.17487/RFC5443, March
-              2009, <https://www.rfc-editor.org/info/rfc5443>.
-
-   [RFC6020]  Bjorklund, M., Ed., "YANG - A Data Modeling Language for
-              the Network Configuration Protocol (NETCONF)", RFC 6020,
-              DOI 10.17487/RFC6020, October 2010,
-              <https://www.rfc-editor.org/info/rfc6020>.
-
-   [RFC6241]  Enns, R., Ed., Bjorklund, M., Ed., Schoenwaelder, J., Ed.,
-              and A. Bierman, Ed., "Network Configuration Protocol
-              (NETCONF)", RFC 6241, DOI 10.17487/RFC6241, June 2011,
-              <https://www.rfc-editor.org/info/rfc6241>.
-
-   [RFC6242]  Wasserman, M., "Using the NETCONF Protocol over Secure
-              Shell (SSH)", RFC 6242, DOI 10.17487/RFC6242, June 2011,
-              <https://www.rfc-editor.org/info/rfc6242>.
-
-   [RFC6991]  Schoenwaelder, J., Ed., "Common YANG Data Types",
-              RFC 6991, DOI 10.17487/RFC6991, July 2013,
-              <https://www.rfc-editor.org/info/rfc6991>.
-
-   [RFC7490]  Bryant, S., Filsfils, C., Previdi, S., Shand, M., and N.
-              So, "Remote Loop-Free Alternate (LFA) Fast Reroute (FRR)",
-              RFC 7490, DOI 10.17487/RFC7490, April 2015,
-              <https://www.rfc-editor.org/info/rfc7490>.
-
-   [RFC7950]  Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
-              RFC 7950, DOI 10.17487/RFC7950, August 2016,
-              <https://www.rfc-editor.org/info/rfc7950>.
-
-   [RFC8040]  Bierman, A., Bjorklund, M., and K. Watsen, "RESTCONF
-              Protocol", RFC 8040, DOI 10.17487/RFC8040, January 2017,
-              <https://www.rfc-editor.org/info/rfc8040>.
-
-   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
-
-   [RFC8177]  Lindem, A., Ed., Qu, Y., Yeung, D., Chen, I., and J.
-              Zhang, "YANG Data Model for Key Chains", RFC 8177,
-              DOI 10.17487/RFC8177, June 2017,
-              <https://www.rfc-editor.org/info/rfc8177>.
-
-   [RFC8294]  Liu, X., Qu, Y., Lindem, A., Hopps, C., and L. Berger,
-              "Common YANG Data Types for the Routing Area", RFC 8294,
-              DOI 10.17487/RFC8294, December 2017,
-              <https://www.rfc-editor.org/info/rfc8294>.
-
-
-
-Litkowski, et al.         Expires May 30, 2019                [Page 108]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-   [RFC8341]  Bierman, A. and M. Bjorklund, "Network Configuration
-              Access Control Model", STD 91, RFC 8341,
-              DOI 10.17487/RFC8341, March 2018,
-              <https://www.rfc-editor.org/info/rfc8341>.
-
-   [RFC8342]  Bjorklund, M., Schoenwaelder, J., Shafer, P., Watsen, K.,
-              and R. Wilton, "Network Management Datastore Architecture
-              (NMDA)", RFC 8342, DOI 10.17487/RFC8342, March 2018,
-              <https://www.rfc-editor.org/info/rfc8342>.
-
-   [RFC8343]  Bjorklund, M., "A YANG Data Model for Interface
-              Management", RFC 8343, DOI 10.17487/RFC8343, March 2018,
-              <https://www.rfc-editor.org/info/rfc8343>.
-
-   [RFC8349]  Lhotka, L., Lindem, A., and Y. Qu, "A YANG Data Model for
-              Routing Management (NMDA Version)", RFC 8349,
-              DOI 10.17487/RFC8349, March 2018,
-              <https://www.rfc-editor.org/info/rfc8349>.
-
-   [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
-              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
-              <https://www.rfc-editor.org/info/rfc8446>.
-
-12.2.  Informative References
-
-   [RFC8340]  Bjorklund, M. and L. Berger, Ed., "YANG Tree Diagrams",
-              BCP 215, RFC 8340, DOI 10.17487/RFC8340, March 2018,
-              <https://www.rfc-editor.org/info/rfc8340>.
-
-Appendix A.  Example of IS-IS configuration in XML
-
-   This section gives an example of configuration of an IS-IS instance
-   on a device.  The example is written in XML.
-
-   <?xml version="1.0" encoding="utf-8"?>
-   <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
-     <routing xmlns="urn:ietf:params:xml:ns:yang:ietf-routing">
-         <name>SLI</name>
-         <router-id>1.1.1.1</router-id>
-         <control-plane-protocols>
-           <control-plane-protocol>
-             <name>ISIS-example</name>
-             <description/>
-             <type>
-               <type xmlns:isis="urn:ietf:params:xml:ns:yang:ietf-isis">
-               isis:isis
-               </type>
-             </type>
-
-
-
-Litkowski, et al.         Expires May 30, 2019                [Page 109]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-             <isis xmlns="urn:ietf:params:xml:ns:yang:ietf-isis">
-                 <enable>true</enable>
-                 <level-type>level-2</level-type>
-                 <system-id>87FC.FCDF.4432</system-id>
-                 <area-address>49.0001</area-address>
-                 <mpls>
-                   <te-rid>
-                     <ipv4-router-id>192.0.2.1</ipv4-router-id>
-                   </te-rid>
-                 </mpls>
-                 <lsp-lifetime>65535</lsp-lifetime>
-                 <lsp-refresh>65000</lsp-refresh>
-                 <metric-type>
-                   <value>wide-only</value>
-                 </metric-type>
-                 <default-metric>
-                   <value>111111</value>
-                 </default-metric>
-                 <address-families>
-                   <address-family-list>
-                     <address-family>ipv4</address-family>
-                     <enable>true</enable>
-                   </address-family-list>
-                   <address-family-list>
-                     <address-family>ipv6</address-family>
-                     <enable>true</enable>
-                   </address-family-list>
-                 </address-families>
-                 <interfaces>
-                   <interface>
-                     <name>Loopback0</name>
-                     <tag>200</tag>
-                     <metric>
-                       <value>0</value>
-                     </metric>
-                     <passive>true</passive>
-                   </interface>
-                   <interface>
-                     <name>Eth1</name>
-                     <level-type>level-2</level-type>
-                     <interface-type>point-to-point</interface-type>
-                     <metric>
-                       <value>167890</value>
-                     </metric>
-                   </interface>
-                 </interfaces>
-             </isis>
-           </control-plane-protocol>
-
-
-
-Litkowski, et al.         Expires May 30, 2019                [Page 110]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-         </control-plane-protocols>
-     </routing>
-     <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
-       <interface>
-         <name>Loopback0</name>
-         <description/>
-         <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">
-         ianaift:softwareLoopback
-         </type>
-         <link-up-down-trap-enable>enabled</link-up-down-trap-enable>
-         <ipv4 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip">
-           <address>
-             <ip>192.0.2.1</ip>
-             <prefix-length>32</prefix-length>
-           </address>
-         </ipv4>
-         <ipv6 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip">
-           <address>
-             <ip>2001:DB8::1</ip>
-             <prefix-length>128</prefix-length>
-           </address>
-         </ipv6>
-       </interface>
-       <interface>
-         <name>Eth1</name>
-         <description/>
-         <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">
-         ianaift:ethernetCsmacd
-         </type>
-         <link-up-down-trap-enable>enabled</link-up-down-trap-enable>
-         <ipv4 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip">
-           <address>
-             <ip>198.51.100.1</ip>
-             <prefix-length>30</prefix-length>
-           </address>
-         </ipv4>
-         <ipv6 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip">
-           <address>
-             <ip>2001:DB8:0:0:FF::1</ip>
-             <prefix-length>64</prefix-length>
-           </address>
-         </ipv6>
-       </interface>
-     </interfaces>
-   </data>
-
-
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                [Page 111]
-
-Internet-Draft                  isis-cfg                   November 2018
-
-
-Authors' Addresses
-
-   Stephane Litkowski
-   Orange
-
-   Email: stephane.litkowski@orange.com
-
-
-   Derek Yeung
-   Arrcus, Inc
-
-   Email: derek@arrcus.com
-
-
-   Acee Lindem
-   Cisco Systems
-
-   Email: acee@cisco.com
-
-
-   Jeffrey Zhang
-   Juniper Networks
-
-   Email: zzhang@juniper.net
-
-
-   Ladislav Lhotka
-   CZ.NIC
-
-   Email: lhotka@nic.cz
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Litkowski, et al.         Expires May 30, 2019                [Page 112]
+	</t>
+
+    </section>
+
+	<section anchor="Contributors" title="Contributors" toc="default">
+      <t>Authors would like to thank 
+	  Kiran Agrahara Sreenivasa, Dean Bogdanovic, Yingzhen Qu, Yi Yang
+	  for their major contributions to the draft.</t>
+    </section>
+    <section anchor="Acknowledgements" title="Acknowledgements" toc="default">
+      <t>TBD.</t>
+    </section>
+
+  <section anchor="IANA" title="IANA Considerations" toc="default">
+	<t>The IANA is requested to assign two new URIs from the
+   IETF XML registry (<xref target="RFC3688" pageno="false" format="default"/>). Authors are suggesting the following URI: </t>
+   <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+   <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+	URI: urn:ietf:params:xml:ns:yang:ietf-isis
+	Registrant Contact: IS-IS WG
+	XML: N/A, the requested URI is an XML namespace
+   </artwork>
+   </figure>
+	<t>This document also requests one new YANG module name in the YANG Module Names registry (<xref target="RFC6020" pageno="false" format="default"/>) with the following suggestion:</t>
+   <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+   <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+	name: ietf-isis
+	namespace: urn:ietf:params:xml:ns:yang:ietf-isis
+	prefix: isis
+	reference: RFC XXXX
+   </artwork>
+   </figure>
+
+    </section>
+
+	 <section anchor="change-log" title="Change log for ietf-isis YANG module" toc="default">
+	   <section anchor="v24-25" title="From version -24 to version -25" toc="default">
+           <t>
+           <list style="symbols">
+           <t>RPC clear-adjacency uses now an interface reference instead of a string.</t>
+           <t>Use expanded "address-family" rather than "af" in the model.</t>
+           <t>Fix pattern for area-address.</t>
+           <t>Removed unnecessary identities.</t>
+           <t>Added an instances container and list in the modeling of neighbors in the LSDB.
+		This is to manage the case where there are parallel links between two neighbors.
+           </t>
+           <t>Notification instance header: removed routing-instance leaf (alignment with OSPF).</t>
+           <t>Notification instance header: changed routing-protocol-name to a reference.</t>
+           <t>Notification interface header: changed interface to a reference.</t>
+	   <t>RPCs: changed instance-state-ref typedef to a leafref. Removed associated typedef.</t>
+           <t>Revised some groupings and their names (alignment with OSPF).</t>
+           <t>Some description alignment with OSPF.</t>
+	   <t>auto-cost container alignment with OSPF.</t>
+           <t>MT-ID leaf in database description renamed (lower-case) mt-id.</t>
+	   <t>In lsp-log grouping, leaf change is renamed reason to align with OSPF.</t>
+	   <t>Added some link attributes (GMPLS, TE, extended TE, SRLGs) in the LSDB.</t>
+	   <t>Added extended-system-id typedef which contains the systemid plus the pseudonode number.</t>
+	   <t>Add support of POI Purge Originator Identification.</t>
+           </list>
+           </t>
+           </section>
+           <section anchor="v22-24" title="From version -22 to version -24" toc="default">
+           <t>
+           <list style="symbols">
+           <t>Fix revision date of the module.</t>
+           </list>
+           </t>
+           </section>
+	   <section anchor="v21-22" title="From version -21 to version -22" toc="default">
+	   <t>
+	   <list style="symbols">
+	   <t>TE router-id modeling alignment with OSPF.</t>
+	   <t>Add max-ecmp + feature in spf-control container (alignment with OSPF).</t>
+	   </list>
+	   </t>
+	   </section>
+	   <section anchor="v20-21" title="From version -20 to version -21" toc="default">
+	   <t>
+	   <list style="symbols">
+	   <t>Model revision date fix</t>
+	   </list>
+	   </t>
+	   </section>
+	   <section anchor="v19-20" title="From version -19 to version -20" toc="default">
+	   <t>
+	   <list style="symbols">
+	   <t>Moved to Yang 1.1</t>
+	   <t>Lower case enumerations</t>
+	   <t>Add RFC references to features</t>
+	   <t>Remove segment-routing feature</t>
+	   <t>Modified BFD activation modeling</t>
+	   </list>
+	   </t>
+	   </section>
+	   <section anchor="v18-19" title="From version -18 to version -19" toc="default">
+	   <t>
+	   <list style="symbols">
+	   <t>Align with draft-ietf-netmod-rfc8022bis.</t>
+	   <t>Modify address family types as per draft-ietf-rtgwg-routing-types-17.</t>
+	   </list>
+	   </t>
+	   </section>
+	   <section anchor="v17-18" title="From version -17 to version -18" toc="default">
+	   <t>
+	   <list style="symbols">
+	   <t>NMDA compliancy.</t>
+	   <t>Set some default values.</t>
+	   <t>Align with iana-rt-types module.</t>
+	   </list>
+	   </t>
+	   </section>
+	   <section anchor="v16-17" title="From version -16 to version -17" toc="default">
+	   <t>
+	   <list style="symbols">
+	   <t>Cosmetic fixes.</t>
+	   <t>Use of rt-types model.</t>
+	   </list>
+	   </t>
+	   </section>
+	   <section anchor="v15-16" title="From version -15 to version -16" toc="default">
+	   <t>
+	   <list style="symbols">
+	   <t>Alignment with last IETF key chain model.</t>
+	   <t>lsp-log "change" leaf moved as an identity.</t>
+	   <t>Incremental SPF removed from spf-log types.</t>
+	   </list>
+	   </t>
+	   </section>
+	   <section anchor="v14-15" title="From version -14 to version -15" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Alignment with OSPF model done:
+		  <list style="symbols">
+		  <t>Added spf-control container with IETF SPF delay algorithm as a feature.</t>
+		  <t>Added graceful-restart options.</t>
+		  <t>Added nsr as a feature.</t>
+		  <t>Removed per topology FRR. Need to be augmented if necessary.</t>
+		  <t>Created an ldp container within mpls.</t>
+		  <t>Renamed igp-ldp-sync to igp-sync.</t>
+		  <t>Added auto-cost container.</t>
+		  <t>Moved reference-bandwidth under auto-cost container.</t>
+		  <t>Added IS-IS local RIB as operational state.</t>
+		  <t>Added decode-completed and raw-data leaves in the LSDB model.</t>
+		  <t>Modified the notification header.</t>
+		  </list>
+		 </t>		 
+		 </list>
+		 </t>
+		 </section>
+		<section anchor="v13-14" title="From version -13 to version -14" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Segment Routing extensions are now in a separate document.</t>
+		 </list>
+		 </t>
+		 </section>
+		<section anchor="v12-13" title="From version -12 to version -13" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Move feature nlpid-control to container rather than list.</t>
+		 <t>Rename multi-topology to topologies to align with OSPF.</t>
+		 <t>Rename bfd/enabled to bfd/enable for consistency reason.</t>
+		 <t>Add support for NSR with a feature.</t>
+		 </list>
+		 </t>
+		 </section>
+		 <section anchor="v09-12" title="From version -09 to version -12" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Rename node-tag container to node-tags.</t>
+		 </list>
+		 </t>
+		 </section>
+		 <section anchor="v08-09" title="From version -08 to version -09" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Added container before af list.</t>
+		 <t>Added container before topology list.</t>
+		 <t>Aligned LFA if per level cfg.</t>
+		 <t>Align to draft-ietf-netmod-routing-cfg-23.</t>
+		 </list>
+		 </t>
+		 </section>
+		<section anchor="v07-08" title="From version -07 to version -08" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Remove selector from system-id type.</t>
+		<t>Add some default values.</t>
+		 <t>Moved lists to containers+groupings for per level configuration.</t>
+		 <t>remove routing-instance as per core routing model v21.</t>
+		 <t>added BFD leaf (no more BFD protocol model).</t>
+		 <t>changed keychain module reference.</t>
+		 </list>
+		 </t>
+		 </section>
+		 <section anchor="v05-07" title="From version -05 to version -07" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Move Overload config from list to container.</t>
+		 <t>Move Overload-max-metric config from list to container.</t>
+		 <t>Move preference config from list to container.</t>
+		 <t>Add Node flag in config.</t>
+		 <t>Removed BFD config =&gt; moved to isis-bfd module.</t>
+		 <t>Remove call to routing policy model.</t>
+		 </list>
+		 </t>
+		 </section>
+		 <section anchor="v03-05" title="From version -03 to version -05" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Correct invalid references to previous versions of core routing model.</t>
+		 <t>Remove BFD config and replace by groupings from ietf-bfd.</t>
+		 <t>Adding routing-policy support through routing-policy model.</t>
+		 </list>
+		 </t>
+		 </section>
+		 <section anchor="v02-03" title="From version -02 to version -03" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Reviewed config and op state groupings.</t>
+		 <t>Add default value to lfa candidate-disabled.</t>
+		 <t>Add enable leaf to isis container to reflect admin state.</t>
+		 <t>Move to VRF centric only.</t>
+		 <t>Segment routing is part os a separate module.</t>
+		 </list>
+		 </t>
+		 </section>
+		 <section anchor="v01-02" title="From version -01 to version -02" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Adding IPFRR.</t>
+		 <t>Adding igp-ldp-sync.</t>
+		 <t>Adding segment-routing.</t>
+		 <t>Adding instance reference to operational states.</t>
+		 <t>Move AF type from string to identity.</t>
+		 <t>Updated router-capability in LSDB description.</t>
+		 <t>packet counters moved to interface-packet-counters.</t>
+		 <t>Added modification information in lsp-log.</t>
+		 <t>Removing igp-ldp-sync timer in IS-IS.</t>
+		 <t>Defining hierarchy for operational states.</t>
+		 <t>Adding clns-mtu.</t>
+		 <t>Adding key-chain.</t>
+		 </list>
+		 </t>
+		 </section>
+		 <section anchor="v00-01" title="From version -00 to version -01" toc="default">
+		 <t>
+		 <list style="symbols">
+		 <t>Interface metric move from af container to interface container.</t>
+		 <t>Hello-padding on interface moved to hello-padding-disable with empty type.</t>
+		 <t>three-way-handshake removed.</t>
+		 <t>route preference changed to a choice.</t>
+		 <t>csnp-authentication/psnp-authentication merged to authentication container.</t>
+		 <t>lsp-gen-interval-exp-delay removed.</t>
+		 <t>Added overload-max-metric feature.</t>
+		 <t>overload-max-metric is in a separate container.</t>
+		 <t>Change hello-padding to container.</t>
+		 <t>Change bfd to container.</t>
+		 <t>Make BFD a feature.</t>
+		 <t>Create mpls-te container and put router-id inside.</t>
+		 <t>Remove GR helper disable and timers.</t>
+		 
+		 </list>
+		 </t>
+		 </section>
+	 </section>
+  </middle>
+  <back>
+    <references title="Normative References">
+      
+
+<reference anchor="RFC2119" target="https://www.rfc-editor.org/info/rfc2119">
+<front>
+<title>Key words for use in RFCs to Indicate Requirement Levels</title>
+<author initials="S." surname="Bradner" fullname="S. Bradner"><organization/></author>
+<date year="1997" month="March"/>
+<abstract><t>In many standards track documents several words are used to signify the requirements in the specification.  These words are often capitalized. This document defines these words as they should be interpreted in IETF documents.  This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t></abstract>
+</front>
+<seriesInfo name="BCP" value="14"/>
+<seriesInfo name="RFC" value="2119"/>
+<seriesInfo name="DOI" value="10.17487/RFC2119"/>
+</reference>
+
+      
+
+<reference anchor="RFC6241" target="https://www.rfc-editor.org/info/rfc6241">
+<front>
+<title>Network Configuration Protocol (NETCONF)</title>
+<author initials="R." surname="Enns" fullname="R. Enns" role="editor"><organization/></author>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund" role="editor"><organization/></author>
+<author initials="J." surname="Schoenwaelder" fullname="J. Schoenwaelder" role="editor"><organization/></author>
+<author initials="A." surname="Bierman" fullname="A. Bierman" role="editor"><organization/></author>
+<date year="2011" month="June"/>
+<abstract><t>The Network Configuration Protocol (NETCONF) defined in this document provides mechanisms to install, manipulate, and delete the configuration of network devices.  It uses an Extensible Markup Language (XML)-based data encoding for the configuration data as well as the protocol messages.  The NETCONF protocol operations are realized as remote procedure calls (RPCs).  This document obsoletes RFC 4741.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="6241"/>
+<seriesInfo name="DOI" value="10.17487/RFC6241"/>
+</reference>
+
+      
+
+<reference anchor="RFC6242" target="https://www.rfc-editor.org/info/rfc6242">
+<front>
+<title>Using the NETCONF Protocol over Secure Shell (SSH)</title>
+<author initials="M." surname="Wasserman" fullname="M. Wasserman"><organization/></author>
+<date year="2011" month="June"/>
+<abstract><t>This document describes a method for invoking and running the Network Configuration Protocol (NETCONF) within a Secure Shell (SSH) session as an SSH subsystem.  This document obsoletes RFC 4742.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="6242"/>
+<seriesInfo name="DOI" value="10.17487/RFC6242"/>
+</reference>
+
+	  
+
+<reference anchor="RFC5120" target="https://www.rfc-editor.org/info/rfc5120">
+<front>
+<title>M-ISIS: Multi Topology (MT) Routing in Intermediate System to Intermediate Systems (IS-ISs)</title>
+<author initials="T." surname="Przygienda" fullname="T. Przygienda"><organization/></author>
+<author initials="N." surname="Shen" fullname="N. Shen"><organization/></author>
+<author initials="N." surname="Sheth" fullname="N. Sheth"><organization/></author>
+<date year="2008" month="February"/>
+<abstract><t>This document describes an optional mechanism within Intermediate System to Intermediate Systems (IS-ISs) used today by many ISPs for IGP routing within their clouds.  This document describes how to run, within a single IS-IS domain, a set of independent IP topologies that we call Multi-Topologies (MTs). This MT extension can be used for a variety of purposes, such as an in-band management network "on top" of the original IGP topology, maintaining separate IGP routing domains for isolated multicast or IPv6 islands within the backbone, or forcing a subset of an address space to follow a different topology.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="5120"/>
+<seriesInfo name="DOI" value="10.17487/RFC5120"/>
+</reference>
+
+	  
+
+<reference anchor="RFC6020" target="https://www.rfc-editor.org/info/rfc6020">
+<front>
+<title>YANG - A Data Modeling Language for the Network Configuration Protocol (NETCONF)</title>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund" role="editor"><organization/></author>
+<date year="2010" month="October"/>
+<abstract><t>YANG is a data modeling language used to model configuration and state data manipulated by the Network Configuration Protocol (NETCONF), NETCONF remote procedure calls, and NETCONF notifications. [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="6020"/>
+<seriesInfo name="DOI" value="10.17487/RFC6020"/>
+</reference>
+
+          
+
+<reference anchor="RFC6991" target="https://www.rfc-editor.org/info/rfc6991">
+<front>
+<title>Common YANG Data Types</title>
+<author initials="J." surname="Schoenwaelder" fullname="J. Schoenwaelder" role="editor"><organization/></author>
+<date year="2013" month="July"/>
+<abstract><t>This document introduces a collection of common data types to be used with the YANG data modeling language.  This document obsoletes RFC 6021.</t></abstract>
+</front>
+<seriesInfo name="RFC" value="6991"/>
+<seriesInfo name="DOI" value="10.17487/RFC6991"/>
+</reference>
+
+	  
+
+<reference anchor="RFC3688" target="https://www.rfc-editor.org/info/rfc3688">
+<front>
+<title>The IETF XML Registry</title>
+<author initials="M." surname="Mealling" fullname="M. Mealling"><organization/></author>
+<date year="2004" month="January"/>
+<abstract><t>This document describes an IANA maintained registry for IETF standards which use Extensible Markup Language (XML) related items such as Namespaces, Document Type Declarations (DTDs), Schemas, and Resource Description Framework (RDF) Schemas.</t></abstract>
+</front>
+<seriesInfo name="BCP" value="81"/>
+<seriesInfo name="RFC" value="3688"/>
+<seriesInfo name="DOI" value="10.17487/RFC3688"/>
+</reference>
+
+	  
+
+<reference anchor="RFC5443" target="https://www.rfc-editor.org/info/rfc5443">
+<front>
+<title>LDP IGP Synchronization</title>
+<author initials="M." surname="Jork" fullname="M. Jork"><organization/></author>
+<author initials="A." surname="Atlas" fullname="A. Atlas"><organization/></author>
+<author initials="L." surname="Fang" fullname="L. Fang"><organization/></author>
+<date year="2009" month="March"/>
+<abstract><t>In certain networks, there is dependency on the edge-to-edge Label Switched Paths (LSPs) setup by the Label Distribution Protocol (LDP), e.g., networks that are used for Multiprotocol Label Switching (MPLS) Virtual Private Network (VPN) applications.  For such applications, it is not possible to rely on Internet Protocol (IP) forwarding if the MPLS LSP is not operating appropriately. Blackholing of labeled traffic can occur in situations where the Interior Gateway Protocol (IGP) is operational on a link on which LDP is not.  While the link could still be used for IP forwarding, it is not useful for MPLS forwarding, for example, MPLS VPN applications or Border Gateway Protocol (BGP) route-free cores.  This document describes a mechanism to avoid traffic loss due to this condition without introducing any protocol changes.  This memo provides  information for the Internet community.</t></abstract>
+</front>
+<seriesInfo name="RFC" value="5443"/>
+<seriesInfo name="DOI" value="10.17487/RFC5443"/>
+</reference>
+
+	  
+
+<reference anchor="RFC5286" target="https://www.rfc-editor.org/info/rfc5286">
+<front>
+<title>Basic Specification for IP Fast Reroute: Loop-Free Alternates</title>
+<author initials="A." surname="Atlas" fullname="A. Atlas" role="editor"><organization/></author>
+<author initials="A." surname="Zinin" fullname="A. Zinin" role="editor"><organization/></author>
+<date year="2008" month="September"/>
+<abstract><t>This document describes the use of loop-free alternates to provide local protection for unicast traffic in pure IP and MPLS/LDP networks in the event of a single failure, whether link, node, or shared risk link group (SRLG).  The goal of this technology is to reduce the packet loss that happens while routers converge after a topology change due to a failure.  Rapid failure repair is achieved through use of precalculated backup next-hops that are loop-free and safe to use until the distributed network convergence process completes. This simple approach does not require any support from other routers. The extent to which this goal can be met by this specification is dependent on the topology of the network.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="5286"/>
+<seriesInfo name="DOI" value="10.17487/RFC5286"/>
+</reference>
+
+	  
+
+<reference anchor="RFC7490" target="https://www.rfc-editor.org/info/rfc7490">
+<front>
+<title>Remote Loop-Free Alternate (LFA) Fast Reroute (FRR)</title>
+<author initials="S." surname="Bryant" fullname="S. Bryant"><organization/></author>
+<author initials="C." surname="Filsfils" fullname="C. Filsfils"><organization/></author>
+<author initials="S." surname="Previdi" fullname="S. Previdi"><organization/></author>
+<author initials="M." surname="Shand" fullname="M. Shand"><organization/></author>
+<author initials="N." surname="So" fullname="N. So"><organization/></author>
+<date year="2015" month="April"/>
+<abstract><t>This document describes an extension to the basic IP fast reroute mechanism, described in RFC 5286, that provides additional backup connectivity for point-to-point link failures when none can be provided by the basic mechanisms.</t></abstract>
+</front>
+<seriesInfo name="RFC" value="7490"/>
+<seriesInfo name="DOI" value="10.17487/RFC7490"/>
+</reference>
+
+	
+
+<reference anchor="RFC7950" target="https://www.rfc-editor.org/info/rfc7950">
+<front>
+<title>The YANG 1.1 Data Modeling Language</title>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund" role="editor"><organization/></author>
+<date year="2016" month="August"/>
+<abstract><t>YANG is a data modeling language used to model configuration data, state data, Remote Procedure Calls, and notifications for network management protocols.  This document describes the syntax and semantics of version 1.1 of the YANG language.  YANG version 1.1 is a maintenance release of the YANG language, addressing ambiguities and defects in the original specification.  There are a small number of backward incompatibilities from YANG version 1.  This document also specifies the YANG mappings to the Network Configuration Protocol (NETCONF).</t></abstract>
+</front>
+<seriesInfo name="RFC" value="7950"/>
+<seriesInfo name="DOI" value="10.17487/RFC7950"/>
+</reference>
+
+        
+
+<reference anchor="RFC8040" target="https://www.rfc-editor.org/info/rfc8040">
+<front>
+<title>RESTCONF Protocol</title>
+<author initials="A." surname="Bierman" fullname="A. Bierman"><organization/></author>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund"><organization/></author>
+<author initials="K." surname="Watsen" fullname="K. Watsen"><organization/></author>
+<date year="2017" month="January"/>
+<abstract><t>This document describes an HTTP-based protocol that provides a programmatic interface for accessing data defined in YANG, using the datastore concepts defined in the Network Configuration Protocol (NETCONF).</t></abstract>
+</front>
+<seriesInfo name="RFC" value="8040"/>
+<seriesInfo name="DOI" value="10.17487/RFC8040"/>
+</reference>
+
+	
+
+<reference anchor="RFC8174" target="https://www.rfc-editor.org/info/rfc8174">
+<front>
+<title>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</title>
+<author initials="B." surname="Leiba" fullname="B. Leiba"><organization/></author>
+<date year="2017" month="May"/>
+<abstract><t>RFC 2119 specifies common key words that may be used in protocol  specifications.  This document aims to reduce the ambiguity by clarifying that only UPPERCASE usage of the key words have the  defined special meanings.</t></abstract>
+</front>
+<seriesInfo name="BCP" value="14"/>
+<seriesInfo name="RFC" value="8174"/>
+<seriesInfo name="DOI" value="10.17487/RFC8174"/>
+</reference>
+
+        
+
+<reference anchor="RFC8294" target="https://www.rfc-editor.org/info/rfc8294">
+<front>
+<title>Common YANG Data Types for the Routing Area</title>
+<author initials="X." surname="Liu" fullname="X. Liu"><organization/></author>
+<author initials="Y." surname="Qu" fullname="Y. Qu"><organization/></author>
+<author initials="A." surname="Lindem" fullname="A. Lindem"><organization/></author>
+<author initials="C." surname="Hopps" fullname="C. Hopps"><organization/></author>
+<author initials="L." surname="Berger" fullname="L. Berger"><organization/></author>
+<date year="2017" month="December"/>
+<abstract><t>This document defines a collection of common data types using the YANG data modeling language.  These derived common types are designed to be imported by other modules defined in the routing area.</t></abstract>
+</front>
+<seriesInfo name="RFC" value="8294"/>
+<seriesInfo name="DOI" value="10.17487/RFC8294"/>
+</reference>
+
+        
+
+<reference anchor="RFC8341" target="https://www.rfc-editor.org/info/rfc8341">
+<front>
+<title>Network Configuration Access Control Model</title>
+<author initials="A." surname="Bierman" fullname="A. Bierman"><organization/></author>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund"><organization/></author>
+<date year="2018" month="March"/>
+<abstract><t>The standardization of network configuration interfaces for use with the Network Configuration Protocol (NETCONF) or the RESTCONF protocol requires a structured and secure operating environment that promotes human usability and multi-vendor interoperability.  There is a need for standard mechanisms to restrict NETCONF or RESTCONF protocol access for particular users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.  This document defines such an access control model.</t><t>This document obsoletes RFC 6536.</t></abstract>
+</front>
+<seriesInfo name="STD" value="91"/>
+<seriesInfo name="RFC" value="8341"/>
+<seriesInfo name="DOI" value="10.17487/RFC8341"/>
+</reference>
+
+	
+
+<reference anchor="RFC8342" target="https://www.rfc-editor.org/info/rfc8342">
+<front>
+<title>Network Management Datastore Architecture (NMDA)</title>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund"><organization/></author>
+<author initials="J." surname="Schoenwaelder" fullname="J. Schoenwaelder"><organization/></author>
+<author initials="P." surname="Shafer" fullname="P. Shafer"><organization/></author>
+<author initials="K." surname="Watsen" fullname="K. Watsen"><organization/></author>
+<author initials="R." surname="Wilton" fullname="R. Wilton"><organization/></author>
+<date year="2018" month="March"/>
+<abstract><t>Datastores are a fundamental concept binding the data models written in the YANG data modeling language to network management protocols such as the Network Configuration Protocol (NETCONF) and RESTCONF. This document defines an architectural framework for datastores based on the experience gained with the initial simpler model, addressing requirements that were not well supported in the initial model.  This document updates RFC 7950.</t></abstract>
+</front>
+<seriesInfo name="RFC" value="8342"/>
+<seriesInfo name="DOI" value="10.17487/RFC8342"/>
+</reference>
+
+        
+
+<reference anchor="RFC8343" target="https://www.rfc-editor.org/info/rfc8343">
+<front>
+<title>A YANG Data Model for Interface Management</title>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund"><organization/></author>
+<date year="2018" month="March"/>
+<abstract><t>This document defines a YANG data model for the management of network interfaces.  It is expected that interface-type-specific data models augment the generic interfaces data model defined in this document. The data model includes definitions for configuration and system state (status information and counters for the collection of statistics).</t><t>The YANG data model in this document conforms to the Network Management Datastore Architecture (NMDA) defined in RFC 8342.</t><t>This document obsoletes RFC 7223.</t></abstract>
+</front>
+<seriesInfo name="RFC" value="8343"/>
+<seriesInfo name="DOI" value="10.17487/RFC8343"/>
+</reference>
+
+      
+
+<reference anchor="RFC8349" target="https://www.rfc-editor.org/info/rfc8349">
+<front>
+<title>A YANG Data Model for Routing Management (NMDA Version)</title>
+<author initials="L." surname="Lhotka" fullname="L. Lhotka"><organization/></author>
+<author initials="A." surname="Lindem" fullname="A. Lindem"><organization/></author>
+<author initials="Y." surname="Qu" fullname="Y. Qu"><organization/></author>
+<date year="2018" month="March"/>
+<abstract><t>This document specifies three YANG modules and one submodule. Together, they form the core routing data model that serves as a framework for configuring and managing a routing subsystem.  It is expected that these modules will be augmented by additional YANG modules defining data models for control-plane protocols, route filters, and other functions.  The core routing data model provides common building blocks for such extensions -- routes, Routing Information Bases (RIBs), and control-plane protocols.</t><t>The YANG modules in this document conform to the Network Management Datastore Architecture (NMDA).  This document obsoletes RFC 8022.</t></abstract>
+</front>
+<seriesInfo name="RFC" value="8349"/>
+<seriesInfo name="DOI" value="10.17487/RFC8349"/>
+</reference>
+
+	  
+
+<reference anchor="RFC8177" target="https://www.rfc-editor.org/info/rfc8177">
+<front>
+<title>YANG Data Model for Key Chains</title>
+<author initials="A." surname="Lindem" fullname="A. Lindem" role="editor"><organization/></author>
+<author initials="Y." surname="Qu" fullname="Y. Qu"><organization/></author>
+<author initials="D." surname="Yeung" fullname="D. Yeung"><organization/></author>
+<author initials="I." surname="Chen" fullname="I. Chen"><organization/></author>
+<author initials="J." surname="Zhang" fullname="J. Zhang"><organization/></author>
+<date year="2017" month="June"/>
+<abstract><t>This document describes the key chain YANG data model.  Key chains are commonly used for routing protocol authentication and other applications requiring symmetric keys.  A key chain is a list containing one or more elements containing a Key ID, key string, send/accept lifetimes, and the associated authentication or encryption algorithm.  By properly overlapping the send and accept lifetimes of multiple key chain elements, key strings and algorithms may be gracefully updated.  By representing them in a YANG data model, key distribution can be automated.</t></abstract>
+</front>
+<seriesInfo name="RFC" value="8177"/>
+<seriesInfo name="DOI" value="10.17487/RFC8177"/>
+</reference>
+
+      
+
+<reference anchor="I-D.ietf-bfd-yang">
+<front>
+<title>YANG Data Model for Bidirectional Forwarding Detection (BFD)</title>
+
+<author initials="R" surname="Rahman" fullname="Reshad Rahman">
+    <organization/>
+</author>
+
+<author initials="L" surname="Zheng" fullname="Lianshu Zheng">
+    <organization/>
+</author>
+
+<author initials="M" surname="Jethanandani" fullname="Mahesh Jethanandani">
+    <organization/>
+</author>
+
+<author initials="J" surname="Networks" fullname="Juniper Networks">
+    <organization/>
+</author>
+
+<author initials="G" surname="Mirsky" fullname="Gregory Mirsky">
+    <organization/>
+</author>
+
+<date month="August" day="2" year="2018"/>
+
+<abstract><t>This document defines a YANG data model that can be used to configure and manage Bidirectional Forwarding Detection (BFD).  The YANG modules in this document conform to the Network Management Datastore Architecture (NMDA).</t></abstract>
+
+</front>
+
+<seriesInfo name="Internet-Draft" value="draft-ietf-bfd-yang-17"/>
+<format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-bfd-yang-17.txt"/>
+</reference>
+
+      
+
+<reference anchor="RFC8446" target="https://www.rfc-editor.org/info/rfc8446">
+<front>
+<title>The Transport Layer Security (TLS) Protocol Version 1.3</title>
+<author initials="E." surname="Rescorla" fullname="E. Rescorla"><organization/></author>
+<date year="2018" month="August"/>
+<abstract><t>This document specifies version 1.3 of the Transport Layer Security (TLS) protocol.  TLS allows client/server applications to communicate over the Internet in a way that is designed to prevent eavesdropping, tampering, and message forgery.</t><t>This document updates RFCs 5705 and 6066, and obsoletes RFCs 5077, 5246, and 6961.  This document also specifies new requirements for TLS 1.2 implementations.</t></abstract>
+</front>
+<seriesInfo name="RFC" value="8446"/>
+<seriesInfo name="DOI" value="10.17487/RFC8446"/>
+</reference>
+
+    </references>
+    <references title="Informative References">
+      
+
+<reference anchor="RFC8340" target="https://www.rfc-editor.org/info/rfc8340">
+<front>
+<title>YANG Tree Diagrams</title>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund"><organization/></author>
+<author initials="L." surname="Berger" fullname="L. Berger" role="editor"><organization/></author>
+<date year="2018" month="March"/>
+<abstract><t>This document captures the current syntax used in YANG module tree diagrams.  The purpose of this document is to provide a single location for this definition.  This syntax may be updated from time to time based on the evolution of the YANG language.</t></abstract>
+</front>
+<seriesInfo name="BCP" value="215"/>
+<seriesInfo name="RFC" value="8340"/>
+<seriesInfo name="DOI" value="10.17487/RFC8340"/>
+</reference>
+
+    </references>
+    <section anchor="rpc-example" title="Example of IS-IS configuration in XML" toc="default">
+      <t>This section gives an example of configuration of an IS-IS instance on a device.
+	  The example is written in XML.</t>
+
+      <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+	<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"&gt;
+  &lt;routing xmlns="urn:ietf:params:xml:ns:yang:ietf-routing"&gt;
+      &lt;name&gt;SLI&lt;/name&gt;
+      &lt;router-id&gt;1.1.1.1&lt;/router-id&gt;
+      &lt;control-plane-protocols&gt;
+        &lt;control-plane-protocol&gt;
+          &lt;name&gt;ISIS-example&lt;/name&gt;
+          &lt;description/&gt;
+          &lt;type&gt;
+            &lt;type xmlns:isis="urn:ietf:params:xml:ns:yang:ietf-isis"&gt;
+            isis:isis
+            &lt;/type&gt;
+          &lt;/type&gt;
+          &lt;isis xmlns="urn:ietf:params:xml:ns:yang:ietf-isis"&gt;
+              &lt;enable&gt;true&lt;/enable&gt;
+              &lt;level-type&gt;level-2&lt;/level-type&gt;
+              &lt;system-id&gt;87FC.FCDF.4432&lt;/system-id&gt;
+              &lt;area-address&gt;49.0001&lt;/area-address&gt;
+              &lt;mpls&gt;
+                &lt;te-rid&gt;
+                  &lt;ipv4-router-id&gt;192.0.2.1&lt;/ipv4-router-id&gt;
+                &lt;/te-rid&gt;
+              &lt;/mpls&gt;
+              &lt;lsp-lifetime&gt;65535&lt;/lsp-lifetime&gt;
+              &lt;lsp-refresh&gt;65000&lt;/lsp-refresh&gt;
+              &lt;metric-type&gt;
+                &lt;value&gt;wide-only&lt;/value&gt;
+              &lt;/metric-type&gt;
+              &lt;default-metric&gt;
+                &lt;value&gt;111111&lt;/value&gt;
+              &lt;/default-metric&gt;
+              &lt;address-families&gt;
+                &lt;address-family-list&gt;
+                  &lt;address-family&gt;ipv4&lt;/address-family&gt;
+                  &lt;enable&gt;true&lt;/enable&gt;
+                &lt;/address-family-list&gt;
+                &lt;address-family-list&gt;
+                  &lt;address-family&gt;ipv6&lt;/address-family&gt;
+                  &lt;enable&gt;true&lt;/enable&gt;
+                &lt;/address-family-list&gt;
+              &lt;/address-families&gt;
+              &lt;interfaces&gt;
+                &lt;interface&gt;
+                  &lt;name&gt;Loopback0&lt;/name&gt;
+                  &lt;tag&gt;200&lt;/tag&gt;
+                  &lt;metric&gt;
+                    &lt;value&gt;0&lt;/value&gt;
+                  &lt;/metric&gt;
+                  &lt;passive&gt;true&lt;/passive&gt;
+                &lt;/interface&gt;
+                &lt;interface&gt;
+                  &lt;name&gt;Eth1&lt;/name&gt;
+                  &lt;level-type&gt;level-2&lt;/level-type&gt;
+                  &lt;interface-type&gt;point-to-point&lt;/interface-type&gt;
+                  &lt;metric&gt;
+                    &lt;value&gt;167890&lt;/value&gt;
+                  &lt;/metric&gt;
+                &lt;/interface&gt;
+              &lt;/interfaces&gt;
+          &lt;/isis&gt;
+        &lt;/control-plane-protocol&gt;
+      &lt;/control-plane-protocols&gt;
+  &lt;/routing&gt;
+  &lt;interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces"&gt;
+    &lt;interface&gt;
+      &lt;name&gt;Loopback0&lt;/name&gt;
+      &lt;description/&gt;
+      &lt;type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type"&gt;
+      ianaift:softwareLoopback
+      &lt;/type&gt;
+      &lt;link-up-down-trap-enable&gt;enabled&lt;/link-up-down-trap-enable&gt;
+      &lt;ipv4 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip"&gt;
+        &lt;address&gt;
+          &lt;ip&gt;192.0.2.1&lt;/ip&gt;
+          &lt;prefix-length&gt;32&lt;/prefix-length&gt;
+        &lt;/address&gt;
+      &lt;/ipv4&gt;
+      &lt;ipv6 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip"&gt;
+        &lt;address&gt;
+          &lt;ip&gt;2001:DB8::1&lt;/ip&gt;
+          &lt;prefix-length&gt;128&lt;/prefix-length&gt;
+        &lt;/address&gt;
+      &lt;/ipv6&gt;
+    &lt;/interface&gt;
+    &lt;interface&gt;
+      &lt;name&gt;Eth1&lt;/name&gt;
+      &lt;description/&gt;
+      &lt;type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type"&gt;
+      ianaift:ethernetCsmacd
+      &lt;/type&gt;
+      &lt;link-up-down-trap-enable&gt;enabled&lt;/link-up-down-trap-enable&gt;
+      &lt;ipv4 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip"&gt;
+        &lt;address&gt;
+          &lt;ip&gt;198.51.100.1&lt;/ip&gt;
+          &lt;prefix-length&gt;30&lt;/prefix-length&gt;
+        &lt;/address&gt;
+      &lt;/ipv4&gt;
+      &lt;ipv6 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip"&gt;
+        &lt;address&gt;
+          &lt;ip&gt;2001:DB8:0:0:FF::1&lt;/ip&gt;
+          &lt;prefix-length&gt;64&lt;/prefix-length&gt;
+        &lt;/address&gt;
+      &lt;/ipv6&gt;
+    &lt;/interface&gt;
+  &lt;/interfaces&gt;
+&lt;/data&gt;
+</artwork>
+
+      </figure>
+
+    </section>
+  </back>
+</rfc>
