@@ -1558,7 +1558,7 @@ module ietf-isis {
           description
             "Information field to describe why the alternate
              is not best. The length should be limited to 255 unicode
-             characters.";
+             characters. The expected format is a single line text.";
         }
         leaf protection-available {
           type bits {
@@ -1641,7 +1641,9 @@ module ietf-isis {
         type string {
           length "1..20";
         }
-        description "Protection method used.";
+        description "Protection method used. 
+                     The expected format is a single word.
+                     As example: LFA,rLFA, MRT, RSVP-TE...";
       }
       list address-family-stats {
         key address-family;
@@ -4607,7 +4609,8 @@ module ietf-isis {
       description
         "The system may provide a reason to reject the
          adjacency. If the reason is not available,
-         an empty string will be returned.";
+         an empty string will be returned. 
+         The expected format is a single line text.";
     }
     description
       "This notification is sent when the system receives a
@@ -4699,7 +4702,8 @@ module ietf-isis {
         "If the adjacency is going to DOWN,  this leaf provides
          a reason for the adjacency going down. The reason is
          provided as a text. If the adjacency is going to UP, no
-         reason is provided.";
+         reason is provided. The expected format is a single line 
+         text.";
     }
     description
       "This notification is sent when an IS-IS adjacency

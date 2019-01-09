@@ -1978,7 +1978,7 @@ Internet-Draft                  isis-cfg                    January 2019
           description
             "Information field to describe why the alternate
              is not best. The length should be limited to 255 unicode
-             characters.";
+             characters. The expected format is a single line text.";
         }
         leaf protection-available {
           type bits {
@@ -2077,7 +2077,9 @@ Internet-Draft                  isis-cfg                    January 2019
         type string {
           length "1..20";
         }
-        description "Protection method used.";
+        description "Protection method used.
+                     The expected format is a single word.
+                     As example: LFA,rLFA, MRT, RSVP-TE...";
       }
       list address-family-stats {
         key address-family;
@@ -2117,8 +2119,6 @@ Internet-Draft                  isis-cfg                    January 2019
 
       description "Global protection statistics.";
     }
-  }
-
 
 
 
@@ -2126,6 +2126,8 @@ Litkowski, et al.         Expires July 13, 2019                [Page 37]
 
 Internet-Draft                  isis-cfg                    January 2019
 
+
+  }
 
         /* Route table and local RIB groupings */
 
@@ -2174,8 +2176,6 @@ Internet-Draft                  isis-cfg                    January 2019
     }
   }
 
-  grouping route-content {
-
 
 
 Litkowski, et al.         Expires July 13, 2019                [Page 38]
@@ -2183,6 +2183,7 @@ Litkowski, et al.         Expires July 13, 2019                [Page 38]
 Internet-Draft                  isis-cfg                    January 2019
 
 
+  grouping route-content {
     description
       "IS-IS protocol-specific route properties grouping.";
     leaf metric {
@@ -2230,7 +2231,6 @@ Internet-Draft                  isis-cfg                    January 2019
                        and leaked to a lower level";
         }
       }
-      description "IS-IS route type.";
 
 
 
@@ -2239,6 +2239,7 @@ Litkowski, et al.         Expires July 13, 2019                [Page 39]
 Internet-Draft                  isis-cfg                    January 2019
 
 
+      description "IS-IS route type.";
     }
   }
 
@@ -2286,7 +2287,6 @@ Internet-Draft                  isis-cfg                    January 2019
             "The holding time in seconds for this
              adjacency. This value is based on
              received hello PDUs and the elapsed
-             time since receipt.";
 
 
 
@@ -2295,6 +2295,7 @@ Litkowski, et al.         Expires July 13, 2019                [Page 40]
 Internet-Draft                  isis-cfg                    January 2019
 
 
+             time since receipt.";
         }
         leaf neighbor-priority {
           type uint8 {
@@ -2342,7 +2343,6 @@ Internet-Draft                  isis-cfg                    January 2019
     description
       "Grouping for admin control.";
   }
-
 
 
 
@@ -5528,7 +5528,8 @@ Internet-Draft                  isis-cfg                    January 2019
       description
         "The system may provide a reason to reject the
          adjacency. If the reason is not available,
-         an empty string will be returned.";
+         an empty string will be returned.
+         The expected format is a single line text.";
     }
     description
       "This notification is sent when the system receives a
@@ -5536,13 +5537,15 @@ Internet-Draft                  isis-cfg                    January 2019
        for some reason. The notification generation must be
        throttled with at least 5 seconds betweeen successive
        notifications.";
-  }
 
 
 
 Litkowski, et al.         Expires July 13, 2019                [Page 98]
 
 Internet-Draft                  isis-cfg                    January 2019
+
+
+  }
 
 
   notification protocols-supported-mismatch {
@@ -5590,9 +5593,6 @@ Internet-Draft                  isis-cfg                    January 2019
         "If the problem is a malformed TLV, the tlv-type is set
          to the type value of the suspicious TLV. Otherwise,
          this leaf is not present.";
-    }
-    description
-      "This notification is sent when the system  receives an
 
 
 
@@ -5601,6 +5601,9 @@ Litkowski, et al.         Expires July 13, 2019                [Page 99]
 Internet-Draft                  isis-cfg                    January 2019
 
 
+    }
+    description
+      "This notification is sent when the system  receives an
        LSP with a parse error. The notification generation must
        be throttled with at least 5 seconds betweeen successive
        notifications.";
@@ -5634,7 +5637,8 @@ Internet-Draft                  isis-cfg                    January 2019
         "If the adjacency is going to DOWN,  this leaf provides
          a reason for the adjacency going down. The reason is
          provided as a text. If the adjacency is going to UP, no
-         reason is provided.";
+         reason is provided. The expected format is a single line
+         text.";
     }
     description
       "This notification is sent when an IS-IS adjacency
@@ -5645,10 +5649,6 @@ Internet-Draft                  isis-cfg                    January 2019
     uses notification-instance-hdr;
     uses notification-interface-hdr;
 
-    leaf lsp-id {
-      type lsp-id;
-      description "LSP ID";
-    }
 
 
 
@@ -5657,6 +5657,10 @@ Litkowski, et al.         Expires July 13, 2019               [Page 100]
 Internet-Draft                  isis-cfg                    January 2019
 
 
+    leaf lsp-id {
+      type lsp-id;
+      description "LSP ID";
+    }
     leaf sequence {
       type uint32;
       description "Sequence number of the received LSP.";
@@ -5700,10 +5704,6 @@ Internet-Draft                  isis-cfg                    January 2019
 }
 
 <CODE ENDS>
-
-
-
-
 
 
 
