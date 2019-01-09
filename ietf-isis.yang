@@ -106,7 +106,7 @@ module ietf-isis {
        This version of this YANG module is part of RFC XXXX;
        see the RFC itself for full legal notices."; 
 
-  revision 2018-12-11 {
+  revision 2018-12-27 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -378,7 +378,7 @@ module ietf-isis {
 
   typedef area-address {
     type string {
-      pattern '[0-9A-Fa-f]{2}(\.[0-9A-Fa-f]{4}){0,3}';
+      pattern '[0-9A-Fa-f]{2}(\.[0-9A-Fa-f]{4}){0,6}';
     }
     description
       "This type defines the area address format.";
@@ -409,8 +409,8 @@ module ietf-isis {
     }
     description
       "This type defines IS-IS system-id using pattern. The extended
-       system id contains the pseudonode number in addition to the
-       system id.
+       system-id contains the pseudonode number in addition to the
+       system-id.
        An example system-id is 0143.0438.AEF0.00";
   }
 
@@ -560,7 +560,6 @@ module ietf-isis {
   }
   grouping instance-fast-reroute-state {
     description "IPFRR state data grouping";
-		
     container protected-routes {
       config false;
       list address-family-stats {
@@ -572,12 +571,12 @@ module ietf-isis {
             "Address-family";
         }
         leaf prefix {
-          type string;
+          type inet:ip-prefix;
           description
             "Protected prefix.";
         }
         leaf alternate {
-          type string;
+          type inet:ip-address;
           description
             "Alternate nexthop for the prefix.";
         }
@@ -619,10 +618,13 @@ module ietf-isis {
         leaf best {
           type boolean;
           description
-            "Indicates if the alternate is the preferred.";
+            "Is set when the alternate is the preferred one, 
+             is unset otherwise.";
         }
         leaf non-best-reason {
-          type string;
+          type string {
+            length "1..255";
+          }
           description
             "Information field to describe why the alternate
              is not best.";
@@ -691,7 +693,7 @@ module ietf-isis {
           description "Address-family";
         }
         leaf prefix {
-          type string;
+          type inet:ip-prefix;
           description "Unprotected prefix.";
         }
         description
@@ -1060,7 +1062,9 @@ module ietf-isis {
       }
       case password {
         leaf key {
-          type string;
+          type string {
+            length "1..100";
+          }
           description
             "This leaf specifies the authentication key.";
         }
@@ -1177,7 +1181,9 @@ module ietf-isis {
       }
       case password {
         leaf key {
-          type string;
+          type string {
+            length "1..100";
+          }
           description "Authentication key specification";
         }
         leaf crypto-algorithm {
@@ -1463,13 +1469,13 @@ module ietf-isis {
       type level;
       default "level-all";
       description
-        "Level of an IS-IS node - can be level-1-only,
-         level-2-only or level-1-2.";
+        "Level of an IS-IS node - can be level-1,
+         level-2 or level-all.";
     }
 
     leaf system-id {
       type system-id;
-      description "System-id of the node.";
+      description "system-id of the node.";
     }
 
     leaf maximum-area-addresses {
@@ -1768,12 +1774,12 @@ module ietf-isis {
         leaf system-id {
           type system-id;
           description
-            "System-id associated with the hostname.";
+            "system-id associated with the hostname.";
         }
         leaf hostname {
           type string;
           description
-            "Hostname associated with the system ID.";
+            "Hostname associated with the system-id.";
         }
         description
           "List of system-id/hostname associations.";
@@ -2090,7 +2096,7 @@ module ietf-isis {
           leaf lsp {
             type lsp-id;
             description
-              "LSPID of the LSP triggering SPF computation.";
+              "LSP ID of the LSP triggering SPF computation.";
           }
           leaf sequence {
             type uint32;
@@ -2133,7 +2139,7 @@ module ietf-isis {
           leaf lsp {
             type lsp-id;
             description
-              "LSPID of the LSP.";
+              "LSP ID of the LSP.";
           }
           leaf sequence {
             type uint32;
@@ -2252,7 +2258,8 @@ module ietf-isis {
   }
 
   grouping prefix-attributes-extension {
-    description "Prefix extended attributes.";
+    description "Prefix extended attributes
+                 as defined in RFC7794.";
 
     uses prefix-reachability-attributes;
     uses prefix-ipv4-source-router-id;
@@ -2261,15 +2268,8 @@ module ietf-isis {
 
   grouping prefix-ipv4-std {
     description
-      "Grouping for attributes of an IPv4 standard prefix.";
-    leaf up-down {
-      type boolean;
-      description "Value of up/down bit.";
-    }
-    leaf i-e {
-      type boolean;
-      description "Value of I/E bit.";
-    }
+      "Grouping for attributes of an IPv4 standard prefix
+       as defined in RFC1195.";
     leaf ip-prefix {
       type inet:ipv4-address;
       description "IPv4 prefix address";
@@ -2278,9 +2278,16 @@ module ietf-isis {
       type uint8;
       description "IPv4 prefix length (in bits)";
     }
-    leaf default-metric {
-      type std-metric;
-      description "Default IS-IS metric for IPv4 prefix";
+    leaf i-e {
+      type boolean;
+      description "Value of I/E bit.";
+    }
+    container default-metric {
+      leaf metric {
+        type std-metric;
+        description "Default IS-IS metric for IPv4 prefix";
+      }
+      description "IS-IS default metric container.";
     }
     container delay-metric {
       leaf metric {
@@ -2325,7 +2332,8 @@ module ietf-isis {
 
   grouping prefix-ipv4-extended {
     description
-      "Grouping for attributes of an IPv4 extended prefix.";
+      "Grouping for attributes of an IPv4 extended prefix
+       as defined in RFC5305.";
     leaf up-down {
       type boolean;
       description  "Value of up/down bit.";
@@ -2338,7 +2346,6 @@ module ietf-isis {
       type uint8;
       description "IPv4 prefix length (in bits)";
     }
-
     leaf metric {
       type wide-metric;
       description "IS-IS wide metric value";
@@ -2357,7 +2364,8 @@ module ietf-isis {
   }
 
   grouping prefix-ipv6-extended {
-    description "Grouping for attributes of an IPv6 prefix.";
+    description "Grouping for attributes of an IPv6 prefix
+                 as defined in RFC5308.";
     leaf up-down {
       type boolean;
       description "Value of up/down bit.";
@@ -2695,7 +2703,7 @@ module ietf-isis {
      "Grouping for attributes of an IS-IS extended neighbor.";
     leaf neighbor-id {
       type extended-system-id;
-      description "System-id of the extended neighbor.";
+      description "system-id of the extended neighbor.";
     }
    container instances {
       description "List of all adjacencies between the local
@@ -2744,9 +2752,12 @@ module ietf-isis {
           description
             "Internal or External (I/E) Metric bit value";
         }
-        leaf default-metric {
-          type std-metric;
-          description "IS-IS default metric value";
+        container default-metric {
+          leaf metric {
+            type std-metric;
+            description "IS-IS default metric value";
+          }
+         description "IS-IS default metric container";
         }
         container delay-metric {
           leaf metric {
@@ -2784,7 +2795,8 @@ module ietf-isis {
           }
           description "IS-IS error metric container";
         }
-        description "Instance of a particular adjacency.";
+        description "Instance of a particular adjacency
+                     as defined in RFC1195.";
       }
     }
   }
@@ -2855,10 +2867,10 @@ module ietf-isis {
       leaf authentication-key {
         type string;
         description
-          "Authentication keyto be used. For security reasons,
+          "Authentication key to be used. For security reasons,
            the authentication key MUST NOT be presented in
-           plaintext format. It is recommended to use an MD5
-           hash to present the authentication-key.";
+           a clear text format in response to any request 
+          (e.g., via get, get-config).";
       }
       description
         "IS-IS node authentication information container -
@@ -2968,7 +2980,7 @@ module ietf-isis {
       list links {
         leaf neighbor-id {
           type extended-system-id;
-          description "System-id of the extended neighbor.";
+          description "system-id of the extended neighbor.";
         }
         leaf flags {
           type uint8;
@@ -3212,7 +3224,7 @@ module ietf-isis {
     description "Link State Database (LSDB) grouping";
     container database {
       config false;
-      list level-db {
+      list levels {
         key level;
 
         leaf level {
@@ -3224,7 +3236,7 @@ module ietf-isis {
           uses lsp-entry;
           description "List of LSPs in LSDB";
         }
-        description "LSP list for LSDB level container";
+        description "List of LSPs for the LSDB level container";
       }
       description "IS-IS Link State database container";
     }
@@ -3361,7 +3373,7 @@ module ietf-isis {
         mandatory "true";
         description
           "Name of the IS-IS protocol instance whose IS-IS
-           information is being queried.
+           adjacency is being cleared.
 
            If the corresponding IS-IS instance doesn't exist,
            then the operation will fail with an error-tag of
@@ -3525,7 +3537,7 @@ module ietf-isis {
     }
     description
       "This notification is sent when we receive a PDU
-       with a different value for the System ID length.
+       with a different value for the system-id length.
        The notification generation must be throttled
        with at least 5 seconds betweeen successive
        notifications.";
@@ -3560,7 +3572,7 @@ module ietf-isis {
     }
     description
       "This notification is sent when the system receives
-       a PDU with its own system ID and zero age.";
+       a PDU with its own system-id and zero age.";
   }
 
   notification sequence-number-skipped {
@@ -3572,7 +3584,7 @@ module ietf-isis {
     }
     description
       "This notification is sent when the system receives a
-       PDU with its own system ID and different contents. The
+       PDU with its own system-id and different contents. The
        system has to reoriginate the LSP with a higher sequence
        number.";
   }
