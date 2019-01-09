@@ -104,9 +104,16 @@ module ietf-isis {
        (http://trustee.ietf.org/license-info).
 
        This version of this YANG module is part of RFC XXXX;
-       see the RFC itself for full legal notices."; 
+       see the RFC itself for full legal notices.
 
-  revision 2018-12-27 {
+       The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHALL\", 
+       \"SHALL NOT\", \"SHOULD\", \"SHOULD NOT\", \"RECOMMENDED\", 
+       \"NOT RECOMMENDED\", \"MAY\", and \"OPTIONAL\" in this document 
+       are to be interpreted as described in BCP 14 [RFC2119] [RFC8174]
+       when, and only when, they appear in all capitals, as shown here.
+			"; 
+
+  revision 2019-01-09 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -627,7 +634,8 @@ module ietf-isis {
           }
           description
             "Information field to describe why the alternate
-             is not best.";
+             is not best. The length should be limited to 255 unicode
+             characters.";
         }
         leaf protection-available {
           type bits {
@@ -707,7 +715,9 @@ module ietf-isis {
       key frr-protection-method;
       config false;
       leaf frr-protection-method {
-        type string;
+        type string {
+          length "1..20";
+        }
         description "Protection method used.";
       }
       list address-family-stats {
@@ -1777,7 +1787,9 @@ module ietf-isis {
             "system-id associated with the hostname.";
         }
         leaf hostname {
-          type string;
+          type string {
+            length "1..255";
+          }
           description
             "Hostname associated with the system-id.";
         }
@@ -2280,7 +2292,7 @@ module ietf-isis {
     }
     leaf i-e {
       type boolean;
-      description "Value of I/E bit.";
+      description "Internal or External (I/E) Metric bit value.";
     }
     container default-metric {
       leaf metric {
@@ -2796,7 +2808,7 @@ module ietf-isis {
           description "IS-IS error metric container";
         }
         description "Instance of a particular adjacency
-                     as defined in RFC1195.";
+                     as defined in ISO10589.";
       }
     }
   }
@@ -2850,7 +2862,9 @@ module ietf-isis {
   }
   grouping tlv137-hostname {
     leaf dynamic-hostname {
-      type string;
+      type string {
+        length "1..255";
+      }
       description
         "Host Name of the IS-IS node - IS-IS reference
          is TLV 137.";
@@ -2860,12 +2874,14 @@ module ietf-isis {
   grouping tlv10-authentication {
     container authentication {
       leaf authentication-type {
-        type string;
+        type uint8;
         description
           "Authentication type to be used with IS-IS node.";
       }
       leaf authentication-key {
-        type string;
+        type string {
+          length "1..255";
+        }
         description
           "Authentication key to be used. For security reasons,
            the authentication key MUST NOT be presented in
@@ -3662,7 +3678,9 @@ module ietf-isis {
         "Received raw PDU.";
     }
     leaf reason {
-      type string;
+      type string {
+        length "1..255";
+      }
       description
         "The system may provide a reason to reject the
          adjacency. If the reason is not available,
@@ -3734,7 +3752,9 @@ module ietf-isis {
     uses notification-instance-hdr;
     uses notification-interface-hdr;
     leaf neighbor {
-      type string;
+      type string {
+        length "1..255";
+      }
       description
         "Name of the neighbor. If the name of the neighbor is
          not available, it is not returned.";
@@ -3749,7 +3769,9 @@ module ietf-isis {
       description "New state of the IS-IS adjacency.";
     }
     leaf reason {
-      type string;
+      type string {
+        length "1..255";
+      }
       description
         "If the adjacency is going to DOWN,  this leaf provides
          a reason for the adjacency going down. The reason is

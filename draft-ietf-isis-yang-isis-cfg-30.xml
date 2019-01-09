@@ -1027,9 +1027,16 @@ module ietf-isis {
        (http://trustee.ietf.org/license-info).
 
        This version of this YANG module is part of RFC XXXX;
-       see the RFC itself for full legal notices."; 
+       see the RFC itself for full legal notices.
 
-  revision 2018-12-27 {
+       The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHALL\", 
+       \"SHALL NOT\", \"SHOULD\", \"SHOULD NOT\", \"RECOMMENDED\", 
+       \"NOT RECOMMENDED\", \"MAY\", and \"OPTIONAL\" in this document 
+       are to be interpreted as described in BCP 14 [RFC2119] [RFC8174]
+       when, and only when, they appear in all capitals, as shown here.
+			"; 
+
+  revision 2019-01-09 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -1550,7 +1557,8 @@ module ietf-isis {
           }
           description
             "Information field to describe why the alternate
-             is not best.";
+             is not best. The length should be limited to 255 unicode
+             characters.";
         }
         leaf protection-available {
           type bits {
@@ -1630,7 +1638,9 @@ module ietf-isis {
       key frr-protection-method;
       config false;
       leaf frr-protection-method {
-        type string;
+        type string {
+          length "1..20";
+        }
         description "Protection method used.";
       }
       list address-family-stats {
@@ -2700,7 +2710,9 @@ module ietf-isis {
             "system-id associated with the hostname.";
         }
         leaf hostname {
-          type string;
+          type string {
+            length "1..255";
+          }
           description
             "Hostname associated with the system-id.";
         }
@@ -3203,7 +3215,7 @@ module ietf-isis {
     }
     leaf i-e {
       type boolean;
-      description "Value of I/E bit.";
+      description "Internal or External (I/E) Metric bit value.";
     }
     container default-metric {
       leaf metric {
@@ -3719,7 +3731,7 @@ module ietf-isis {
           description "IS-IS error metric container";
         }
         description "Instance of a particular adjacency
-                     as defined in RFC1195.";
+                     as defined in ISO10589.";
       }
     }
   }
@@ -3773,7 +3785,9 @@ module ietf-isis {
   }
   grouping tlv137-hostname {
     leaf dynamic-hostname {
-      type string;
+      type string {
+        length "1..255";
+      }
       description
         "Host Name of the IS-IS node - IS-IS reference
          is TLV 137.";
@@ -3783,12 +3797,14 @@ module ietf-isis {
   grouping tlv10-authentication {
     container authentication {
       leaf authentication-type {
-        type string;
+        type uint8;
         description
           "Authentication type to be used with IS-IS node.";
       }
       leaf authentication-key {
-        type string;
+        type string {
+          length "1..255";
+        }
         description
           "Authentication key to be used. For security reasons,
            the authentication key MUST NOT be presented in
@@ -4585,7 +4601,9 @@ module ietf-isis {
         "Received raw PDU.";
     }
     leaf reason {
-      type string;
+      type string {
+        length "1..255";
+      }
       description
         "The system may provide a reason to reject the
          adjacency. If the reason is not available,
@@ -4657,7 +4675,9 @@ module ietf-isis {
     uses notification-instance-hdr;
     uses notification-interface-hdr;
     leaf neighbor {
-      type string;
+      type string {
+        length "1..255";
+      }
       description
         "Name of the neighbor. If the name of the neighbor is
          not available, it is not returned.";
@@ -4672,7 +4692,9 @@ module ietf-isis {
       description "New state of the IS-IS adjacency.";
     }
     leaf reason {
-      type string;
+      type string {
+        length "1..255";
+      }
       description
         "If the adjacency is going to DOWN,  this leaf provides
          a reason for the adjacency going down. The reason is
@@ -4798,9 +4820,10 @@ module ietf-isis {
            <t>Renamed "level-db" container to "levels" for consistency reasons.</t>
            <t>Added some RFC references in the YANG model.</t>
            <t>Leaf default-metric of container prefix-ipv4-std is now a container.</t>
-           <t>Set minimum length of 1 and maximum length of 100 for the auth-password.</t>
-           <t>Set minimum length of 1 and maximum length of 100 for the hello password.</t>
            <t>Changed the description of the authentication and removed the reference to MD5 as a possible way to hide the password.</t>
+           <t>Changed leaf type for authentication type within tlv10-authentication container.Moved from string to integer.</t>
+           <t>All the leaves with a type string have now a minimum and maximum length.</t>
+           <t>In FRR stats, "prefix" is now encoded as inet:ip-prefix rather than a string. "alternate" is now encoded as ip-address.</t>
            </list>
            </t>
            </section>
@@ -5067,7 +5090,7 @@ module ietf-isis {
   </middle>
   <back>
     <references title="Normative References">
-      
+
 
 <reference anchor="RFC1195" target="https://www.rfc-editor.org/info/rfc1195">
 <front>
@@ -5080,7 +5103,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC1195"/>
 </reference>
 
-      
+
 
 <reference anchor="RFC2119" target="https://www.rfc-editor.org/info/rfc2119">
 <front>
@@ -5094,7 +5117,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC2119"/>
 </reference>
 
-      
+
 
 <reference anchor="RFC6241" target="https://www.rfc-editor.org/info/rfc6241">
 <front>
@@ -5110,7 +5133,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC6241"/>
 </reference>
 
-      
+
 
 <reference anchor="RFC6242" target="https://www.rfc-editor.org/info/rfc6242">
 <front>
@@ -5123,7 +5146,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC6242"/>
 </reference>
 
-      
+
 
 <reference anchor="RFC5029" target="https://www.rfc-editor.org/info/rfc5029">
 <front>
@@ -5137,7 +5160,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC5029"/>
 </reference>
 
-	  
+
 
 <reference anchor="RFC5120" target="https://www.rfc-editor.org/info/rfc5120">
 <front>
@@ -5152,7 +5175,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC5120"/>
 </reference>
 
-	  
+
 
 <reference anchor="RFC6020" target="https://www.rfc-editor.org/info/rfc6020">
 <front>
@@ -5165,7 +5188,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC6020"/>
 </reference>
 
-          
+
 
 <reference anchor="RFC6991" target="https://www.rfc-editor.org/info/rfc6991">
 <front>
@@ -5178,7 +5201,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC6991"/>
 </reference>
 
-	  
+
 
 <reference anchor="RFC3688" target="https://www.rfc-editor.org/info/rfc3688">
 <front>
@@ -5192,7 +5215,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC3688"/>
 </reference>
 
-	  
+
 
 <reference anchor="RFC5443" target="https://www.rfc-editor.org/info/rfc5443">
 <front>
@@ -5207,7 +5230,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC5443"/>
 </reference>
 
-	  
+
 
 <reference anchor="RFC5286" target="https://www.rfc-editor.org/info/rfc5286">
 <front>
@@ -5221,7 +5244,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC5286"/>
 </reference>
 
-	  
+
 
 <reference anchor="RFC7490" target="https://www.rfc-editor.org/info/rfc7490">
 <front>
@@ -5238,7 +5261,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC7490"/>
 </reference>
 
-	
+
 
 <reference anchor="RFC7950" target="https://www.rfc-editor.org/info/rfc7950">
 <front>
@@ -5251,7 +5274,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC7950"/>
 </reference>
 
-        
+
 
 <reference anchor="RFC8040" target="https://www.rfc-editor.org/info/rfc8040">
 <front>
@@ -5266,7 +5289,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC8040"/>
 </reference>
 
-	
+
 
 <reference anchor="RFC8174" target="https://www.rfc-editor.org/info/rfc8174">
 <front>
@@ -5280,7 +5303,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC8174"/>
 </reference>
 
-        
+
 
 <reference anchor="RFC8294" target="https://www.rfc-editor.org/info/rfc8294">
 <front>
@@ -5297,7 +5320,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC8294"/>
 </reference>
 
-        
+
 
 <reference anchor="RFC8341" target="https://www.rfc-editor.org/info/rfc8341">
 <front>
@@ -5312,7 +5335,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC8341"/>
 </reference>
 
-	
+
 
 <reference anchor="RFC8342" target="https://www.rfc-editor.org/info/rfc8342">
 <front>
@@ -5329,7 +5352,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC8342"/>
 </reference>
 
-        
+
 
 <reference anchor="RFC8343" target="https://www.rfc-editor.org/info/rfc8343">
 <front>
@@ -5342,7 +5365,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC8343"/>
 </reference>
 
-      
+
 
 <reference anchor="RFC8349" target="https://www.rfc-editor.org/info/rfc8349">
 <front>
@@ -5357,7 +5380,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC8349"/>
 </reference>
 
-	  
+
 
 <reference anchor="RFC8177" target="https://www.rfc-editor.org/info/rfc8177">
 <front>
@@ -5374,7 +5397,7 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC8177"/>
 </reference>
 
-      
+
 
 <reference anchor="I-D.ietf-bfd-yang">
 <front>
@@ -5410,7 +5433,7 @@ module ietf-isis {
 <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-bfd-yang-17.txt"/>
 </reference>
 
-      
+
 
 <reference anchor="RFC8446" target="https://www.rfc-editor.org/info/rfc8446">
 <front>
@@ -5608,6 +5631,17 @@ module ietf-isis {
 <seriesInfo name="DOI" value="10.17487/RFC5308"/>
 </reference>
 
+     <reference anchor="ISO-10589">
+      <front>
+        <title>Intermediate System to Intermediate System intra-
+               domain routeing information exchange protocol for use in
+               conjunction with the protocol for providing the
+               connectionless-mode network service (ISO 8473)</title>
+        <author surname="ISO"/>
+        <date year="2002"/>
+      </front>
+      <seriesInfo name="International Standard 10589: 2002," value="Second Edition"/> 
+     </reference>
     </references>
     <references title="Informative References">
       
