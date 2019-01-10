@@ -39,7 +39,7 @@
         <email>lhotka@nic.cz</email>
       </address>
     </author>
-    <date day="09" month="January" year="2019"/>
+    <date day="10" month="January" year="2019"/>
     <area/>
     <workgroup>IS-IS Working Group</workgroup>
 
@@ -811,7 +811,7 @@ augment "/rt:routing/" +
 	  <t>local-rib: provides the IS-IS internal routing table view.</t>
 	  <t>database: provides details on the current LSDB.</t>
 	  <t>hostnames: provides informations about system-id to
-	  hostname mappings.</t>
+	  hostname mappings (as defined in <xref target="RFC5301" pageno="false" format="default"/>).</t>
 	  <t>fast-reroute: provides informations about IP FRR.</t>
 	</list></t>
       </section>
@@ -919,7 +919,7 @@ augment "/rt:routing/" +
 
       <figure title="" suppress-title="false" align="left" alt="" width="" height="">
 	<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
-&lt;CODE BEGINS&gt; file "ietf-isis@2019-01-09.yang"
+&lt;CODE BEGINS&gt; file "ietf-isis@2019-01-10.yang"
 
 module ietf-isis {
   yang-version 1.1;
@@ -1034,9 +1034,9 @@ module ietf-isis {
        \"NOT RECOMMENDED\", \"MAY\", and \"OPTIONAL\" in this document 
        are to be interpreted as described in BCP 14 [RFC2119] [RFC8174]
        when, and only when, they appear in all capitals, as shown here.
-			"; 
+       "; 
 
-  revision 2019-01-09 {
+  revision 2019-01-10 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -1303,7 +1303,7 @@ module ietf-isis {
     }
     description
       "This type defines the IS-IS LSP ID format using a
-       pattern, An example LSP ID is 0143.0438.AEF0.02-01";
+       pattern. An example LSP ID is 0143.0438.AEF0.02-01";
   }
 
   typedef area-address {
@@ -1320,7 +1320,11 @@ module ietf-isis {
     }
     description
       "This type defines the Subnetwork Point
-       of Attachement (SNPA) format.";
+       of Attachement (SNPA) format.
+       The SNPA should be encoded according to the rules
+       specified for the particular type of subnetwork
+       being used. As an example, for an ethernet subnetwork,
+       the SNPA is encoded as a MAC address like 00aa.bbcc.ddee";
   }
 
   typedef system-id {
@@ -1552,9 +1556,7 @@ module ietf-isis {
              is unset otherwise.";
         }
         leaf non-best-reason {
-          type string {
-            length "1..255";
-          }
+          type string;
           description
             "Information field to describe why the alternate
              is not best. The length should be limited to 255 unicode
@@ -1638,9 +1640,7 @@ module ietf-isis {
       key frr-protection-method;
       config false;
       leaf frr-protection-method {
-        type string {
-          length "1..20";
-        }
+        type string;
         description "Protection method used. 
                      The expected format is a single word.
                      As example: LFA,rLFA, MRT, RSVP-TE...";
@@ -1997,9 +1997,7 @@ module ietf-isis {
       }
       case password {
         leaf key {
-          type string {
-            length "1..100";
-          }
+          type string;
           description
             "This leaf specifies the authentication key.";
         }
@@ -2116,9 +2114,7 @@ module ietf-isis {
       }
       case password {
         leaf key {
-          type string {
-            length "1..100";
-          }
+          type string;
           description "Authentication key specification";
         }
         leaf crypto-algorithm {
@@ -2712,11 +2708,10 @@ module ietf-isis {
             "system-id associated with the hostname.";
         }
         leaf hostname {
-          type string {
-            length "1..255";
-          }
+          type string;
           description
-            "Hostname associated with the system-id.";
+            "Hostname associated with the system-id
+             as defined in RFC5301.";
         }
         description
           "List of system-id/hostname associations.";
@@ -3787,9 +3782,7 @@ module ietf-isis {
   }
   grouping tlv137-hostname {
     leaf dynamic-hostname {
-      type string {
-        length "1..255";
-      }
+      type string;
       description
         "Host Name of the IS-IS node - IS-IS reference
          is TLV 137.";
@@ -3799,14 +3792,14 @@ module ietf-isis {
   grouping tlv10-authentication {
     container authentication {
       leaf authentication-type {
-        type uint8;
+        type identityref {
+            base key-chain:crypto-algorithm;
+        }
         description
           "Authentication type to be used with IS-IS node.";
       }
       leaf authentication-key {
-        type string {
-          length "1..255";
-        }
+        type string;
         description
           "Authentication key to be used. For security reasons,
            the authentication key MUST NOT be presented in
@@ -4603,9 +4596,7 @@ module ietf-isis {
         "Received raw PDU.";
     }
     leaf reason {
-      type string {
-        length "1..255";
-      }
+      type string;
       description
         "The system may provide a reason to reject the
          adjacency. If the reason is not available,
@@ -4678,11 +4669,13 @@ module ietf-isis {
     uses notification-instance-hdr;
     uses notification-interface-hdr;
     leaf neighbor {
-      type string {
-        length "1..255";
-      }
+      type string;
       description
-        "Name of the neighbor. If the name of the neighbor is
+        "Name of the neighbor. 
+         It corresponds to the hostname associated
+         with the system-id of the neighbor in the
+         mapping database (RFC5301).
+         If the name of the neighbor is
          not available, it is not returned.";
     }
     leaf neighbor-system-id {
@@ -4825,8 +4818,7 @@ module ietf-isis {
            <t>Added some RFC references in the YANG model.</t>
            <t>Leaf default-metric of container prefix-ipv4-std is now a container.</t>
            <t>Changed the description of the authentication and removed the reference to MD5 as a possible way to hide the password.</t>
-           <t>Changed leaf type for authentication type within tlv10-authentication container.Moved from string to integer.</t>
-           <t>All the leaves with a type string have now a minimum and maximum length.</t>
+           <t>Changed leaf type for authentication type within tlv10-authentication container.Moved from string to keychain:crypto-algorithm identity.</t>
            <t>In FRR stats, "prefix" is now encoded as inet:ip-prefix rather than a string. "alternate" is now encoded as ip-address.</t>
            </list>
            </t>
@@ -5123,31 +5115,16 @@ module ietf-isis {
 
 
 
-<reference anchor="RFC6241" target="https://www.rfc-editor.org/info/rfc6241">
+<reference anchor="RFC3688" target="https://www.rfc-editor.org/info/rfc3688">
 <front>
-<title>Network Configuration Protocol (NETCONF)</title>
-<author initials="R." surname="Enns" fullname="R. Enns" role="editor"><organization/></author>
-<author initials="M." surname="Bjorklund" fullname="M. Bjorklund" role="editor"><organization/></author>
-<author initials="J." surname="Schoenwaelder" fullname="J. Schoenwaelder" role="editor"><organization/></author>
-<author initials="A." surname="Bierman" fullname="A. Bierman" role="editor"><organization/></author>
-<date year="2011" month="June"/>
-<abstract><t>The Network Configuration Protocol (NETCONF) defined in this document provides mechanisms to install, manipulate, and delete the configuration of network devices.  It uses an Extensible Markup Language (XML)-based data encoding for the configuration data as well as the protocol messages.  The NETCONF protocol operations are realized as remote procedure calls (RPCs).  This document obsoletes RFC 4741.  [STANDARDS-TRACK]</t></abstract>
+<title>The IETF XML Registry</title>
+<author initials="M." surname="Mealling" fullname="M. Mealling"><organization/></author>
+<date year="2004" month="January"/>
+<abstract><t>This document describes an IANA maintained registry for IETF standards which use Extensible Markup Language (XML) related items such as Namespaces, Document Type Declarations (DTDs), Schemas, and Resource Description Framework (RDF) Schemas.</t></abstract>
 </front>
-<seriesInfo name="RFC" value="6241"/>
-<seriesInfo name="DOI" value="10.17487/RFC6241"/>
-</reference>
-
-
-
-<reference anchor="RFC6242" target="https://www.rfc-editor.org/info/rfc6242">
-<front>
-<title>Using the NETCONF Protocol over Secure Shell (SSH)</title>
-<author initials="M." surname="Wasserman" fullname="M. Wasserman"><organization/></author>
-<date year="2011" month="June"/>
-<abstract><t>This document describes a method for invoking and running the Network Configuration Protocol (NETCONF) within a Secure Shell (SSH) session as an SSH subsystem.  This document obsoletes RFC 4742.  [STANDARDS-TRACK]</t></abstract>
-</front>
-<seriesInfo name="RFC" value="6242"/>
-<seriesInfo name="DOI" value="10.17487/RFC6242"/>
+<seriesInfo name="BCP" value="81"/>
+<seriesInfo name="RFC" value="3688"/>
+<seriesInfo name="DOI" value="10.17487/RFC3688"/>
 </reference>
 
 
@@ -5181,42 +5158,86 @@ module ietf-isis {
 
 
 
-<reference anchor="RFC6020" target="https://www.rfc-editor.org/info/rfc6020">
+<reference anchor="RFC5130" target="https://www.rfc-editor.org/info/rfc5130">
 <front>
-<title>YANG - A Data Modeling Language for the Network Configuration Protocol (NETCONF)</title>
-<author initials="M." surname="Bjorklund" fullname="M. Bjorklund" role="editor"><organization/></author>
-<date year="2010" month="October"/>
-<abstract><t>YANG is a data modeling language used to model configuration and state data manipulated by the Network Configuration Protocol (NETCONF), NETCONF remote procedure calls, and NETCONF notifications. [STANDARDS-TRACK]</t></abstract>
+<title>A Policy Control Mechanism in IS-IS Using Administrative Tags</title>
+<author initials="S." surname="Previdi" fullname="S. Previdi"><organization/></author>
+<author initials="M." surname="Shand" fullname="M. Shand" role="editor"><organization/></author>
+<author initials="C." surname="Martin" fullname="C. Martin"><organization/></author>
+<date year="2008" month="February"/>
+<abstract><t>This document describes an extension to the IS-IS protocol to add operational capabilities that allow for ease of management and control over IP prefix distribution within an IS-IS domain.  This document enhances the IS-IS protocol by extending the information that an Intermediate System (IS) router can place in Link State Protocol (LSP) Data Units for policy use.  This extension will provide operators with a mechanism to control IP prefix distribution throughout multi-level IS-IS domains.  [STANDARDS-TRACK]</t></abstract>
 </front>
-<seriesInfo name="RFC" value="6020"/>
-<seriesInfo name="DOI" value="10.17487/RFC6020"/>
+<seriesInfo name="RFC" value="5130"/>
+<seriesInfo name="DOI" value="10.17487/RFC5130"/>
 </reference>
 
 
 
-<reference anchor="RFC6991" target="https://www.rfc-editor.org/info/rfc6991">
+<reference anchor="RFC5286" target="https://www.rfc-editor.org/info/rfc5286">
 <front>
-<title>Common YANG Data Types</title>
-<author initials="J." surname="Schoenwaelder" fullname="J. Schoenwaelder" role="editor"><organization/></author>
-<date year="2013" month="July"/>
-<abstract><t>This document introduces a collection of common data types to be used with the YANG data modeling language.  This document obsoletes RFC 6021.</t></abstract>
+<title>Basic Specification for IP Fast Reroute: Loop-Free Alternates</title>
+<author initials="A." surname="Atlas" fullname="A. Atlas" role="editor"><organization/></author>
+<author initials="A." surname="Zinin" fullname="A. Zinin" role="editor"><organization/></author>
+<date year="2008" month="September"/>
+<abstract><t>This document describes the use of loop-free alternates to provide local protection for unicast traffic in pure IP and MPLS/LDP networks in the event of a single failure, whether link, node, or shared risk link group (SRLG).  The goal of this technology is to reduce the packet loss that happens while routers converge after a topology change due to a failure.  Rapid failure repair is achieved through use of precalculated backup next-hops that are loop-free and safe to use until the distributed network convergence process completes. This simple approach does not require any support from other routers. The extent to which this goal can be met by this specification is dependent on the topology of the network.  [STANDARDS-TRACK]</t></abstract>
 </front>
-<seriesInfo name="RFC" value="6991"/>
-<seriesInfo name="DOI" value="10.17487/RFC6991"/>
+<seriesInfo name="RFC" value="5286"/>
+<seriesInfo name="DOI" value="10.17487/RFC5286"/>
 </reference>
 
 
 
-<reference anchor="RFC3688" target="https://www.rfc-editor.org/info/rfc3688">
+<reference anchor="RFC5301" target="https://www.rfc-editor.org/info/rfc5301">
 <front>
-<title>The IETF XML Registry</title>
-<author initials="M." surname="Mealling" fullname="M. Mealling"><organization/></author>
-<date year="2004" month="January"/>
-<abstract><t>This document describes an IANA maintained registry for IETF standards which use Extensible Markup Language (XML) related items such as Namespaces, Document Type Declarations (DTDs), Schemas, and Resource Description Framework (RDF) Schemas.</t></abstract>
+<title>Dynamic Hostname Exchange Mechanism for IS-IS</title>
+<author initials="D." surname="McPherson" fullname="D. McPherson"><organization/></author>
+<author initials="N." surname="Shen" fullname="N. Shen"><organization/></author>
+<date year="2008" month="October"/>
+<abstract><t>RFC 2763 defined a simple and dynamic mechanism for routers running IS-IS to learn about symbolic hostnames.  RFC 2763 defined a new TLV that allows the IS-IS routers to flood their name-to-systemID mapping information across the IS-IS network.</t><t>This document obsoletes RFC 2763.  This document moves the capability provided by RFC 2763 to the Standards Track.  [STANDARDS-TRACK]</t></abstract>
 </front>
-<seriesInfo name="BCP" value="81"/>
-<seriesInfo name="RFC" value="3688"/>
-<seriesInfo name="DOI" value="10.17487/RFC3688"/>
+<seriesInfo name="RFC" value="5301"/>
+<seriesInfo name="DOI" value="10.17487/RFC5301"/>
+</reference>
+
+
+
+<reference anchor="RFC5305" target="https://www.rfc-editor.org/info/rfc5305">
+<front>
+<title>IS-IS Extensions for Traffic Engineering</title>
+<author initials="T." surname="Li" fullname="T. Li"><organization/></author>
+<author initials="H." surname="Smit" fullname="H. Smit"><organization/></author>
+<date year="2008" month="October"/>
+<abstract><t>This document describes extensions to the Intermediate System to Intermediate System (IS-IS) protocol to support Traffic Engineering (TE).  This document extends the IS-IS protocol by specifying new information that an Intermediate System (router) can place in Link State Protocol Data Units (LSP).  This information describes additional details regarding the state of the network that are useful for traffic engineering computations.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="5305"/>
+<seriesInfo name="DOI" value="10.17487/RFC5305"/>
+</reference>
+
+
+
+<reference anchor="RFC5306" target="https://www.rfc-editor.org/info/rfc5306">
+<front>
+<title>Restart Signaling for IS-IS</title>
+<author initials="M." surname="Shand" fullname="M. Shand"><organization/></author>
+<author initials="L." surname="Ginsberg" fullname="L. Ginsberg"><organization/></author>
+<date year="2008" month="October"/>
+<abstract><t>This document describes a mechanism for a restarting router to signal to its neighbors that it is restarting, allowing them to reestablish their adjacencies without cycling through the down state, while still correctly initiating database synchronization.</t><t>This document additionally describes a mechanism for a restarting router to determine when it has achieved Link State Protocol Data Unit (LSP) database synchronization with its neighbors and a mechanism to optimize LSP database synchronization, while minimizing transient routing disruption when a router starts.  This document obsoletes RFC 3847.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="5306"/>
+<seriesInfo name="DOI" value="10.17487/RFC5306"/>
+</reference>
+
+
+
+<reference anchor="RFC5308" target="https://www.rfc-editor.org/info/rfc5308">
+<front>
+<title>Routing IPv6 with IS-IS</title>
+<author initials="C." surname="Hopps" fullname="C. Hopps"><organization/></author>
+<date year="2008" month="October"/>
+<abstract><t>This document specifies a method for exchanging IPv6 routing information using the IS-IS routing protocol.  The described method utilizes two new TLVs: a reachability TLV and an interface address TLV to distribute the necessary IPv6 information throughout a routing domain.  Using this method, one can route IPv6 along with IPv4 and OSI using a single intra-domain routing protocol.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="5308"/>
+<seriesInfo name="DOI" value="10.17487/RFC5308"/>
 </reference>
 
 
@@ -5236,16 +5257,117 @@ module ietf-isis {
 
 
 
-<reference anchor="RFC5286" target="https://www.rfc-editor.org/info/rfc5286">
+<reference anchor="RFC5880" target="https://www.rfc-editor.org/info/rfc5880">
 <front>
-<title>Basic Specification for IP Fast Reroute: Loop-Free Alternates</title>
-<author initials="A." surname="Atlas" fullname="A. Atlas" role="editor"><organization/></author>
-<author initials="A." surname="Zinin" fullname="A. Zinin" role="editor"><organization/></author>
-<date year="2008" month="September"/>
-<abstract><t>This document describes the use of loop-free alternates to provide local protection for unicast traffic in pure IP and MPLS/LDP networks in the event of a single failure, whether link, node, or shared risk link group (SRLG).  The goal of this technology is to reduce the packet loss that happens while routers converge after a topology change due to a failure.  Rapid failure repair is achieved through use of precalculated backup next-hops that are loop-free and safe to use until the distributed network convergence process completes. This simple approach does not require any support from other routers. The extent to which this goal can be met by this specification is dependent on the topology of the network.  [STANDARDS-TRACK]</t></abstract>
+<title>Bidirectional Forwarding Detection (BFD)</title>
+<author initials="D." surname="Katz" fullname="D. Katz"><organization/></author>
+<author initials="D." surname="Ward" fullname="D. Ward"><organization/></author>
+<date year="2010" month="June"/>
+<abstract><t>This document describes a protocol intended to detect faults in the bidirectional path between two forwarding engines, including interfaces, data link(s), and to the extent possible the forwarding engines themselves, with potentially very low latency.  It operates independently of media, data protocols, and routing protocols. [STANDARDS-TRACK]</t></abstract>
 </front>
-<seriesInfo name="RFC" value="5286"/>
-<seriesInfo name="DOI" value="10.17487/RFC5286"/>
+<seriesInfo name="RFC" value="5880"/>
+<seriesInfo name="DOI" value="10.17487/RFC5880"/>
+</reference>
+
+
+
+<reference anchor="RFC5881" target="https://www.rfc-editor.org/info/rfc5881">
+<front>
+<title>Bidirectional Forwarding Detection (BFD) for IPv4 and IPv6 (Single Hop)</title>
+<author initials="D." surname="Katz" fullname="D. Katz"><organization/></author>
+<author initials="D." surname="Ward" fullname="D. Ward"><organization/></author>
+<date year="2010" month="June"/>
+<abstract><t>This document describes the use of the Bidirectional Forwarding Detection (BFD) protocol over IPv4 and IPv6 for single IP hops. [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="5881"/>
+<seriesInfo name="DOI" value="10.17487/RFC5881"/>
+</reference>
+
+
+
+<reference anchor="RFC6020" target="https://www.rfc-editor.org/info/rfc6020">
+<front>
+<title>YANG - A Data Modeling Language for the Network Configuration Protocol (NETCONF)</title>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund" role="editor"><organization/></author>
+<date year="2010" month="October"/>
+<abstract><t>YANG is a data modeling language used to model configuration and state data manipulated by the Network Configuration Protocol (NETCONF), NETCONF remote procedure calls, and NETCONF notifications. [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="6020"/>
+<seriesInfo name="DOI" value="10.17487/RFC6020"/>
+</reference>
+
+
+
+<reference anchor="RFC6119" target="https://www.rfc-editor.org/info/rfc6119">
+<front>
+<title>IPv6 Traffic Engineering in IS-IS</title>
+<author initials="J." surname="Harrison" fullname="J. Harrison"><organization/></author>
+<author initials="J." surname="Berger" fullname="J. Berger"><organization/></author>
+<author initials="M." surname="Bartlett" fullname="M. Bartlett"><organization/></author>
+<date year="2011" month="February"/>
+<abstract><t>This document specifies a method for exchanging IPv6 traffic  engineering information using the IS-IS routing protocol. This information enables routers in an IS-IS network to  calculate traffic-engineered routes using IPv6 addresses. [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="6119"/>
+<seriesInfo name="DOI" value="10.17487/RFC6119"/>
+</reference>
+
+
+
+<reference anchor="RFC6232" target="https://www.rfc-editor.org/info/rfc6232">
+<front>
+<title>Purge Originator Identification TLV for IS-IS</title>
+<author initials="F." surname="Wei" fullname="F. Wei"><organization/></author>
+<author initials="Y." surname="Qin" fullname="Y. Qin"><organization/></author>
+<author initials="Z." surname="Li" fullname="Z. Li"><organization/></author>
+<author initials="T." surname="Li" fullname="T. Li"><organization/></author>
+<author initials="J." surname="Dong" fullname="J. Dong"><organization/></author>
+<date year="2011" month="May"/>
+<abstract><t>At present, an IS-IS purge does not contain any information identifying the Intermediate System (IS) that generates the purge. This makes it difficult to locate the source IS.</t><t>To address this issue, this document defines a TLV to be added to purges to record the system ID of the IS generating it.  Since normal Link State Protocol Data Unit (LSP) flooding does not change LSP contents, this TLV should propagate with the purge.</t><t>This document updates RFC 5301, RFC 5304, and RFC 5310.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="6232"/>
+<seriesInfo name="DOI" value="10.17487/RFC6232"/>
+</reference>
+
+
+
+<reference anchor="RFC6241" target="https://www.rfc-editor.org/info/rfc6241">
+<front>
+<title>Network Configuration Protocol (NETCONF)</title>
+<author initials="R." surname="Enns" fullname="R. Enns" role="editor"><organization/></author>
+<author initials="M." surname="Bjorklund" fullname="M. Bjorklund" role="editor"><organization/></author>
+<author initials="J." surname="Schoenwaelder" fullname="J. Schoenwaelder" role="editor"><organization/></author>
+<author initials="A." surname="Bierman" fullname="A. Bierman" role="editor"><organization/></author>
+<date year="2011" month="June"/>
+<abstract><t>The Network Configuration Protocol (NETCONF) defined in this document provides mechanisms to install, manipulate, and delete the configuration of network devices.  It uses an Extensible Markup Language (XML)-based data encoding for the configuration data as well as the protocol messages.  The NETCONF protocol operations are realized as remote procedure calls (RPCs).  This document obsoletes RFC 4741.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="6241"/>
+<seriesInfo name="DOI" value="10.17487/RFC6241"/>
+</reference>
+
+
+
+<reference anchor="RFC6242" target="https://www.rfc-editor.org/info/rfc6242">
+<front>
+<title>Using the NETCONF Protocol over Secure Shell (SSH)</title>
+<author initials="M." surname="Wasserman" fullname="M. Wasserman"><organization/></author>
+<date year="2011" month="June"/>
+<abstract><t>This document describes a method for invoking and running the Network Configuration Protocol (NETCONF) within a Secure Shell (SSH) session as an SSH subsystem.  This document obsoletes RFC 4742.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="6242"/>
+<seriesInfo name="DOI" value="10.17487/RFC6242"/>
+</reference>
+
+
+
+<reference anchor="RFC6991" target="https://www.rfc-editor.org/info/rfc6991">
+<front>
+<title>Common YANG Data Types</title>
+<author initials="J." surname="Schoenwaelder" fullname="J. Schoenwaelder" role="editor"><organization/></author>
+<date year="2013" month="July"/>
+<abstract><t>This document introduces a collection of common data types to be used with the YANG data modeling language.  This document obsoletes RFC 6021.</t></abstract>
+</front>
+<seriesInfo name="RFC" value="6991"/>
+<seriesInfo name="DOI" value="10.17487/RFC6991"/>
 </reference>
 
 
@@ -5263,6 +5385,57 @@ module ietf-isis {
 </front>
 <seriesInfo name="RFC" value="7490"/>
 <seriesInfo name="DOI" value="10.17487/RFC7490"/>
+</reference>
+
+
+
+<reference anchor="RFC7794" target="https://www.rfc-editor.org/info/rfc7794">
+<front>
+<title>IS-IS Prefix Attributes for Extended IPv4 and IPv6 Reachability</title>
+<author initials="L." surname="Ginsberg" fullname="L. Ginsberg" role="editor"><organization/></author>
+<author initials="B." surname="Decraene" fullname="B. Decraene"><organization/></author>
+<author initials="S." surname="Previdi" fullname="S. Previdi"><organization/></author>
+<author initials="X." surname="Xu" fullname="X. Xu"><organization/></author>
+<author initials="U." surname="Chunduri" fullname="U. Chunduri"><organization/></author>
+<date year="2016" month="March"/>
+<abstract><t>This document introduces new sub-TLVs to support advertisement of IPv4 and IPv6 prefix attribute flags and the source router ID of the router that originated a prefix advertisement.</t></abstract>
+</front>
+<seriesInfo name="RFC" value="7794"/>
+<seriesInfo name="DOI" value="10.17487/RFC7794"/>
+</reference>
+
+
+
+<reference anchor="RFC7810" target="https://www.rfc-editor.org/info/rfc7810">
+<front>
+<title>IS-IS Traffic Engineering (TE) Metric Extensions</title>
+<author initials="S." surname="Previdi" fullname="S. Previdi" role="editor"><organization/></author>
+<author initials="S." surname="Giacalone" fullname="S. Giacalone"><organization/></author>
+<author initials="D." surname="Ward" fullname="D. Ward"><organization/></author>
+<author initials="J." surname="Drake" fullname="J. Drake"><organization/></author>
+<author initials="Q." surname="Wu" fullname="Q. Wu"><organization/></author>
+<date year="2016" month="May"/>
+<abstract><t>In certain networks, such as, but not limited to, financial information networks (e.g., stock market data providers), network- performance criteria (e.g., latency) are becoming as critical to data-path selection as other metrics.</t><t>This document describes extensions to IS-IS Traffic Engineering Extensions (RFC 5305) such that network-performance information can be distributed and collected in a scalable fashion.  The information distributed using IS-IS TE Metric Extensions can then be used to make path-selection decisions based on network performance.</t><t>Note that this document only covers the mechanisms with which network-performance information is distributed.  The mechanisms for measuring network performance or acting on that information, once distributed, are outside the scope of this document.</t></abstract>
+</front>
+<seriesInfo name="RFC" value="7810"/>
+<seriesInfo name="DOI" value="10.17487/RFC7810"/>
+</reference>
+
+
+
+<reference anchor="RFC7917" target="https://www.rfc-editor.org/info/rfc7917">
+<front>
+<title>Advertising Node Administrative Tags in IS-IS</title>
+<author initials="P." surname="Sarkar" fullname="P. Sarkar" role="editor"><organization/></author>
+<author initials="H." surname="Gredler" fullname="H. Gredler"><organization/></author>
+<author initials="S." surname="Hegde" fullname="S. Hegde"><organization/></author>
+<author initials="S." surname="Litkowski" fullname="S. Litkowski"><organization/></author>
+<author initials="B." surname="Decraene" fullname="B. Decraene"><organization/></author>
+<date year="2016" month="July"/>
+<abstract><t>This document describes an extension to the IS-IS routing protocol to advertise node administrative tags.  This optional capability allows tagging and grouping of the nodes in an IS-IS domain.  The node administrative tags can be used to express and apply locally defined network policies, thereby providing a very useful operational capability.  Node administrative tags may be used by either IS-IS itself or other applications consuming information propagated via IS-IS.</t></abstract>
+</front>
+<seriesInfo name="RFC" value="7917"/>
+<seriesInfo name="DOI" value="10.17487/RFC7917"/>
 </reference>
 
 
@@ -5439,173 +5612,6 @@ module ietf-isis {
 
 
 
-<reference anchor="RFC8446" target="https://www.rfc-editor.org/info/rfc8446">
-<front>
-<title>The Transport Layer Security (TLS) Protocol Version 1.3</title>
-<author initials="E." surname="Rescorla" fullname="E. Rescorla"><organization/></author>
-<date year="2018" month="August"/>
-<abstract><t>This document specifies version 1.3 of the Transport Layer Security (TLS) protocol.  TLS allows client/server applications to communicate over the Internet in a way that is designed to prevent eavesdropping, tampering, and message forgery.</t><t>This document updates RFCs 5705 and 6066, and obsoletes RFCs 5077, 5246, and 6961.  This document also specifies new requirements for TLS 1.2 implementations.</t></abstract>
-</front>
-<seriesInfo name="RFC" value="8446"/>
-<seriesInfo name="DOI" value="10.17487/RFC8446"/>
-</reference>
-
-
-
-<reference anchor="RFC5130" target="https://www.rfc-editor.org/info/rfc5130">
-<front>
-<title>A Policy Control Mechanism in IS-IS Using Administrative Tags</title>
-<author initials="S." surname="Previdi" fullname="S. Previdi"><organization/></author>
-<author initials="M." surname="Shand" fullname="M. Shand" role="editor"><organization/></author>
-<author initials="C." surname="Martin" fullname="C. Martin"><organization/></author>
-<date year="2008" month="February"/>
-<abstract><t>This document describes an extension to the IS-IS protocol to add operational capabilities that allow for ease of management and control over IP prefix distribution within an IS-IS domain.  This document enhances the IS-IS protocol by extending the information that an Intermediate System (IS) router can place in Link State Protocol (LSP) Data Units for policy use.  This extension will provide operators with a mechanism to control IP prefix distribution throughout multi-level IS-IS domains.  [STANDARDS-TRACK]</t></abstract>
-</front>
-<seriesInfo name="RFC" value="5130"/>
-<seriesInfo name="DOI" value="10.17487/RFC5130"/>
-</reference>
-
-
-
-<reference anchor="RFC5305" target="https://www.rfc-editor.org/info/rfc5305">
-<front>
-<title>IS-IS Extensions for Traffic Engineering</title>
-<author initials="T." surname="Li" fullname="T. Li"><organization/></author>
-<author initials="H." surname="Smit" fullname="H. Smit"><organization/></author>
-<date year="2008" month="October"/>
-<abstract><t>This document describes extensions to the Intermediate System to Intermediate System (IS-IS) protocol to support Traffic Engineering (TE).  This document extends the IS-IS protocol by specifying new information that an Intermediate System (router) can place in Link State Protocol Data Units (LSP).  This information describes additional details regarding the state of the network that are useful for traffic engineering computations.  [STANDARDS-TRACK]</t></abstract>
-</front>
-<seriesInfo name="RFC" value="5305"/>
-<seriesInfo name="DOI" value="10.17487/RFC5305"/>
-</reference>
-
-
-
-<reference anchor="RFC5306" target="https://www.rfc-editor.org/info/rfc5306">
-<front>
-<title>Restart Signaling for IS-IS</title>
-<author initials="M." surname="Shand" fullname="M. Shand"><organization/></author>
-<author initials="L." surname="Ginsberg" fullname="L. Ginsberg"><organization/></author>
-<date year="2008" month="October"/>
-<abstract><t>This document describes a mechanism for a restarting router to signal to its neighbors that it is restarting, allowing them to reestablish their adjacencies without cycling through the down state, while still correctly initiating database synchronization.</t><t>This document additionally describes a mechanism for a restarting router to determine when it has achieved Link State Protocol Data Unit (LSP) database synchronization with its neighbors and a mechanism to optimize LSP database synchronization, while minimizing transient routing disruption when a router starts.  This document obsoletes RFC 3847.  [STANDARDS-TRACK]</t></abstract>
-</front>
-<seriesInfo name="RFC" value="5306"/>
-<seriesInfo name="DOI" value="10.17487/RFC5306"/>
-</reference>
-
-
-
-<reference anchor="RFC5880" target="https://www.rfc-editor.org/info/rfc5880">
-<front>
-<title>Bidirectional Forwarding Detection (BFD)</title>
-<author initials="D." surname="Katz" fullname="D. Katz"><organization/></author>
-<author initials="D." surname="Ward" fullname="D. Ward"><organization/></author>
-<date year="2010" month="June"/>
-<abstract><t>This document describes a protocol intended to detect faults in the bidirectional path between two forwarding engines, including interfaces, data link(s), and to the extent possible the forwarding engines themselves, with potentially very low latency.  It operates independently of media, data protocols, and routing protocols. [STANDARDS-TRACK]</t></abstract>
-</front>
-<seriesInfo name="RFC" value="5880"/>
-<seriesInfo name="DOI" value="10.17487/RFC5880"/>
-</reference>
-
-
-
-<reference anchor="RFC5881" target="https://www.rfc-editor.org/info/rfc5881">
-<front>
-<title>Bidirectional Forwarding Detection (BFD) for IPv4 and IPv6 (Single Hop)</title>
-<author initials="D." surname="Katz" fullname="D. Katz"><organization/></author>
-<author initials="D." surname="Ward" fullname="D. Ward"><organization/></author>
-<date year="2010" month="June"/>
-<abstract><t>This document describes the use of the Bidirectional Forwarding Detection (BFD) protocol over IPv4 and IPv6 for single IP hops. [STANDARDS-TRACK]</t></abstract>
-</front>
-<seriesInfo name="RFC" value="5881"/>
-<seriesInfo name="DOI" value="10.17487/RFC5881"/>
-</reference>
-
-
-
-<reference anchor="RFC6119" target="https://www.rfc-editor.org/info/rfc6119">
-<front>
-<title>IPv6 Traffic Engineering in IS-IS</title>
-<author initials="J." surname="Harrison" fullname="J. Harrison"><organization/></author>
-<author initials="J." surname="Berger" fullname="J. Berger"><organization/></author>
-<author initials="M." surname="Bartlett" fullname="M. Bartlett"><organization/></author>
-<date year="2011" month="February"/>
-<abstract><t>This document specifies a method for exchanging IPv6 traffic  engineering information using the IS-IS routing protocol. This information enables routers in an IS-IS network to  calculate traffic-engineered routes using IPv6 addresses. [STANDARDS-TRACK]</t></abstract>
-</front>
-<seriesInfo name="RFC" value="6119"/>
-<seriesInfo name="DOI" value="10.17487/RFC6119"/>
-</reference>
-
-
-
-<reference anchor="RFC6232" target="https://www.rfc-editor.org/info/rfc6232">
-<front>
-<title>Purge Originator Identification TLV for IS-IS</title>
-<author initials="F." surname="Wei" fullname="F. Wei"><organization/></author>
-<author initials="Y." surname="Qin" fullname="Y. Qin"><organization/></author>
-<author initials="Z." surname="Li" fullname="Z. Li"><organization/></author>
-<author initials="T." surname="Li" fullname="T. Li"><organization/></author>
-<author initials="J." surname="Dong" fullname="J. Dong"><organization/></author>
-<date year="2011" month="May"/>
-<abstract><t>At present, an IS-IS purge does not contain any information identifying the Intermediate System (IS) that generates the purge. This makes it difficult to locate the source IS.</t><t>To address this issue, this document defines a TLV to be added to purges to record the system ID of the IS generating it.  Since normal Link State Protocol Data Unit (LSP) flooding does not change LSP contents, this TLV should propagate with the purge.</t><t>This document updates RFC 5301, RFC 5304, and RFC 5310.  [STANDARDS-TRACK]</t></abstract>
-</front>
-<seriesInfo name="RFC" value="6232"/>
-<seriesInfo name="DOI" value="10.17487/RFC6232"/>
-</reference>
-
-
-
-<reference anchor="RFC7794" target="https://www.rfc-editor.org/info/rfc7794">
-<front>
-<title>IS-IS Prefix Attributes for Extended IPv4 and IPv6 Reachability</title>
-<author initials="L." surname="Ginsberg" fullname="L. Ginsberg" role="editor"><organization/></author>
-<author initials="B." surname="Decraene" fullname="B. Decraene"><organization/></author>
-<author initials="S." surname="Previdi" fullname="S. Previdi"><organization/></author>
-<author initials="X." surname="Xu" fullname="X. Xu"><organization/></author>
-<author initials="U." surname="Chunduri" fullname="U. Chunduri"><organization/></author>
-<date year="2016" month="March"/>
-<abstract><t>This document introduces new sub-TLVs to support advertisement of IPv4 and IPv6 prefix attribute flags and the source router ID of the router that originated a prefix advertisement.</t></abstract>
-</front>
-<seriesInfo name="RFC" value="7794"/>
-<seriesInfo name="DOI" value="10.17487/RFC7794"/>
-</reference>
-
-
-
-<reference anchor="RFC7810" target="https://www.rfc-editor.org/info/rfc7810">
-<front>
-<title>IS-IS Traffic Engineering (TE) Metric Extensions</title>
-<author initials="S." surname="Previdi" fullname="S. Previdi" role="editor"><organization/></author>
-<author initials="S." surname="Giacalone" fullname="S. Giacalone"><organization/></author>
-<author initials="D." surname="Ward" fullname="D. Ward"><organization/></author>
-<author initials="J." surname="Drake" fullname="J. Drake"><organization/></author>
-<author initials="Q." surname="Wu" fullname="Q. Wu"><organization/></author>
-<date year="2016" month="May"/>
-<abstract><t>In certain networks, such as, but not limited to, financial information networks (e.g., stock market data providers), network- performance criteria (e.g., latency) are becoming as critical to data-path selection as other metrics.</t><t>This document describes extensions to IS-IS Traffic Engineering Extensions (RFC 5305) such that network-performance information can be distributed and collected in a scalable fashion.  The information distributed using IS-IS TE Metric Extensions can then be used to make path-selection decisions based on network performance.</t><t>Note that this document only covers the mechanisms with which network-performance information is distributed.  The mechanisms for measuring network performance or acting on that information, once distributed, are outside the scope of this document.</t></abstract>
-</front>
-<seriesInfo name="RFC" value="7810"/>
-<seriesInfo name="DOI" value="10.17487/RFC7810"/>
-</reference>
-
-
-
-<reference anchor="RFC7917" target="https://www.rfc-editor.org/info/rfc7917">
-<front>
-<title>Advertising Node Administrative Tags in IS-IS</title>
-<author initials="P." surname="Sarkar" fullname="P. Sarkar" role="editor"><organization/></author>
-<author initials="H." surname="Gredler" fullname="H. Gredler"><organization/></author>
-<author initials="S." surname="Hegde" fullname="S. Hegde"><organization/></author>
-<author initials="S." surname="Litkowski" fullname="S. Litkowski"><organization/></author>
-<author initials="B." surname="Decraene" fullname="B. Decraene"><organization/></author>
-<date year="2016" month="July"/>
-<abstract><t>This document describes an extension to the IS-IS routing protocol to advertise node administrative tags.  This optional capability allows tagging and grouping of the nodes in an IS-IS domain.  The node administrative tags can be used to express and apply locally defined network policies, thereby providing a very useful operational capability.  Node administrative tags may be used by either IS-IS itself or other applications consuming information propagated via IS-IS.</t></abstract>
-</front>
-<seriesInfo name="RFC" value="7917"/>
-<seriesInfo name="DOI" value="10.17487/RFC7917"/>
-</reference>
-
-
-
 <reference anchor="RFC8405" target="https://www.rfc-editor.org/info/rfc8405">
 <front>
 <title>Shortest Path First (SPF) Back-Off Delay Algorithm for Link-State IGPs</title>
@@ -5624,15 +5630,15 @@ module ietf-isis {
 
 
 
-<reference anchor="RFC5308" target="https://www.rfc-editor.org/info/rfc5308">
+<reference anchor="RFC8446" target="https://www.rfc-editor.org/info/rfc8446">
 <front>
-<title>Routing IPv6 with IS-IS</title>
-<author initials="C." surname="Hopps" fullname="C. Hopps"><organization/></author>
-<date year="2008" month="October"/>
-<abstract><t>This document specifies a method for exchanging IPv6 routing information using the IS-IS routing protocol.  The described method utilizes two new TLVs: a reachability TLV and an interface address TLV to distribute the necessary IPv6 information throughout a routing domain.  Using this method, one can route IPv6 along with IPv4 and OSI using a single intra-domain routing protocol.  [STANDARDS-TRACK]</t></abstract>
+<title>The Transport Layer Security (TLS) Protocol Version 1.3</title>
+<author initials="E." surname="Rescorla" fullname="E. Rescorla"><organization/></author>
+<date year="2018" month="August"/>
+<abstract><t>This document specifies version 1.3 of the Transport Layer Security (TLS) protocol.  TLS allows client/server applications to communicate over the Internet in a way that is designed to prevent eavesdropping, tampering, and message forgery.</t><t>This document updates RFCs 5705 and 6066, and obsoletes RFCs 5077, 5246, and 6961.  This document also specifies new requirements for TLS 1.2 implementations.</t></abstract>
 </front>
-<seriesInfo name="RFC" value="5308"/>
-<seriesInfo name="DOI" value="10.17487/RFC5308"/>
+<seriesInfo name="RFC" value="8446"/>
+<seriesInfo name="DOI" value="10.17487/RFC8446"/>
 </reference>
 
      <reference anchor="ISO-10589">

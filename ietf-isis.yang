@@ -111,9 +111,9 @@ module ietf-isis {
        \"NOT RECOMMENDED\", \"MAY\", and \"OPTIONAL\" in this document 
        are to be interpreted as described in BCP 14 [RFC2119] [RFC8174]
        when, and only when, they appear in all capitals, as shown here.
-			"; 
+       "; 
 
-  revision 2019-01-09 {
+  revision 2019-01-10 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -380,7 +380,7 @@ module ietf-isis {
     }
     description
       "This type defines the IS-IS LSP ID format using a
-       pattern, An example LSP ID is 0143.0438.AEF0.02-01";
+       pattern. An example LSP ID is 0143.0438.AEF0.02-01";
   }
 
   typedef area-address {
@@ -397,7 +397,11 @@ module ietf-isis {
     }
     description
       "This type defines the Subnetwork Point
-       of Attachement (SNPA) format.";
+       of Attachement (SNPA) format.
+       The SNPA should be encoded according to the rules
+       specified for the particular type of subnetwork
+       being used. As an example, for an ethernet subnetwork,
+       the SNPA is encoded as a MAC address like 00aa.bbcc.ddee";
   }
 
   typedef system-id {
@@ -629,9 +633,7 @@ module ietf-isis {
              is unset otherwise.";
         }
         leaf non-best-reason {
-          type string {
-            length "1..255";
-          }
+          type string;
           description
             "Information field to describe why the alternate
              is not best. The length should be limited to 255 unicode
@@ -715,9 +717,7 @@ module ietf-isis {
       key frr-protection-method;
       config false;
       leaf frr-protection-method {
-        type string {
-          length "1..20";
-        }
+        type string;
         description "Protection method used. 
                      The expected format is a single word.
                      As example: LFA,rLFA, MRT, RSVP-TE...";
@@ -1074,9 +1074,7 @@ module ietf-isis {
       }
       case password {
         leaf key {
-          type string {
-            length "1..100";
-          }
+          type string;
           description
             "This leaf specifies the authentication key.";
         }
@@ -1193,9 +1191,7 @@ module ietf-isis {
       }
       case password {
         leaf key {
-          type string {
-            length "1..100";
-          }
+          type string;
           description "Authentication key specification";
         }
         leaf crypto-algorithm {
@@ -1789,11 +1785,10 @@ module ietf-isis {
             "system-id associated with the hostname.";
         }
         leaf hostname {
-          type string {
-            length "1..255";
-          }
+          type string;
           description
-            "Hostname associated with the system-id.";
+            "Hostname associated with the system-id
+             as defined in RFC5301.";
         }
         description
           "List of system-id/hostname associations.";
@@ -2864,9 +2859,7 @@ module ietf-isis {
   }
   grouping tlv137-hostname {
     leaf dynamic-hostname {
-      type string {
-        length "1..255";
-      }
+      type string;
       description
         "Host Name of the IS-IS node - IS-IS reference
          is TLV 137.";
@@ -2876,14 +2869,14 @@ module ietf-isis {
   grouping tlv10-authentication {
     container authentication {
       leaf authentication-type {
-        type uint8;
+        type identityref {
+            base key-chain:crypto-algorithm;
+        }
         description
           "Authentication type to be used with IS-IS node.";
       }
       leaf authentication-key {
-        type string {
-          length "1..255";
-        }
+        type string;
         description
           "Authentication key to be used. For security reasons,
            the authentication key MUST NOT be presented in
@@ -3680,9 +3673,7 @@ module ietf-isis {
         "Received raw PDU.";
     }
     leaf reason {
-      type string {
-        length "1..255";
-      }
+      type string;
       description
         "The system may provide a reason to reject the
          adjacency. If the reason is not available,
@@ -3755,11 +3746,13 @@ module ietf-isis {
     uses notification-instance-hdr;
     uses notification-interface-hdr;
     leaf neighbor {
-      type string {
-        length "1..255";
-      }
+      type string;
       description
-        "Name of the neighbor. If the name of the neighbor is
+        "Name of the neighbor. 
+         It corresponds to the hostname associated
+         with the system-id of the neighbor in the
+         mapping database (RFC5301).
+         If the name of the neighbor is
          not available, it is not returned.";
     }
     leaf neighbor-system-id {

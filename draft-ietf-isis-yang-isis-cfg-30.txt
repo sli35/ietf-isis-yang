@@ -5,14 +5,14 @@
 IS-IS Working Group                                         S. Litkowski
 Internet-Draft                                                    Orange
 Intended status: Standards Track                                D. Yeung
-Expires: July 13, 2019                                       Arrcus, Inc
+Expires: July 14, 2019                                       Arrcus, Inc
                                                                A. Lindem
                                                            Cisco Systems
                                                                 J. Zhang
                                                         Juniper Networks
                                                                L. Lhotka
                                                                   CZ.NIC
-                                                        January 09, 2019
+                                                        January 10, 2019
 
 
                    YANG Data Model for IS-IS protocol
@@ -46,14 +46,14 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on July 13, 2019.
+   This Internet-Draft will expire on July 14, 2019.
 
 
 
 
 
 
-Litkowski, et al.         Expires July 13, 2019                 [Page 1]
+Litkowski, et al.         Expires July 14, 2019                 [Page 1]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -90,7 +90,7 @@ Table of Contents
    4.  Notifications . . . . . . . . . . . . . . . . . . . . . . . .  20
    5.  Interaction with Other YANG Modules . . . . . . . . . . . . .  21
    6.  IS-IS YANG Module . . . . . . . . . . . . . . . . . . . . . .  22
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . . 102
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . . 101
    8.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . . 103
    9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . 103
    10. Change log for ietf-isis YANG module  . . . . . . . . . . . . 103
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Litkowski, et al.         Expires July 13, 2019                 [Page 2]
+Litkowski, et al.         Expires July 14, 2019                 [Page 2]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -130,7 +130,7 @@ Internet-Draft                  isis-cfg                    January 2019
    11. References  . . . . . . . . . . . . . . . . . . . . . . . . . 110
      11.1.  Normative References . . . . . . . . . . . . . . . . . . 110
      11.2.  Informative References . . . . . . . . . . . . . . . . . 113
-   Appendix A.  Example of IS-IS configuration in XML  . . . . . . . 113
+   Appendix A.  Example of IS-IS configuration in XML  . . . . . . . 114
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . 116
 
 1.  Introduction
@@ -165,7 +165,7 @@ module: ietf-isis
 
 
 
-Litkowski, et al.         Expires July 13, 2019                 [Page 3]
+Litkowski, et al.         Expires July 14, 2019                 [Page 3]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -223,7 +223,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                 [Page 4]
+Litkowski, et al.         Expires July 14, 2019                 [Page 4]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -279,7 +279,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                 [Page 5]
+Litkowski, et al.         Expires July 14, 2019                 [Page 5]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -343,7 +343,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                 [Page 6]
+Litkowski, et al.         Expires July 14, 2019                 [Page 6]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -405,7 +405,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                 [Page 7]
+Litkowski, et al.         Expires July 14, 2019                 [Page 7]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -467,7 +467,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                 [Page 8]
+Litkowski, et al.         Expires July 14, 2019                 [Page 8]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -524,7 +524,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                 [Page 9]
+Litkowski, et al.         Expires July 14, 2019                 [Page 9]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -580,7 +580,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 10]
+Litkowski, et al.         Expires July 14, 2019                [Page 10]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -636,7 +636,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 11]
+Litkowski, et al.         Expires July 14, 2019                [Page 11]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -697,7 +697,7 @@ key-chain:key-chain-ref
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 12]
+Litkowski, et al.         Expires July 14, 2019                [Page 12]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -753,7 +753,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 13]
+Litkowski, et al.         Expires July 14, 2019                [Page 13]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -812,7 +812,7 @@ rt-types:timer-value-seconds16
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 14]
+Litkowski, et al.         Expires July 14, 2019                [Page 14]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -876,7 +876,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 15]
+Litkowski, et al.         Expires July 14, 2019                [Page 15]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -938,7 +938,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 16]
+Litkowski, et al.         Expires July 14, 2019                [Page 16]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1000,7 +1000,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 17]
+Litkowski, et al.         Expires July 14, 2019                [Page 17]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1057,7 +1057,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 18]
+Litkowski, et al.         Expires July 14, 2019                [Page 18]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1106,14 +1106,14 @@ Internet-Draft                  isis-cfg                    January 2019
    o  database: provides details on the current LSDB.
 
    o  hostnames: provides informations about system-id to hostname
-      mappings.
+      mappings (as defined in [RFC5301]).
 
    o  fast-reroute: provides informations about IP FRR.
 
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 19]
+Litkowski, et al.         Expires July 14, 2019                [Page 19]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1169,7 +1169,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 20]
+Litkowski, et al.         Expires July 14, 2019                [Page 20]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1225,7 +1225,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 21]
+Litkowski, et al.         Expires July 14, 2019                [Page 21]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1235,7 +1235,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 6.  IS-IS YANG Module
 
-<CODE BEGINS> file "ietf-isis@2019-01-09.yang"
+<CODE BEGINS> file "ietf-isis@2019-01-10.yang"
 
 module ietf-isis {
   yang-version 1.1;
@@ -1281,7 +1281,7 @@ module ietf-isis {
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 22]
+Litkowski, et al.         Expires July 14, 2019                [Page 22]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1338,7 +1338,7 @@ draft-ietf-bfd-yang.";
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 23]
+Litkowski, et al.         Expires July 14, 2019                [Page 23]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1367,9 +1367,9 @@ Internet-Draft                  isis-cfg                    January 2019
        \"NOT RECOMMENDED\", \"MAY\", and \"OPTIONAL\" in this document
        are to be interpreted as described in BCP 14 [RFC2119] [RFC8174]
        when, and only when, they appear in all capitals, as shown here.
-                        ";
+       ";
 
-  revision 2019-01-09 {
+  revision 2019-01-10 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -1394,7 +1394,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 24]
+Litkowski, et al.         Expires July 14, 2019                [Page 24]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1450,7 +1450,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 25]
+Litkowski, et al.         Expires July 14, 2019                [Page 25]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1506,7 +1506,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 26]
+Litkowski, et al.         Expires July 14, 2019                [Page 26]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1562,7 +1562,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 27]
+Litkowski, et al.         Expires July 14, 2019                [Page 27]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1618,7 +1618,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 28]
+Litkowski, et al.         Expires July 14, 2019                [Page 28]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1674,7 +1674,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 29]
+Litkowski, et al.         Expires July 14, 2019                [Page 29]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -1683,7 +1683,7 @@ Internet-Draft                  isis-cfg                    January 2019
     }
     description
       "This type defines the IS-IS LSP ID format using a
-       pattern, An example LSP ID is 0143.0438.AEF0.02-01";
+       pattern. An example LSP ID is 0143.0438.AEF0.02-01";
   }
 
   typedef area-address {
@@ -1700,7 +1700,11 @@ Internet-Draft                  isis-cfg                    January 2019
     }
     description
       "This type defines the Subnetwork Point
-       of Attachement (SNPA) format.";
+       of Attachement (SNPA) format.
+       The SNPA should be encoded according to the rules
+       specified for the particular type of subnetwork
+       being used. As an example, for an ethernet subnetwork,
+       the SNPA is encoded as a MAC address like 00aa.bbcc.ddee";
   }
 
   typedef system-id {
@@ -1724,17 +1728,16 @@ Internet-Draft                  isis-cfg                    January 2019
        An example system-id is 0143.0438.AEF0.00";
   }
 
-  typedef wide-metric {
-    type uint32 {
-      range "0 .. 16777215";
 
 
-
-Litkowski, et al.         Expires July 13, 2019                [Page 30]
+Litkowski, et al.         Expires July 14, 2019                [Page 30]
 
 Internet-Draft                  isis-cfg                    January 2019
 
 
+  typedef wide-metric {
+    type uint32 {
+      range "0 .. 16777215";
     }
     description
       "This type defines wide style format of IS-IS metric.";
@@ -1780,17 +1783,17 @@ Internet-Draft                  isis-cfg                    January 2019
       description "Name of the IS-IS instance.";
     }
     leaf isis-level {
-      type level;
-      description "IS-IS level of the instance.";
-    }
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 31]
+Litkowski, et al.         Expires July 14, 2019                [Page 31]
 
 Internet-Draft                  isis-cfg                    January 2019
 
 
+      type level;
+      description "IS-IS level of the instance.";
+    }
   }
 
   grouping notification-interface-hdr {
@@ -1836,17 +1839,17 @@ Internet-Draft                  isis-cfg                    January 2019
     leaf candidate-enable {
       type boolean;
       default true;
-      description
-        "Enable the interface to be used as backup.";
-    }
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 32]
+Litkowski, et al.         Expires July 14, 2019                [Page 32]
 
 Internet-Draft                  isis-cfg                    January 2019
 
 
+      description
+        "Enable the interface to be used as backup.";
+    }
     leaf enable {
       type boolean;
       default false;
@@ -1892,17 +1895,17 @@ Internet-Draft                  isis-cfg                    January 2019
         "Interface IP Fast-reroute configuration.";
     }
   }
-  grouping instance-fast-reroute-state {
-    description "IPFRR state data grouping";
-    container protected-routes {
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 33]
+Litkowski, et al.         Expires July 14, 2019                [Page 33]
 
 Internet-Draft                  isis-cfg                    January 2019
 
 
+  grouping instance-fast-reroute-state {
+    description "IPFRR state data grouping";
+    container protected-routes {
       config false;
       list address-family-stats {
         key "address-family prefix alternate";
@@ -1948,17 +1951,17 @@ Internet-Draft                  isis-cfg                    January 2019
             enum mrt {
               description
                 "MRT alternate.";
-            }
-            enum other {
-              description
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 34]
+Litkowski, et al.         Expires July 14, 2019                [Page 34]
 
 Internet-Draft                  isis-cfg                    January 2019
 
 
+            }
+            enum other {
+              description
                 "Unknown alternate type.";
             }
           }
@@ -1972,9 +1975,7 @@ Internet-Draft                  isis-cfg                    January 2019
              is unset otherwise.";
         }
         leaf non-best-reason {
-          type string {
-            length "1..255";
-          }
+          type string;
           description
             "Information field to describe why the alternate
              is not best. The length should be limited to 255 unicode
@@ -2006,15 +2007,15 @@ Internet-Draft                  isis-cfg                    January 2019
               position 4;
               description
                 "Other protection available.";
-            }
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 35]
+Litkowski, et al.         Expires July 14, 2019                [Page 35]
 
 Internet-Draft                  isis-cfg                    January 2019
 
 
+            }
           }
           description "Protection provided by the alternate.";
         }
@@ -2062,21 +2063,19 @@ Internet-Draft                  isis-cfg                    January 2019
         "List of prefixes that are not protected.";
     }
 
-    list protection-statistics {
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 36]
+Litkowski, et al.         Expires July 14, 2019                [Page 36]
 
 Internet-Draft                  isis-cfg                    January 2019
 
 
+    list protection-statistics {
       key frr-protection-method;
       config false;
       leaf frr-protection-method {
-        type string {
-          length "1..20";
-        }
+        type string;
         description "Protection method used.
                      The expected format is a single word.
                      As example: LFA,rLFA, MRT, RSVP-TE...";
@@ -2119,15 +2118,14 @@ Internet-Draft                  isis-cfg                    January 2019
 
       description "Global protection statistics.";
     }
+  }
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 37]
+Litkowski, et al.         Expires July 14, 2019                [Page 37]
 
 Internet-Draft                  isis-cfg                    January 2019
 
-
-  }
 
         /* Route table and local RIB groupings */
 
@@ -2176,14 +2174,15 @@ Internet-Draft                  isis-cfg                    January 2019
     }
   }
 
+  grouping route-content {
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 38]
+
+Litkowski, et al.         Expires July 14, 2019                [Page 38]
 
 Internet-Draft                  isis-cfg                    January 2019
 
 
-  grouping route-content {
     description
       "IS-IS protocol-specific route properties grouping.";
     leaf metric {
@@ -2231,15 +2230,15 @@ Internet-Draft                  isis-cfg                    January 2019
                        and leaked to a lower level";
         }
       }
+      description "IS-IS route type.";
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 39]
+Litkowski, et al.         Expires July 14, 2019                [Page 39]
 
 Internet-Draft                  isis-cfg                    January 2019
 
 
-      description "IS-IS route type.";
     }
   }
 
@@ -2287,15 +2286,15 @@ Internet-Draft                  isis-cfg                    January 2019
             "The holding time in seconds for this
              adjacency. This value is based on
              received hello PDUs and the elapsed
+             time since receipt.";
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 40]
+Litkowski, et al.         Expires July 14, 2019                [Page 40]
 
 Internet-Draft                  isis-cfg                    January 2019
 
 
-             time since receipt.";
         }
         leaf neighbor-priority {
           type uint8 {
@@ -2346,7 +2345,8 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 41]
+
+Litkowski, et al.         Expires July 14, 2019                [Page 41]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -2402,7 +2402,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 42]
+Litkowski, et al.         Expires July 14, 2019                [Page 42]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -2458,7 +2458,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 43]
+Litkowski, et al.         Expires July 14, 2019                [Page 43]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -2487,9 +2487,7 @@ Internet-Draft                  isis-cfg                    January 2019
       }
       case password {
         leaf key {
-          type string {
-            length "1..100";
-          }
+          type string;
           description
             "This leaf specifies the authentication key.";
         }
@@ -2511,16 +2509,16 @@ Internet-Draft                  isis-cfg                    January 2019
       type enumeration {
         enum wide-only {
           description
+            "Advertise new metric style only (RFC5305)";
+        }
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 44]
+Litkowski, et al.         Expires July 14, 2019                [Page 44]
 
 Internet-Draft                  isis-cfg                    January 2019
 
 
-            "Advertise new metric style only (RFC5305)";
-        }
         enum old-only {
           description
             "Advertise old metric style only (RFC1195)";
@@ -2567,16 +2565,16 @@ Internet-Draft                  isis-cfg                    January 2019
   grouping overload-max-metric-global-cfg {
     leaf timeout {
       type rt-types:timer-value-seconds16;
+      units "seconds";
+      description
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 45]
+Litkowski, et al.         Expires July 14, 2019                [Page 45]
 
 Internet-Draft                  isis-cfg                    January 2019
 
 
-      units "seconds";
-      description
         "Timeout (in seconds) of the overload condition.";
     }
     description
@@ -2622,19 +2620,17 @@ Internet-Draft                  isis-cfg                    January 2019
       }
       case password {
         leaf key {
-          type string {
+          type string;
+          description "Authentication key specification";
+        }
 
 
 
-Litkowski, et al.         Expires July 13, 2019                [Page 46]
+Litkowski, et al.         Expires July 14, 2019                [Page 46]
 
 Internet-Draft                  isis-cfg                    January 2019
 
 
-            length "1..100";
-          }
-          description "Authentication key specification";
-        }
         leaf crypto-algorithm {
           type identityref {
             base key-chain:crypto-algorithm;
@@ -2679,18 +2675,17 @@ Internet-Draft                  isis-cfg                    January 2019
       type uint8 {
         range "0 .. 127";
       }
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 47]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
       default 64;
       description
         "Priority of interface for DIS election.";
     }
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 47]
+
+Internet-Draft                  isis-cfg                    January 2019
+
 
     description "Interface DIS election priority grouping";
   }
@@ -2735,19 +2730,19 @@ Internet-Draft                  isis-cfg                    January 2019
       if-feature auto-cost;
       description
         "Interface Auto-cost configuration state.";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 48]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
       leaf enable {
         type boolean;
         description
           "Enable/Disable interface auto-cost.";
       }
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 48]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       leaf reference-bandwidth {
         when "../enable = 'true'" {
           description "Only when auto cost is enabled";
@@ -2791,19 +2786,19 @@ Internet-Draft                  isis-cfg                    January 2019
       description "Graceful-Restart Configuration.";
     }
     container nsr {
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 49]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
       if-feature nsr;
       description "Non-Stop Routing (NSR) configuration.";
       leaf enable {
         type boolean;
         default false;
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 49]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
         description "Enable/Disable Non-Stop Routing (NSR).";
       }
     }
@@ -2847,19 +2842,19 @@ Internet-Draft                  isis-cfg                    January 2019
       description "Address Family configuration";
     }
     description "Grouping for address family parameters.";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 50]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
   }
 
   grouping mpls-parameters {
     container mpls {
       container te-rid {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 50]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
         if-feature te-rid;
         description
           "Stable ISIS Router IP Address used for Traffic
@@ -2903,19 +2898,19 @@ Internet-Draft                  isis-cfg                    January 2019
       }
       units "seconds";
       description
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 51]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
         "Lifetime of the router's LSPs in seconds.";
     }
     leaf lsp-refresh {
       if-feature lsp-refresh;
       type rt-types:timer-value-seconds16;
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 51]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       units "seconds";
       description
         "Refresh interval of the router's LSPs in seconds.";
@@ -2959,19 +2954,19 @@ Internet-Draft                  isis-cfg                    January 2019
       default "level-all";
       description
         "Level of an IS-IS node - can be level-1,
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 52]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
          level-2 or level-all.";
     }
 
     leaf system-id {
       type system-id;
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 52]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       description "system-id of the node.";
     }
 
@@ -3015,19 +3010,19 @@ Internet-Draft                  isis-cfg                    January 2019
       uses overload-max-metric-global-cfg;
       description
         "Router protocol instance overload maximum
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 53]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
          metric advertisement configuration.";
     }
   }
 
   grouping instance-state {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 53]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       description
        "IS-IS instance operational state.";
      uses spf-log;
@@ -3071,19 +3066,19 @@ Internet-Draft                  isis-cfg                    January 2019
         "Interval (in milli-seconds) between LSP
          transmissions.";
     }
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 54]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     leaf lsp-retransmit-interval {
       type rt-types:timer-value-seconds16;
       units "seconds";
       description
         "Interval (in seconds) between LSP
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 54]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
          retransmissions.";
     }
     leaf passive {
@@ -3127,19 +3122,19 @@ Internet-Draft                  isis-cfg                    January 2019
       description
         "Type of adjacency to be established on the interface. This
          dictates the type of hello messages that are used.";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 55]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     }
 
     uses admin-control;
 
     leaf-list tag {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 55]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       if-feature prefix-tag;
       type uint32;
       description
@@ -3183,19 +3178,19 @@ Internet-Draft                  isis-cfg                    January 2019
       }
       description "Interval between hello messages.";
     }
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 56]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     container hello-multiplier {
       uses hello-multiplier-cfg;
       container level-1 {
         uses hello-multiplier-cfg;
         description "level-1 specific configuration";
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 56]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       }
       container level-2 {
         uses hello-multiplier-cfg;
@@ -3240,18 +3235,19 @@ Internet-Draft                  isis-cfg                    January 2019
       reference "RFC YYYY - YANG Data Model for Bidirectional
                Forwarding Detection (BFD).
 
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 57]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
 -- Note to RFC Editor Please replace YYYY with published RFC number for 
 draft-ietf-bfd-yang.";
 
     }
     container address-families {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 57]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       if-feature nlpid-control;
       list address-family-list {
         key address-family;
@@ -3296,18 +3292,17 @@ draft-ietf-bfd-yang.";
   grouping interface-state {
     description
       "IS-IS interface operational state.";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 58]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     uses adjacency-state;
     uses event-counters;
     uses packet-counters;
   }
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 58]
+
+Internet-Draft                  isis-cfg                    January 2019
+
 
  /* Grouping for the hostname database */
 
@@ -3322,11 +3317,10 @@ Internet-Draft                  isis-cfg                    January 2019
             "system-id associated with the hostname.";
         }
         leaf hostname {
-          type string {
-            length "1..255";
-          }
+          type string;
           description
-            "Hostname associated with the system-id.";
+            "Hostname associated with the system-id
+             as defined in RFC5301.";
         }
         description
           "List of system-id/hostname associations.";
@@ -3352,20 +3346,20 @@ Internet-Draft                  isis-cfg                    January 2019
         }
         leaf corrupted-lsps {
           type uint32;
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 59]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
           description
             "Number of corrupted in-memory LSPs detected.
              LSPs received from the wire with a bad
              checksum are silently dropped and not counted.
              LSPs received from the wire with parse errors
              are counted by lsp-errors.";
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 59]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
         }
         leaf authentication-type-fails {
           type uint32;
@@ -3408,20 +3402,20 @@ Internet-Draft                  isis-cfg                    January 2019
              occured.";
         }
         leaf id-len-mismatch {
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 60]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
           type uint32;
           description
             "Number of times a PDU is received with a
              different value for the ID field length
              than that of the receiving system.";
         }
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 60]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
         leaf partition-changes {
           type uint32;
           description
@@ -3464,20 +3458,20 @@ Internet-Draft                  isis-cfg                    January 2019
         type uint32;
         description
           "The number of times initialization of this
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 61]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
            interface has failed. This counts events such
            as PPP NCP failures. Failures to form an
            adjacency are counted by adjacency-rejects.";
       }
       leaf adjacency-rejects {
         type uint32;
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 61]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
         description
           "The number of times an adjacency has been
            rejected on this interface.";
@@ -3520,19 +3514,19 @@ Internet-Draft                  isis-cfg                    January 2019
       "Grouping for IS-IS interface event counters";
   }
 
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 62]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
   grouping packet-counters {
     container packet-counters {
       config false;
       list level {
         key level;
+
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 62]
+
+Internet-Draft                  isis-cfg                    January 2019
+
 
         leaf level {
           type level-number;
@@ -3576,20 +3570,20 @@ Internet-Draft                  isis-cfg                    January 2019
           leaf in {
             type uint32;
             description "Received LSP PDUs.";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 63]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
           }
           leaf out {
             type uint32;
             description "Sent LSP PDUs.";
           }
           description "Number of LSP PDUs received/sent.";
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 63]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
         }
         container psnp {
           leaf in {
@@ -3633,18 +3627,19 @@ Internet-Draft                  isis-cfg                    January 2019
       "Grouping for per IS-IS Level packet counters.";
   }
 
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 64]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
         /* Groupings for various log buffers */
   grouping spf-log {
     container spf-log {
       config false;
       list event {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 64]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
         key id;
 
         leaf id {
@@ -3688,19 +3683,19 @@ Internet-Draft                  isis-cfg                    January 2019
         list trigger-lsp {
           key "lsp";
           leaf lsp {
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 65]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
             type lsp-id;
             description
               "LSP ID of the LSP triggering SPF computation.";
           }
           leaf sequence {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 65]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
             type uint32;
             description
               "Sequence number of the LSP triggering SPF
@@ -3744,19 +3739,19 @@ Internet-Draft                  isis-cfg                    January 2019
               "LSP ID of the LSP.";
           }
           leaf sequence {
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 66]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
             type uint32;
             description
               "Sequence number of the LSP.";
           }
           description
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 66]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
             "LSP identification container - either the received
              LSP or the locally generated LSP.";
         }
@@ -3800,19 +3795,19 @@ Internet-Draft                  isis-cfg                    January 2019
     leaf type {
       type uint16;
       description "TLV type.";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 67]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     }
     leaf length {
       type uint16;
       description "TLV length (octets).";
     }
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 67]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
     leaf value {
       type yang:hex-string;
       description "TLV value.";
@@ -3856,19 +3851,19 @@ Internet-Draft                  isis-cfg                    January 2019
   grouping prefix-ipv4-source-router-id {
     description
       "Grouping for the IPv4 source router ID of a prefix
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 68]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
        advertisement.";
 
     leaf ipv4-source-router-id {
       type inet:ipv4-address;
       description "IPv4 Source router ID address.";
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 68]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
     }
   }
 
@@ -3912,19 +3907,19 @@ Internet-Draft                  isis-cfg                    January 2019
       leaf metric {
         type std-metric;
         description "Default IS-IS metric for IPv4 prefix";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 69]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
       }
       description "IS-IS default metric container.";
     }
     container delay-metric {
       leaf metric {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 69]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
         type std-metric;
         description "IS-IS delay metric for IPv4 prefix";
       }
@@ -3968,19 +3963,19 @@ Internet-Draft                  isis-cfg                    January 2019
     description
       "Grouping for attributes of an IPv4 extended prefix
        as defined in RFC5305.";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 70]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     leaf up-down {
       type boolean;
       description  "Value of up/down bit.";
     }
     leaf ip-prefix {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 70]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       type inet:ipv4-address;
       description "IPv4 prefix address";
     }
@@ -4024,19 +4019,19 @@ Internet-Draft                  isis-cfg                    January 2019
       type wide-metric;
       description  "IS-IS wide metric value";
     }
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 71]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     leaf-list tag {
       type uint32;
       description
         "List of 32-bit tags associated with the IPv4 prefix.";
     }
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 71]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
     leaf-list tag64 {
       type uint64;
       description
@@ -4080,19 +4075,19 @@ Internet-Draft                  isis-cfg                    January 2019
     }
     container interface-switching-capability {
       description
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 72]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
         "Interface switching capabilities of the link.";
       leaf switching-capability {
         type uint8;
         description
           "Switching capability of the link.";
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 72]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       }
       leaf encoding {
         type uint8;
@@ -4137,19 +4132,19 @@ Internet-Draft                  isis-cfg                    January 2019
       container psc-specific {
         when "../switching-capability >= 1 and ../switching-capability 
 <= 4";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 73]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
         description
           "Switching Capability-specific information applicable
           when switching type is PSC1,PSC2,PSC3 or PSC4.";
 
         leaf minimum-lsp-bandwidth {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 73]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
           type rt-types:bandwidth-ieee-float32;
           description "minimum LSP bandwidth.";
         }
@@ -4193,19 +4188,19 @@ Internet-Draft                  isis-cfg                    January 2019
       leaf value {
         type uint32;
         units usec;
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 74]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
         description
           "Delay value expressed in microseconds.";
       }
     }
     container min-max-unidirectional-link-delay {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 74]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       description
         "Container for the min and max delay
         from the local neighbor to the remote one.";
@@ -4249,19 +4244,19 @@ Internet-Draft                  isis-cfg                    January 2019
         units usec;
         description
           "Delay variation value expressed in microseconds.";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 75]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
       }
     }
     container unidirectional-link-loss{
       description
         "Container for the packet loss
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 75]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
         from the local neighbor to the remote one.";
       leaf flags {
         type bits {
@@ -4305,19 +4300,19 @@ Internet-Draft                  isis-cfg                    January 2019
         "Container for the available bandwidth
         from the local neighbor to the remote one.";
       leaf value {
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 76]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
         type rt-types:bandwidth-ieee-float32;
         units Bps;
         description
           "Available bandwidth.";
       }
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 76]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
     }
     container unidirectional-link-utilized-bandwidth {
       description
@@ -4361,19 +4356,19 @@ Internet-Draft                  isis-cfg                    January 2019
       type uint32;
       description "TE metric.";
     }
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 77]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     leaf max-bandwidth {
       type rt-types:bandwidth-ieee-float32;
       description "Maximum bandwidth.";
     }
     leaf max-reservable-bandwidth {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 77]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       type rt-types:bandwidth-ieee-float32;
       description "Maximum reservable bandwidth.";
     }
@@ -4417,19 +4412,19 @@ Internet-Draft                  isis-cfg                    January 2019
         }
         leaf metric {
           type wide-metric;
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 78]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
           description "IS-IS wide metric for extended neighbor";
         }
         uses neighbor-gmpls-extensions;
         uses neighbor-te-extensions;
         uses neighbor-extended-te-extensions;
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 78]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
         uses neighbor-link-attributes;
         uses unknown-tlvs;
         description "Instance of a particular adjacency.";
@@ -4473,19 +4468,19 @@ Internet-Draft                  isis-cfg                    January 2019
           }
           leaf supported {
             type boolean;
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 79]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
             default "false";
             description "IS-IS delay metric supported";
           }
           description "IS-IS delay metric container";
         }
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 79]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
         container expense-metric {
           leaf metric {
             type std-metric;
@@ -4529,19 +4524,19 @@ Internet-Draft                  isis-cfg                    January 2019
   }
   grouping tlv232-ipv6-addresses {
     leaf-list ipv6-addresses {
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 80]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
       type inet:ipv6-address;
       description
         "List of IPv6 addresses of the IS-IS node - IS-IS
          reference is TLV 232.";
     }
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 80]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
     description "Grouping for TLV232.";
   }
   grouping tlv134-ipv4-te-rid {
@@ -4573,9 +4568,7 @@ Internet-Draft                  isis-cfg                    January 2019
   }
   grouping tlv137-hostname {
     leaf dynamic-hostname {
-      type string {
-        length "1..255";
-      }
+      type string;
       description
         "Host Name of the IS-IS node - IS-IS reference
          is TLV 137.";
@@ -4585,22 +4578,22 @@ Internet-Draft                  isis-cfg                    January 2019
   grouping tlv10-authentication {
     container authentication {
       leaf authentication-type {
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 81]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
-        type uint8;
+        type identityref {
+            base key-chain:crypto-algorithm;
+        }
         description
           "Authentication type to be used with IS-IS node.";
       }
       leaf authentication-key {
-        type string {
-          length "1..255";
-        }
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 81]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
+        type string;
         description
           "Authentication key to be used. For security reasons,
            the authentication key MUST NOT be presented in
@@ -4641,14 +4634,6 @@ Internet-Draft                  isis-cfg                    January 2019
             }
           }
           description
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 82]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
             "Attributes of the LSP for the associated
              topology.";
         }
@@ -4656,6 +4641,14 @@ Internet-Draft                  isis-cfg                    January 2019
       description
         "IS-IS node topology information container -
          IS-IS reference is TLV 229.";
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 82]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
     }
     description "Grouping for TLV229.";
   }
@@ -4697,14 +4690,6 @@ Internet-Draft                  isis-cfg                    January 2019
               description "List of tags.";
             }
             description "Container for node admin tags";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 83]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
           }
 
           uses unknown-tlvs;
@@ -4712,6 +4697,14 @@ Internet-Draft                  isis-cfg                    January 2019
           leaf binary {
             type binary;
             description
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 83]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
               "Binary encoding of the IS-IS node capabilities";
           }
           description
@@ -4753,14 +4746,6 @@ Internet-Draft                  isis-cfg                    January 2019
             type uint32;
           }
           description
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 84]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
             "Remote identifier of the link.
             It could be an IPv4 address or a remotely learned
             identifier.";
@@ -4768,6 +4753,14 @@ Internet-Draft                  isis-cfg                    January 2019
         container srlgs {
           description "List of SRLGs.";
           leaf-list srlg {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 84]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
             type uint32;
             description
               "SRLG value of the link.";
@@ -4809,14 +4802,6 @@ Internet-Draft                  isis-cfg                    January 2019
       units "seconds";
       description
         "Remaining lifetime (in seconds) until LSP expiration.";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 85]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     }
     leaf sequence {
       type uint32;
@@ -4824,6 +4809,14 @@ Internet-Draft                  isis-cfg                    January 2019
         "This leaf describes the sequence number of the LSP.";
     }
     leaf attributes {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 85]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       type bits {
         bit partitioned {
           description "Originator partition repair supported";
@@ -4865,14 +4858,6 @@ Internet-Draft                  isis-cfg                    January 2019
     uses tlv137-hostname;
     uses tlv10-authentication;
     uses tlv229-mt;
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 86]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     uses tlv242-router-capabilities;
     uses tlv138-srlg;
     uses unknown-tlvs;
@@ -4880,6 +4865,13 @@ Internet-Draft                  isis-cfg                    January 2019
     container is-neighbor {
       list neighbor {
         key neighbor-id;
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 86]
+
+Internet-Draft                  isis-cfg                    January 2019
+
 
         uses neighbor;
         description "List of neighbors.";
@@ -4922,13 +4914,6 @@ Internet-Draft                  isis-cfg                    January 2019
          IS-IS reference is TLV 130.";
     }
 
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 87]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     container extended-ipv4-reachability {
       list prefixes {
         uses prefix-ipv4-extended;
@@ -4936,6 +4921,14 @@ Internet-Draft                  isis-cfg                    January 2019
         description "List of prefixes.";
       }
       description
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 87]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
         "IPv4 extended reachability information container -
          IS-IS reference is TLV 135.";
     }
@@ -4977,14 +4970,6 @@ Internet-Draft                  isis-cfg                    January 2019
       list prefixes {
         leaf MT-ID {
           type uint16 {
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 88]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
             range "0 .. 4095";
           }
           description "Multi-topology (MT) identifier";
@@ -4992,6 +4977,14 @@ Internet-Draft                  isis-cfg                    January 2019
         uses prefix-ipv6-extended;
         uses unknown-tlvs;
         description "List of IPv6 extended prefixes.";
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 88]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       }
       description
         "IPv6 multi-topolgy (MT) extended reachability
@@ -5035,17 +5028,19 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-
-Litkowski, et al.         Expires July 13, 2019                [Page 89]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
   /* Augmentations */
 
   augment "/rt:routing/"
     +"rt:ribs/rt:rib/rt:routes/rt:route" {
     when "rt:source-protocol = 'isis:isis'" {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 89]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       description "IS-IS-specific route attributes.";
     }
     uses route-content;
@@ -5089,19 +5084,19 @@ Internet-Draft                  isis-cfg                    January 2019
         list topology {
           key "name";
           leaf enable {
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 90]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
             type boolean;
             description "Topology enable configuration";
           }
           leaf name {
             type leafref {
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 90]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
               path "../../../../../../rt:ribs/rt:rib/rt:name";
             }
             description
@@ -5145,19 +5140,19 @@ Internet-Draft                  isis-cfg                    January 2019
               uses multi-topology-interface-config;
               description "List of interface topologies";
             }
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 91]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
             description "Multi-topology container";
           }
           description "List of IS-IS interfaces.";
         }
         description
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 91]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
           "IS-IS interface specific configuration container";
       }
 
@@ -5201,19 +5196,19 @@ Internet-Draft                  isis-cfg                    January 2019
 
            If the value provided is different from the one
            authorized in the enum type, then the operation
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 92]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
            SHALL fail with an error-tag of 'data-missing' and
            an error-app-tag of 'bad-isis-level'.";
       }
       leaf interface {
         type if:interface-ref;
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 92]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
         description
           "IS-IS interface name.
 
@@ -5257,18 +5252,17 @@ Internet-Draft                  isis-cfg                    January 2019
            If the value provided is different from the one
            authorized in the enum type, then the operation
            SHALL fail with an error-tag of 'data-missing' and
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 93]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
            an error-app-tag of 'bad-isis-level'.";
       }
     }
   }
+
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 93]
+
+Internet-Draft                  isis-cfg                    January 2019
 
 
   /* Notifications */
@@ -5313,19 +5307,19 @@ Internet-Draft                  isis-cfg                    January 2019
        circuit.  The notification generation must be throttled
        with at least 5 seconds betweeen successive
        notifications.";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 94]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
   }
 
   notification if-state-change {
     uses notification-instance-hdr;
     uses notification-interface-hdr;
+
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 94]
+
+Internet-Draft                  isis-cfg                    January 2019
+
 
     leaf state {
       type if-state-type;
@@ -5369,20 +5363,20 @@ Internet-Draft                  isis-cfg                    January 2019
     }
     leaf raw-pdu {
       type binary;
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 95]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
       description "Received raw PDU.";
     }
     description
       "This notification is sent when we receive a PDU
        with a different value for the system-id length.
        The notification generation must be throttled
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 95]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
        with at least 5 seconds betweeen successive
        notifications.";
   }
@@ -5425,20 +5419,20 @@ Internet-Draft                  isis-cfg                    January 2019
     leaf lsp-id {
       type lsp-id;
       description "LSP ID";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 96]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     }
     description
       "This notification is sent when the system receives a
        PDU with its own system-id and different contents. The
        system has to reoriginate the LSP with a higher sequence
        number.";
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 96]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
   }
 
   notification authentication-type-failure {
@@ -5481,20 +5475,20 @@ Internet-Draft                  isis-cfg                    January 2019
     leaf raw-pdu {
       type binary;
       description "Received raw PDU.";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 97]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     }
     description
       "This notification is sent when the system receives a
        PDU with a different protocol version number.
        The notification generation must be throttled
        with at least 5 seconds betweeen successive
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 97]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
        notifications.";
   }
 
@@ -5522,9 +5516,7 @@ Internet-Draft                  isis-cfg                    January 2019
         "Received raw PDU.";
     }
     leaf reason {
-      type string {
-        length "1..255";
-      }
+      type string;
       description
         "The system may provide a reason to reject the
          adjacency. If the reason is not available,
@@ -5537,14 +5529,6 @@ Internet-Draft                  isis-cfg                    January 2019
        for some reason. The notification generation must be
        throttled with at least 5 seconds betweeen successive
        notifications.";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 98]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
   }
 
 
@@ -5553,6 +5537,14 @@ Internet-Draft                  isis-cfg                    January 2019
     uses notification-interface-hdr;
     leaf raw-pdu {
       type binary;
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 98]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       description "Received raw PDU.";
     }
     leaf-list protocols {
@@ -5593,14 +5585,6 @@ Internet-Draft                  isis-cfg                    January 2019
         "If the problem is a malformed TLV, the tlv-type is set
          to the type value of the suspicious TLV. Otherwise,
          this leaf is not present.";
-
-
-
-Litkowski, et al.         Expires July 13, 2019                [Page 99]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     }
     description
       "This notification is sent when the system  receives an
@@ -5609,15 +5593,25 @@ Internet-Draft                  isis-cfg                    January 2019
        notifications.";
   }
 
+
+
+
+Litkowski, et al.         Expires July 14, 2019                [Page 99]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
   notification adjacency-state-change {
     uses notification-instance-hdr;
     uses notification-interface-hdr;
     leaf neighbor {
-      type string {
-        length "1..255";
-      }
+      type string;
       description
-        "Name of the neighbor. If the name of the neighbor is
+        "Name of the neighbor.
+         It corresponds to the hostname associated
+         with the system-id of the neighbor in the
+         mapping database (RFC5301).
+         If the name of the neighbor is
          not available, it is not returned.";
     }
     leaf neighbor-system-id {
@@ -5649,20 +5643,20 @@ Internet-Draft                  isis-cfg                    January 2019
     uses notification-instance-hdr;
     uses notification-interface-hdr;
 
-
-
-
-Litkowski, et al.         Expires July 13, 2019               [Page 100]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
     leaf lsp-id {
       type lsp-id;
       description "LSP ID";
     }
     leaf sequence {
       type uint32;
+
+
+
+Litkowski, et al.         Expires July 14, 2019               [Page 100]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
       description "Sequence number of the received LSP.";
     }
     leaf received-timestamp {
@@ -5705,20 +5699,20 @@ Internet-Draft                  isis-cfg                    January 2019
 
 <CODE ENDS>
 
-
-
-
-Litkowski, et al.         Expires July 13, 2019               [Page 101]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
 7.  Security Considerations
 
    The YANG module specified in this document defines a schema for data
    that is designed to be accessed via network management protocols such
    as NETCONF [RFC6241] or RESTCONF [RFC8040].  The lowest NETCONF layer
    is the secure transport layer, and the mandatory-to-implement secure
+
+
+
+Litkowski, et al.         Expires July 14, 2019               [Page 101]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
    transport is Secure Shell (SSH) [RFC6242].  The lowest RESTCONF layer
    is HTTPS, and the mandatory-to-implement secure transport is TLS
    [RFC8446]
@@ -5761,16 +5755,19 @@ Internet-Draft                  isis-cfg                    January 2019
    sensitive or vulnerable in some network environments.  It is thus
    important to control access to these operations.  The OSPF YANG
    module support the "clear-adjacency" and "clear-database" RPCs.  If
+   access too either of these is compromised, they can result in
+   temporary network outages be employed to mount DoS attacks.
 
 
 
-Litkowski, et al.         Expires July 13, 2019               [Page 102]
+
+
+
+
+Litkowski, et al.         Expires July 14, 2019               [Page 102]
 
 Internet-Draft                  isis-cfg                    January 2019
 
-
-   access too either of these is compromised, they can result in
-   temporary network outages be employed to mount DoS attacks.
 
 8.  Contributors
 
@@ -5814,22 +5811,19 @@ Internet-Draft                  isis-cfg                    January 2019
       reference to MD5 as a possible way to hide the password.
 
    o  Changed leaf type for authentication type within
-      tlv10-authentication container.Moved from string to integer.
-
-
-
-
-
-Litkowski, et al.         Expires July 13, 2019               [Page 103]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
-   o  All the leaves with a type string have now a minimum and maximum
-      length.
+      tlv10-authentication container.Moved from string to
+      keychain:crypto-algorithm identity.
 
    o  In FRR stats, "prefix" is now encoded as inet:ip-prefix rather
       than a string. "alternate" is now encoded as ip-address.
+
+
+
+
+Litkowski, et al.         Expires July 14, 2019               [Page 103]
+
+Internet-Draft                  isis-cfg                    January 2019
+
 
 10.2.  From version -28 to version -29
 
@@ -5874,17 +5868,18 @@ Internet-Draft                  isis-cfg                    January 2019
    o  Notification instance header: changed routing-protocol-name to a
       reference.
 
-
-
-Litkowski, et al.         Expires July 13, 2019               [Page 104]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
    o  Notification interface header: changed interface to a reference.
 
    o  RPCs: changed instance-state-ref typedef to a leafref.  Removed
       associated typedef.
+
+
+
+
+Litkowski, et al.         Expires July 14, 2019               [Page 104]
+
+Internet-Draft                  isis-cfg                    January 2019
+
 
    o  Revised some groupings and their names (alignment with OSPF).
 
@@ -5930,14 +5925,17 @@ Internet-Draft                  isis-cfg                    January 2019
 
    o  Remove segment-routing feature
 
+   o  Modified BFD activation modeling
 
 
-Litkowski, et al.         Expires July 13, 2019               [Page 105]
+
+
+
+
+Litkowski, et al.         Expires July 14, 2019               [Page 105]
 
 Internet-Draft                  isis-cfg                    January 2019
 
-
-   o  Modified BFD activation modeling
 
 10.11.  From version -18 to version -19
 
@@ -5985,15 +5983,15 @@ Internet-Draft                  isis-cfg                    January 2019
 
       *  Renamed igp-ldp-sync to igp-sync.
 
+      *  Added auto-cost container.
 
 
 
-Litkowski, et al.         Expires July 13, 2019               [Page 106]
+
+Litkowski, et al.         Expires July 14, 2019               [Page 106]
 
 Internet-Draft                  isis-cfg                    January 2019
 
-
-      *  Added auto-cost container.
 
       *  Moved reference-bandwidth under auto-cost container.
 
@@ -6041,15 +6039,15 @@ Internet-Draft                  isis-cfg                    January 2019
 
    o  remove routing-instance as per core routing model v21.
 
+   o  added BFD leaf (no more BFD protocol model).
 
 
 
-Litkowski, et al.         Expires July 13, 2019               [Page 107]
+
+Litkowski, et al.         Expires July 14, 2019               [Page 107]
 
 Internet-Draft                  isis-cfg                    January 2019
 
-
-   o  added BFD leaf (no more BFD protocol model).
 
    o  changed keychain module reference.
 
@@ -6098,14 +6096,14 @@ Internet-Draft                  isis-cfg                    January 2019
 
    o  Adding instance reference to operational states.
 
+   o  Move AF type from string to identity.
 
 
-Litkowski, et al.         Expires July 13, 2019               [Page 108]
+
+Litkowski, et al.         Expires July 14, 2019               [Page 108]
 
 Internet-Draft                  isis-cfg                    January 2019
 
-
-   o  Move AF type from string to identity.
 
    o  Updated router-capability in LSDB description.
 
@@ -6156,7 +6154,9 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019               [Page 109]
+
+
+Litkowski, et al.         Expires July 14, 2019               [Page 109]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -6212,7 +6212,7 @@ Internet-Draft                  isis-cfg                    January 2019
 
 
 
-Litkowski, et al.         Expires July 13, 2019               [Page 110]
+Litkowski, et al.         Expires July 14, 2019               [Page 110]
 
 Internet-Draft                  isis-cfg                    January 2019
 
@@ -6221,6 +6221,10 @@ Internet-Draft                  isis-cfg                    January 2019
               IP Fast Reroute: Loop-Free Alternates", RFC 5286,
               DOI 10.17487/RFC5286, September 2008,
               <https://www.rfc-editor.org/info/rfc5286>.
+
+   [RFC5301]  McPherson, D. and N. Shen, "Dynamic Hostname Exchange
+              Mechanism for IS-IS", RFC 5301, DOI 10.17487/RFC5301,
+              October 2008, <https://www.rfc-editor.org/info/rfc5301>.
 
    [RFC5305]  Li, T. and H. Smit, "IS-IS Extensions for Traffic
               Engineering", RFC 5305, DOI 10.17487/RFC5305, October
@@ -6261,17 +6265,18 @@ Internet-Draft                  isis-cfg                    January 2019
               DOI 10.17487/RFC6232, May 2011,
               <https://www.rfc-editor.org/info/rfc6232>.
 
+
+
+
+Litkowski, et al.         Expires July 14, 2019               [Page 111]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
    [RFC6241]  Enns, R., Ed., Bjorklund, M., Ed., Schoenwaelder, J., Ed.,
               and A. Bierman, Ed., "Network Configuration Protocol
               (NETCONF)", RFC 6241, DOI 10.17487/RFC6241, June 2011,
               <https://www.rfc-editor.org/info/rfc6241>.
-
-
-
-Litkowski, et al.         Expires July 13, 2019               [Page 111]
-
-Internet-Draft                  isis-cfg                    January 2019
-
 
    [RFC6242]  Wasserman, M., "Using the NETCONF Protocol over Secure
               Shell (SSH)", RFC 6242, DOI 10.17487/RFC6242, June 2011,
@@ -6313,21 +6318,21 @@ Internet-Draft                  isis-cfg                    January 2019
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
+
+
+
+
+
+
+Litkowski, et al.         Expires July 14, 2019               [Page 112]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
    [RFC8177]  Lindem, A., Ed., Qu, Y., Yeung, D., Chen, I., and J.
               Zhang, "YANG Data Model for Key Chains", RFC 8177,
               DOI 10.17487/RFC8177, June 2017,
               <https://www.rfc-editor.org/info/rfc8177>.
-
-
-
-
-
-
-
-Litkowski, et al.         Expires July 13, 2019               [Page 112]
-
-Internet-Draft                  isis-cfg                    January 2019
-
 
    [RFC8294]  Liu, X., Qu, Y., Lindem, A., Hopps, C., and L. Berger,
               "Common YANG Data Types for the Routing Area", RFC 8294,
@@ -6369,6 +6374,17 @@ Internet-Draft                  isis-cfg                    January 2019
               BCP 215, RFC 8340, DOI 10.17487/RFC8340, March 2018,
               <https://www.rfc-editor.org/info/rfc8340>.
 
+
+
+
+
+
+
+Litkowski, et al.         Expires July 14, 2019               [Page 113]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
 Appendix A.  Example of IS-IS configuration in XML
 
    This section gives an example of configuration of an IS-IS instance
@@ -6377,14 +6393,6 @@ Appendix A.  Example of IS-IS configuration in XML
    <?xml version="1.0" encoding="utf-8"?>
    <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
      <routing xmlns="urn:ietf:params:xml:ns:yang:ietf-routing">
-
-
-
-Litkowski, et al.         Expires July 13, 2019               [Page 113]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
          <name>SLI</name>
          <router-id>1.1.1.1</router-id>
          <control-plane-protocols>
@@ -6425,6 +6433,14 @@ Internet-Draft                  isis-cfg                    January 2019
                    </address-family-list>
                  </address-families>
                  <interfaces>
+
+
+
+Litkowski, et al.         Expires July 14, 2019               [Page 114]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
                    <interface>
                      <name>Loopback0</name>
                      <tag>200</tag>
@@ -6433,14 +6449,6 @@ Internet-Draft                  isis-cfg                    January 2019
                      </metric>
                      <passive>true</passive>
                    </interface>
-
-
-
-Litkowski, et al.         Expires July 13, 2019               [Page 114]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
                    <interface>
                      <name>Eth1</name>
                      <level-type>level-2</level-type>
@@ -6481,6 +6489,14 @@ Internet-Draft                  isis-cfg                    January 2019
          <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">
          ianaift:ethernetCsmacd
          </type>
+
+
+
+Litkowski, et al.         Expires July 14, 2019               [Page 115]
+
+Internet-Draft                  isis-cfg                    January 2019
+
+
          <link-up-down-trap-enable>enabled</link-up-down-trap-enable>
          <ipv4 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip">
            <address>
@@ -6489,14 +6505,6 @@ Internet-Draft                  isis-cfg                    January 2019
            </address>
          </ipv4>
          <ipv6 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip">
-
-
-
-Litkowski, et al.         Expires July 13, 2019               [Page 115]
-
-Internet-Draft                  isis-cfg                    January 2019
-
-
            <address>
              <ip>2001:DB8:0:0:FF::1</ip>
              <prefix-length>64</prefix-length>
@@ -6540,12 +6548,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-Litkowski, et al.         Expires July 13, 2019               [Page 116]
+Litkowski, et al.         Expires July 14, 2019               [Page 116]
