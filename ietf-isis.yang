@@ -113,7 +113,7 @@ module ietf-isis {
        when, and only when, they appear in all capitals, as shown here.
        "; 
 
-  revision 2019-01-10 {
+  revision 2019-01-16 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -633,7 +633,9 @@ module ietf-isis {
              is unset otherwise.";
         }
         leaf non-best-reason {
-          type string;
+          type string {
+            length "1..255";
+          }
           description
             "Information field to describe why the alternate
              is not best. The length should be limited to 255 unicode
@@ -1076,7 +1078,12 @@ module ietf-isis {
         leaf key {
           type string;
           description
-            "This leaf specifies the authentication key.";
+            "This leaf specifies the authentication key. The
+             length of the key may be dependent on the
+             cryptographic algorithm. In cases where it is
+             not, a key length of at least 32 octets should be
+             supported to allow for interoperability with strong
+             keys.";
         }
         leaf crypto-algorithm {
           type identityref {
@@ -1192,7 +1199,12 @@ module ietf-isis {
       case password {
         leaf key {
           type string;
-          description "Authentication key specification";
+          description "Authentication key specification - The
+                       length of the key may be dependent on the
+                       cryptographic algorithm. In cases where it is 
+                       not, a key length of at leawt 32 octets should be
+                       supported to allow for interoperability with strong
+                       keys.";
         }
         leaf crypto-algorithm {
           type identityref {
@@ -1785,7 +1797,9 @@ module ietf-isis {
             "system-id associated with the hostname.";
         }
         leaf hostname {
-          type string;
+          type string {
+            length "1..255";
+          }
           description
             "Hostname associated with the system-id
              as defined in RFC5301.";
@@ -3673,7 +3687,9 @@ module ietf-isis {
         "Received raw PDU.";
     }
     leaf reason {
-      type string;
+      type string {
+        length "1..255";
+      }
       description
         "The system may provide a reason to reject the
          adjacency. If the reason is not available,
@@ -3746,7 +3762,9 @@ module ietf-isis {
     uses notification-instance-hdr;
     uses notification-interface-hdr;
     leaf neighbor {
-      type string;
+      type string {
+        length "1..255";
+      }
       description
         "Name of the neighbor. 
          It corresponds to the hostname associated

@@ -39,7 +39,7 @@
         <email>lhotka@nic.cz</email>
       </address>
     </author>
-    <date day="10" month="January" year="2019"/>
+    <date day="16" month="January" year="2019"/>
     <area/>
     <workgroup>IS-IS Working Group</workgroup>
 
@@ -919,7 +919,7 @@ augment "/rt:routing/" +
 
       <figure title="" suppress-title="false" align="left" alt="" width="" height="">
 	<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
-&lt;CODE BEGINS&gt; file "ietf-isis@2019-01-10.yang"
+&lt;CODE BEGINS&gt; file "ietf-isis@2019-01-16.yang"
 
 module ietf-isis {
   yang-version 1.1;
@@ -1036,7 +1036,7 @@ module ietf-isis {
        when, and only when, they appear in all capitals, as shown here.
        "; 
 
-  revision 2019-01-10 {
+  revision 2019-01-16 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -1556,7 +1556,9 @@ module ietf-isis {
              is unset otherwise.";
         }
         leaf non-best-reason {
-          type string;
+          type string {
+            length "1..255";
+          }
           description
             "Information field to describe why the alternate
              is not best. The length should be limited to 255 unicode
@@ -1999,7 +2001,12 @@ module ietf-isis {
         leaf key {
           type string;
           description
-            "This leaf specifies the authentication key.";
+            "This leaf specifies the authentication key. The
+             length of the key may be dependent on the
+             cryptographic algorithm. In cases where it is
+             not, a key length of at least 32 octets should be
+             supported to allow for interoperability with strong
+             keys.";
         }
         leaf crypto-algorithm {
           type identityref {
@@ -2115,7 +2122,12 @@ module ietf-isis {
       case password {
         leaf key {
           type string;
-          description "Authentication key specification";
+          description "Authentication key specification - The
+                       length of the key may be dependent on the
+                       cryptographic algorithm. In cases where it is 
+                       not, a key length of at leawt 32 octets should be
+                       supported to allow for interoperability with strong
+                       keys.";
         }
         leaf crypto-algorithm {
           type identityref {
@@ -2708,7 +2720,9 @@ module ietf-isis {
             "system-id associated with the hostname.";
         }
         leaf hostname {
-          type string;
+          type string {
+            length "1..255";
+          }
           description
             "Hostname associated with the system-id
              as defined in RFC5301.";
@@ -4596,7 +4610,9 @@ module ietf-isis {
         "Received raw PDU.";
     }
     leaf reason {
-      type string;
+      type string {
+        length "1..255";
+      }
       description
         "The system may provide a reason to reject the
          adjacency. If the reason is not available,
@@ -4669,7 +4685,9 @@ module ietf-isis {
     uses notification-instance-hdr;
     uses notification-interface-hdr;
     leaf neighbor {
-      type string;
+      type string {
+        length "1..255";
+      }
       description
         "Name of the neighbor. 
          It corresponds to the hostname associated
@@ -4819,6 +4837,8 @@ module ietf-isis {
            <t>Leaf default-metric of container prefix-ipv4-std is now a container.</t>
            <t>Changed the description of the authentication and removed the reference to MD5 as a possible way to hide the password.</t>
            <t>Changed leaf type for authentication type within tlv10-authentication container.Moved from string to keychain:crypto-algorithm identity.</t>
+           <t>Some admin strings are now limited to a range of 1..255.</t>
+           <t>Hostname string in hostname DB is limited to 255 as per RFC5301.</t>
            <t>In FRR stats, "prefix" is now encoded as inet:ip-prefix rather than a string. "alternate" is now encoded as ip-address.</t>
            </list>
            </t>
