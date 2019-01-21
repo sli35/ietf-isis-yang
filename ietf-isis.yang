@@ -48,7 +48,8 @@ module ietf-isis {
     reference "RFC YYYY - YANG Data Model for Bidirectional
                Forwarding Detection (BFD).
 
--- Note to RFC Editor Please replace YYYY with published RFC number for draft-ietf-bfd-yang.";
+-- Note to RFC Editor Please replace YYYY with published RFC
+  number for draft-ietf-bfd-yang.";
 
   }
 
@@ -109,8 +110,9 @@ module ietf-isis {
        The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 
        'SHALL NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 
        'NOT RECOMMENDED', 'MAY', and 'OPTIONAL' in this document 
-       are to be interpreted as described in BCP 14 [RFC2119] [RFC8174]
-       when, and only when, they appear in all capitals, as shown here.
+       are to be interpreted as described in BCP 14 [RFC2119]
+       [RFC8174] when, and only when, they appear in all capitals,
+       as shown here.
        "; 
 
   revision 2019-01-21 {
@@ -401,7 +403,8 @@ module ietf-isis {
        The SNPA should be encoded according to the rules
        specified for the particular type of subnetwork
        being used. As an example, for an ethernet subnetwork,
-       the SNPA is encoded as a MAC address like 00aa.bbcc.ddee";
+       the SNPA is encoded as a MAC address like 
+       '00aa.bbcc.ddee'.";
   }
 
   typedef system-id {
@@ -416,7 +419,8 @@ module ietf-isis {
   typedef extended-system-id {
     type string {
       pattern
-        '[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9][0-9]';
+        '[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.'
+        +'[0-9][0-9]';
     }
     description
       "This type defines IS-IS system-id using pattern. The extended
@@ -638,8 +642,9 @@ module ietf-isis {
           }
           description
             "Information field to describe why the alternate
-             is not best. The length should be limited to 255 unicode
-             characters. The expected format is a single line text.";
+             is not best. The length should be limited to 255
+             unicode characters. The expected format is a single
+             line text.";
         }
         leaf protection-available {
           type bits {
@@ -1201,10 +1206,10 @@ module ietf-isis {
           type string;
           description "Authentication key specification - The
                        length of the key may be dependent on the
-                       cryptographic algorithm. In cases where it is 
-                       not, a key length of at leawt 32 octets should be
-                       supported to allow for interoperability with strong
-                       keys.";
+                       cryptographic algorithm. In cases where
+                       it is not, a key length of at least 32 octets
+                       should be supported to allow for
+                       interoperability with strong keys.";
         }
         leaf crypto-algorithm {
           type identityref {
@@ -1731,7 +1736,8 @@ module ietf-isis {
       reference "RFC YYYY - YANG Data Model for Bidirectional
                Forwarding Detection (BFD).
 
--- Note to RFC Editor Please replace YYYY with published RFC number for draft-ietf-bfd-yang.";
+-- Note to RFC Editor Please replace YYYY with published FC
+   number for draft-ietf-bfd-yang.";
 
     }
     container address-families {
@@ -2500,7 +2506,8 @@ module ietf-isis {
         }
       }
       container psc-specific {
-        when "../switching-capability >= 1 and ../switching-capability <= 4";
+        when "../switching-capability >= 1 and
+              ../switching-capability <= 4";
         description
           "Switching Capability-specific information applicable
           when switching type is PSC1,PSC2,PSC3 or PSC4.";
