@@ -85,7 +85,7 @@ module ietf-isis {
 
   description
     "This YANG module defines the generic configuration and
-      operational state for the IS-IS protocol. 
+      operational state for the IS-IS protocol.
       It is intended that the module
       will be extended by vendors to define vendor-specific
       IS-IS configuration parameters and policies,
@@ -107,15 +107,15 @@ module ietf-isis {
        This version of this YANG module is part of RFC XXXX;
        see the RFC itself for full legal notices.
 
-       The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 
-       'SHALL NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 
-       'NOT RECOMMENDED', 'MAY', and 'OPTIONAL' in this document 
+       The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL',
+       'SHALL NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED',
+       'NOT RECOMMENDED', 'MAY', and 'OPTIONAL' in this document
        are to be interpreted as described in BCP 14 [RFC2119]
        [RFC8174] when, and only when, they appear in all capitals,
        as shown here.
-       "; 
+       ";
 
-  revision 2019-01-21 {
+  revision 2019-01-23 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -403,7 +403,7 @@ module ietf-isis {
        The SNPA should be encoded according to the rules
        specified for the particular type of subnetwork
        being used. As an example, for an ethernet subnetwork,
-       the SNPA is encoded as a MAC address like 
+       the SNPA is encoded as a MAC address like
        '00aa.bbcc.ddee'.";
   }
 
@@ -465,7 +465,7 @@ module ietf-isis {
   }
 
   /* Grouping for notifications */
-  
+
   grouping notification-instance-hdr {
     description
       "Instance specific IS-IS notification data grouping";
@@ -633,7 +633,7 @@ module ietf-isis {
         leaf best {
           type boolean;
           description
-            "Is set when the alternate is the preferred one, 
+            "Is set when the alternate is the preferred one,
              is unset otherwise.";
         }
         leaf non-best-reason {
@@ -725,7 +725,7 @@ module ietf-isis {
       config false;
       leaf frr-protection-method {
         type string;
-        description "Protection method used. 
+        description "Protection method used.
                      The expected format is a single word.
                      As example: LFA,rLFA, MRT, RSVP-TE...";
       }
@@ -769,7 +769,7 @@ module ietf-isis {
     }
   }
 
-	/* Route table and local RIB groupings */
+        /* Route table and local RIB groupings */
 
   grouping local-rib {
     description "Local-rib - RIB for Routes computed by the local
@@ -815,7 +815,7 @@ module ietf-isis {
       }
     }
   }
-	
+
   grouping route-content {
     description
       "IS-IS protocol-specific route properties grouping.";
@@ -867,9 +867,9 @@ module ietf-isis {
       description "IS-IS route type.";
     }
   }
-	
-	
-	/* Grouping definitions for configuration and ops state */
+
+
+        /* Grouping definitions for configuration and ops state */
 
 
   grouping adjacency-state {
@@ -986,7 +986,7 @@ module ietf-isis {
       units msec;
       description
         "Timer used to consider an IGP stability period
-				 (milliseconds).";
+                                 (milliseconds).";
     }
     leaf time-to-learn {
       type rt-types:timer-value-milliseconds;
@@ -1087,7 +1087,7 @@ module ietf-isis {
              length of the key may be dependent on the
              cryptographic algorithm. In cases where it is
              not, a key length of at least 32 octets should be
-             supported to allow for interoperability with 
+             supported to allow for interoperability with
              strong keys.";
         }
         leaf crypto-algorithm {
@@ -1483,7 +1483,7 @@ module ietf-isis {
         description
           "SPF calculation control.";
     }
-		description "Grouping for SPF global parameters.";
+                description "Grouping for SPF global parameters.";
   }
   grouping instance-config {
     description "IS-IS global configuration grouping";
@@ -1525,7 +1525,7 @@ module ietf-isis {
     uses mpls-parameters;
     uses spf-parameters;
     uses instance-fast-reroute-config;
-		
+
     container preference {
       uses route-preference-global-cfg;
       description "Router preference configuration for IS-IS
@@ -1558,7 +1558,7 @@ module ietf-isis {
       uses system-counters;
       uses instance-fast-reroute-state;
   }
-	
+
   grouping multi-topology-config {
     description "Per-topology configuration";
     container default-metric {
@@ -1789,9 +1789,9 @@ module ietf-isis {
     uses event-counters;
     uses packet-counters;
   }
-	
+
  /* Grouping for the hostname database */
-	
+
   grouping hostname-db {
     container hostnames {
       config false;
@@ -1821,7 +1821,7 @@ module ietf-isis {
   }
 
   /* Groupings for counters */
-	
+
   grouping system-counters {
     container system-counters {
       config false;
@@ -2075,7 +2075,7 @@ module ietf-isis {
       "Grouping for per IS-IS Level packet counters.";
   }
 
-	/* Groupings for various log buffers */
+        /* Groupings for various log buffers */
   grouping spf-log {
     container spf-log {
       config false;
@@ -2244,7 +2244,7 @@ module ietf-isis {
   }
 
   /* TLVs and subTLVs for prefixes */
-	
+
   grouping prefix-reachability-attributes {
     description
       "Grouping for extended reachability attributes of an
@@ -2425,7 +2425,7 @@ module ietf-isis {
   }
 
   /* TLVs and subTLVs for neighbors */
-  
+
   grouping neighbor-link-attributes {
     description
       "Grouping for link attributes as defined
@@ -2493,7 +2493,7 @@ module ietf-isis {
         description
           "Switching Capability-specific information applicable
           when switching type is TDM.";
-        
+
         leaf minimum-lsp-bandwidth {
           type rt-types:bandwidth-ieee-float32;
           description "minimum LSP bandwidth.";
@@ -2501,7 +2501,7 @@ module ietf-isis {
         leaf indication {
           type uint8;
           description
-            "The indication whether the interface supports Standard 
+            "The indication whether the interface supports Standard
             or Arbitrary SONET/SDH.";
         }
       }
@@ -2511,7 +2511,7 @@ module ietf-isis {
         description
           "Switching Capability-specific information applicable
           when switching type is PSC1,PSC2,PSC3 or PSC4.";
-        
+
         leaf minimum-lsp-bandwidth {
           type rt-types:bandwidth-ieee-float32;
           description "minimum LSP bandwidth.";
@@ -2525,12 +2525,12 @@ module ietf-isis {
       }
     }
   }
-  
+
   grouping neighbor-extended-te-extensions {
     description
       "Grouping for TE attributes of a neighbor as defined
       in RFC7810";
-      
+
     container unidirectional-link-delay {
       description
         "Container for the average delay
@@ -2540,12 +2540,12 @@ module ietf-isis {
           bit A {
             position 7;
             description
-              "The A bit represents the Anomalous (A) bit.  
-              The A bit is set when the measured value of 
+              "The A bit represents the Anomalous (A) bit.
+              The A bit is set when the measured value of
               this parameter exceeds its configured
-              maximum threshold.  
+              maximum threshold.
               The A bit is cleared when the measured value
-              falls below its configured reuse threshold.  
+              falls below its configured reuse threshold.
               If the A bit is clear,
               the value represents steady-state link performance.";
           }
@@ -2556,7 +2556,7 @@ module ietf-isis {
       leaf value {
         type uint32;
         units usec;
-        description 
+        description
           "Delay value expressed in microseconds.";
       }
     }
@@ -2564,17 +2564,17 @@ module ietf-isis {
       description
         "Container for the min and max delay
         from the local neighbor to the remote one.";
-      leaf flags {      
+      leaf flags {
         type bits {
           bit A {
             position 7;
             description
-              "The A bit represents the Anomalous (A) bit.  
-              The A bit is set when the measured value of 
+              "The A bit represents the Anomalous (A) bit.
+              The A bit is set when the measured value of
               this parameter exceeds its configured
-              maximum threshold.  
+              maximum threshold.
               The A bit is cleared when the measured value
-              falls below its configured reuse threshold.  
+              falls below its configured reuse threshold.
               If the A bit is clear,
               the value represents steady-state link performance.";
           }
@@ -2585,13 +2585,13 @@ module ietf-isis {
       leaf min-value {
         type uint32;
         units usec;
-        description 
+        description
           "Minimum delay value expressed in microseconds.";
       }
       leaf max-value {
         type uint32;
         units usec;
-        description 
+        description
           "Maximum delay value expressed in microseconds.";
       }
     }
@@ -2602,7 +2602,7 @@ module ietf-isis {
       leaf value {
         type uint32;
         units usec;
-        description 
+        description
           "Delay variation value expressed in microseconds.";
       }
     }
@@ -2615,12 +2615,12 @@ module ietf-isis {
           bit A {
             position 7;
             description
-              "The A bit represents the Anomalous (A) bit.  
-              The A bit is set when the measured value of 
+              "The A bit represents the Anomalous (A) bit.
+              The A bit is set when the measured value of
               this parameter exceeds its configured
-              maximum threshold.  
+              maximum threshold.
               The A bit is cleared when the measured value
-              falls below its configured reuse threshold.  
+              falls below its configured reuse threshold.
               If the A bit is clear,
               the value represents steady-state link performance.";
           }
@@ -2631,7 +2631,7 @@ module ietf-isis {
       leaf value {
         type uint32;
         units percent;
-        description 
+        description
           "Link packet loss expressed as a percentage
           of the total traffic sent over a configurable interval.";
       }
@@ -2643,7 +2643,7 @@ module ietf-isis {
       leaf value {
         type rt-types:bandwidth-ieee-float32;
         units Bps;
-        description 
+        description
           "Residual bandwidth.";
       }
     }
@@ -2654,7 +2654,7 @@ module ietf-isis {
       leaf value {
         type rt-types:bandwidth-ieee-float32;
         units Bps;
-        description 
+        description
           "Available bandwidth.";
       }
     }
@@ -2665,12 +2665,12 @@ module ietf-isis {
       leaf value {
         type rt-types:bandwidth-ieee-float32;
         units Bps;
-        description 
+        description
           "Utilized bandwidth.";
       }
     }
   }
-  
+
   grouping neighbor-te-extensions {
     description
       "Grouping for TE attributes of a neighbor as defined
@@ -2727,7 +2727,7 @@ module ietf-isis {
       }
     }
   }
-  
+
   grouping neighbor-extended {
     description
      "Grouping for attributes of an IS-IS extended neighbor.";
@@ -2901,7 +2901,7 @@ module ietf-isis {
         description
           "Authentication key to be used. For security reasons,
            the authentication key MUST NOT be presented in
-           a clear text format in response to any request 
+           a clear text format in response to any request
           (e.g., via get, get-config).";
       }
       description
@@ -2945,10 +2945,10 @@ module ietf-isis {
       description
         "IS-IS node topology information container -
          IS-IS reference is TLV 229.";
-    }  
+    }
     description "Grouping for TLV229.";
   }
-  
+
   grouping tlv242-router-capabilities {
     container router-capabilities {
       list router-capability {
@@ -2987,9 +2987,9 @@ module ietf-isis {
             }
             description "Container for node admin tags";
           }
-          
+
           uses unknown-tlvs;
-          
+
           leaf binary {
             type binary;
             description
@@ -3004,7 +3004,7 @@ module ietf-isis {
       }
       description "Grouping for TLV242.";
   }
-    
+
   grouping tlv138-srlg {
     description
       "Grouping for TLV138.";
@@ -3024,7 +3024,7 @@ module ietf-isis {
             type inet:ip-address;
             type uint32;
           }
-          description 
+          description
             "Local identifier of the link.
             It could be an IPv4 address or a local identifier.";
         }
@@ -3033,9 +3033,9 @@ module ietf-isis {
             type inet:ip-address;
             type uint32;
           }
-          description 
+          description
             "Remote identifier of the link.
-            It could be an IPv4 address or a remotely learned 
+            It could be an IPv4 address or a remotely learned
             identifier.";
         }
         container srlgs {
@@ -3053,9 +3053,9 @@ module ietf-isis {
         "List of links with SRLGs";
     }
   }
-    
+
   /* Grouping for LSDB description */
-  
+
   grouping lsp-entry {
     description "IS-IS LSP database entry groupting";
 
@@ -3133,7 +3133,7 @@ module ietf-isis {
     uses tlv242-router-capabilities;
     uses tlv138-srlg;
     uses unknown-tlvs;
-    
+
     container is-neighbor {
       list neighbor {
         key neighbor-id;
@@ -3401,7 +3401,7 @@ module ietf-isis {
         type leafref {
           path "/rt:routing/rt:control-plane-protocols/"
              + "rt:control-plane-protocol/rt:name";
-        } 
+        }
         mandatory "true";
         description
           "Name of the IS-IS protocol instance whose IS-IS
@@ -3448,7 +3448,7 @@ module ietf-isis {
         type leafref {
           path "/rt:routing/rt:control-plane-protocols/"
              + "rt:control-plane-protocol/rt:name";
-        }        
+        }
         mandatory "true";
         description
           "Name of the IS-IS protocol instance whose IS-IS
@@ -3700,7 +3700,7 @@ module ietf-isis {
       description
         "The system may provide a reason to reject the
          adjacency. If the reason is not available,
-         an empty string will be returned. 
+         an empty string will be returned.
          The expected format is a single line text.";
     }
     description
@@ -3773,7 +3773,7 @@ module ietf-isis {
         length "1..255";
       }
       description
-        "Name of the neighbor. 
+        "Name of the neighbor.
          It corresponds to the hostname associated
          with the system-id of the neighbor in the
          mapping database (RFC5301).
@@ -3797,7 +3797,7 @@ module ietf-isis {
         "If the adjacency is going to DOWN,  this leaf provides
          a reason for the adjacency going down. The reason is
          provided as a text. If the adjacency is going to UP, no
-         reason is provided. The expected format is a single line 
+         reason is provided. The expected format is a single line
          text.";
     }
     description
