@@ -1,0 +1,651 @@
+
+module: ietf-isis
+  augment /rt:routing/rt:ribs/rt:rib/rt:routes/rt:route:
+    +--ro metric?       uint32
+    +--ro tag*          uint64
+    +--ro route-type?   enumeration
+  augment /if:interfaces/if:interface:
+    +--rw clns-mtu?   uint16 {osi-interface}?
+  augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol:
+    +--rw isis
+       +--rw enable?                   boolean {admin-control}?
+       +--rw level-type?               level
+       +--rw system-id?                system-id
+       +--rw maximum-area-addresses?   uint8 {maximum-area-addresses}?
+       +--rw area-address*             area-address
+       +--rw lsp-mtu?                  uint16
+       +--rw lsp-lifetime?             uint16
+       +--rw lsp-refresh?              rt-types:timer-value-seconds16 {lsp-refresh}?
+       +--rw poi-tlv?                  boolean {poi-tlv}?
+       +--rw graceful-restart {graceful-restart}?
+       |  +--rw enable?             boolean
+       |  +--rw restart-interval?   rt-types:timer-value-seconds16
+       |  +--rw helper-enable?      boolean
+       +--rw nsr {nsr}?
+       |  +--rw enable?   boolean
+       +--rw node-tags {node-tag}?
+       |  +--rw node-tag* [tag]
+       |     +--rw tag    uint32
+       +--rw metric-type
+       |  +--rw value?     enumeration
+       |  +--rw level-1
+       |  |  +--rw value?   enumeration
+       |  +--rw level-2
+       |     +--rw value?   enumeration
+       +--rw default-metric
+       |  +--rw value?     wide-metric
+       |  +--rw level-1
+       |  |  +--rw value?   wide-metric
+       |  +--rw level-2
+       |     +--rw value?   wide-metric
+       +--rw auto-cost {auto-cost}?
+       |  +--rw enable?                boolean
+       |  +--rw reference-bandwidth?   uint32
+       +--rw authentication
+       |  +--rw (authentication-type)?
+       |  |  +--:(key-chain) {key-chain}?
+       |  |  |  +--rw key-chain?          key-chain:key-chain-ref
+       |  |  +--:(password)
+       |  |     +--rw key?                string
+       |  |     +--rw crypto-algorithm?   identityref
+       |  +--rw level-1
+       |  |  +--rw (authentication-type)?
+       |  |     +--:(key-chain) {key-chain}?
+       |  |     |  +--rw key-chain?          key-chain:key-chain-ref
+       |  |     +--:(password)
+       |  |        +--rw key?                string
+       |  |        +--rw crypto-algorithm?   identityref
+       |  +--rw level-2
+       |     +--rw (authentication-type)?
+       |        +--:(key-chain) {key-chain}?
+       |        |  +--rw key-chain?          key-chain:key-chain-ref
+       |        +--:(password)
+       |           +--rw key?                string
+       |           +--rw crypto-algorithm?   identityref
+       +--rw address-families {nlpid-control}?
+       |  +--rw address-family-list* [address-family]
+       |     +--rw address-family    iana-rt-types:address-family
+       |     +--rw enable?           boolean
+       +--rw mpls
+       |  +--rw te-rid {te-rid}?
+       |  |  +--rw ipv4-router-id?   inet:ipv4-address
+       |  |  +--rw ipv6-router-id?   inet:ipv6-address
+       |  +--rw ldp
+       |     +--rw igp-sync {ldp-igp-sync}?
+       +--rw spf-control
+       |  +--rw paths?            uint16 {max-ecmp}?
+       |  +--rw ietf-spf-delay {ietf-spf-delay}?
+       |     +--rw initial-delay?             rt-types:timer-value-milliseconds
+       |     +--rw short-delay?               rt-types:timer-value-milliseconds
+       |     +--rw long-delay?                rt-types:timer-value-milliseconds
+       |     +--rw hold-down?                 rt-types:timer-value-milliseconds
+       |     +--rw time-to-learn?             rt-types:timer-value-milliseconds
+       |     +--ro current-state?             enumeration
+       |     +--ro remaining-time-to-learn?   rt-types:timer-value-milliseconds
+       |     +--ro remaining-hold-down?       rt-types:timer-value-milliseconds
+       |     +--ro last-event-received?       yang:timestamp
+       |     +--ro next-spf-time?             yang:timestamp
+       |     +--ro last-spf-time?             yang:timestamp
+       +--rw fast-reroute {fast-reroute}?
+       |  +--rw lfa {lfa}?
+       +--rw preference
+       |  +--rw (granularity)?
+       |     +--:(detail)
+       |     |  +--rw internal?   uint8
+       |     |  +--rw external?   uint8
+       |     +--:(coarse)
+       |        +--rw default?    uint8
+       +--rw overload
+       |  +--rw status?   boolean
+       +--rw overload-max-metric {overload-max-metric}?
+       |  +--rw timeout?   rt-types:timer-value-seconds16
+       +--ro spf-log
+       |  +--ro event* [id]
+       |     +--ro id                    uint32
+       |     +--ro spf-type?             enumeration
+       |     +--ro level?                level-number
+       |     +--ro schedule-timestamp?   yang:timestamp
+       |     +--ro start-timestamp?      yang:timestamp
+       |     +--ro end-timestamp?        yang:timestamp
+       |     +--ro trigger-lsp* [lsp]
+       |        +--ro lsp         lsp-id
+       |        +--ro sequence?   uint32
+       +--ro lsp-log
+       |  +--ro event* [id]
+       |     +--ro id                    uint32
+       |     +--ro level?                level-number
+       |     +--ro lsp
+       |     |  +--ro lsp?        lsp-id
+       |     |  +--ro sequence?   uint32
+       |     +--ro received-timestamp?   yang:timestamp
+       |     +--ro reason?               identityref
+       +--ro hostnames
+       |  +--ro hostname* [system-id]
+       |     +--ro system-id    system-id
+       |     +--ro hostname?    string
+       +--ro database
+       |  +--ro levels* [level]
+       |     +--ro level    level-number
+       |     +--ro lsp* [lsp-id]
+       |        +--ro decoded-completed?               boolean
+       |        +--ro raw-data?                        yang:hex-string
+       |        +--ro lsp-id                           lsp-id
+       |        +--ro checksum?                        uint16
+       |        +--ro remaining-lifetime?              uint16
+       |        +--ro sequence?                        uint32
+       |        +--ro attributes
+       |        |  +--ro lsp-flags*   identityref
+       |        +--ro ipv4-addresses*                  inet:ipv4-address
+       |        +--ro ipv6-addresses*                  inet:ipv6-address
+       |        +--ro ipv4-te-routerid?                inet:ipv4-address
+       |        +--ro ipv6-te-routerid?                inet:ipv6-address
+       |        +--ro protocol-supported*              uint8
+       |        +--ro dynamic-hostname?                string
+       |        +--ro authentication
+       |        |  +--ro authentication-type?   identityref
+       |        |  +--ro authentication-key?    string
+       |        +--ro mt-entries
+       |        |  +--ro topology* []
+       |        |     +--ro mt-id?        uint16
+       |        |     +--ro attributes
+       |        |        +--ro flags*   identityref
+       |        +--ro router-capabilities
+       |        |  +--ro router-capability* []
+       |        |     +--ro flags
+       |        |     |  +--ro router-capability-flags*   identityref
+       |        |     +--ro node-tags {node-tag}?
+       |        |     |  +--ro node-tag* []
+       |        |     |        ...
+       |        |     +--ro unknown-tlvs
+       |        |        +--ro unknown-tlv* []
+       |        |              ...
+       |        +--ro links-srlgs
+       |        |  +--ro links* []
+       |        |     +--ro neighbor-id?      extended-system-id
+       |        |     +--ro flags?            uint8
+       |        |     +--ro link-local-id?    union
+       |        |     +--ro link-remote-id?   union
+       |        |     +--ro srlgs
+       |        |        +--ro srlg*   uint32
+       |        +--ro unknown-tlvs
+       |        |  +--ro unknown-tlv* []
+       |        |     +--ro type?     uint16
+       |        |     +--ro length?   uint16
+       |        |     +--ro value?    yang:hex-string
+       |        +--ro is-neighbor
+       |        |  +--ro neighbor* [neighbor-id]
+       |        |     +--ro neighbor-id    extended-system-id
+       |        |     +--ro instances
+       |        |        +--ro instance* [id]
+       |        |              ...
+       |        +--ro extended-is-neighbor
+       |        |  +--ro neighbor* [neighbor-id]
+       |        |     +--ro neighbor-id    extended-system-id
+       |        |     +--ro instances
+       |        |        +--ro instance* [id]
+       |        |              ...
+       |        +--ro ipv4-internal-reachability
+       |        |  +--ro prefixes* []
+       |        |     +--ro ip-prefix?        inet:ipv4-address
+       |        |     +--ro prefix-len?       uint8
+       |        |     +--ro i-e?              boolean
+       |        |     +--ro default-metric
+       |        |     |  +--ro metric?   std-metric
+       |        |     +--ro delay-metric
+       |        |     |  +--ro metric?      std-metric
+       |        |     |  +--ro supported?   boolean
+       |        |     +--ro expense-metric
+       |        |     |  +--ro metric?      std-metric
+       |        |     |  +--ro supported?   boolean
+       |        |     +--ro error-metric
+       |        |        +--ro metric?      std-metric
+       |        |        +--ro supported?   boolean
+       |        +--ro ipv4-external-reachability
+       |        |  +--ro prefixes* []
+       |        |     +--ro ip-prefix?        inet:ipv4-address
+       |        |     +--ro prefix-len?       uint8
+       |        |     +--ro i-e?              boolean
+       |        |     +--ro default-metric
+       |        |     |  +--ro metric?   std-metric
+       |        |     +--ro delay-metric
+       |        |     |  +--ro metric?      std-metric
+       |        |     |  +--ro supported?   boolean
+       |        |     +--ro expense-metric
+       |        |     |  +--ro metric?      std-metric
+       |        |     |  +--ro supported?   boolean
+       |        |     +--ro error-metric
+       |        |        +--ro metric?      std-metric
+       |        |        +--ro supported?   boolean
+       |        +--ro extended-ipv4-reachability
+       |        |  +--ro prefixes* []
+       |        |     +--ro up-down?                 boolean
+       |        |     +--ro ip-prefix?               inet:ipv4-address
+       |        |     +--ro prefix-len?              uint8
+       |        |     +--ro metric?                  wide-metric
+       |        |     +--ro tag*                     uint32
+       |        |     +--ro tag64*                   uint64
+       |        |     +--ro external-prefix-flag?    boolean
+       |        |     +--ro readvertisement-flag?    boolean
+       |        |     +--ro node-flag?               boolean
+       |        |     +--ro ipv4-source-router-id?   inet:ipv4-address
+       |        |     +--ro ipv6-source-router-id?   inet:ipv6-address
+       |        |     +--ro unknown-tlvs
+       |        |        +--ro unknown-tlv* []
+       |        |              ...
+       |        +--ro mt-is-neighbor
+       |        |  +--ro neighbor* []
+       |        |     +--ro mt-id?         uint16
+       |        |     +--ro neighbor-id?   extended-system-id
+       |        |     +--ro instances
+       |        |        +--ro instance* [id]
+       |        |              ...
+       |        +--ro mt-extended-ipv4-reachability
+       |        |  +--ro prefixes* []
+       |        |     +--ro mt-id?                   uint16
+       |        |     +--ro up-down?                 boolean
+       |        |     +--ro ip-prefix?               inet:ipv4-address
+       |        |     +--ro prefix-len?              uint8
+       |        |     +--ro metric?                  wide-metric
+       |        |     +--ro tag*                     uint32
+       |        |     +--ro tag64*                   uint64
+       |        |     +--ro external-prefix-flag?    boolean
+       |        |     +--ro readvertisement-flag?    boolean
+       |        |     +--ro node-flag?               boolean
+       |        |     +--ro ipv4-source-router-id?   inet:ipv4-address
+       |        |     +--ro ipv6-source-router-id?   inet:ipv6-address
+       |        |     +--ro unknown-tlvs
+       |        |        +--ro unknown-tlv* []
+       |        |              ...
+       |        +--ro mt-ipv6-reachability
+       |        |  +--ro prefixes* []
+       |        |     +--ro MT-ID?                   uint16
+       |        |     +--ro up-down?                 boolean
+       |        |     +--ro ip-prefix?               inet:ipv6-address
+       |        |     +--ro prefix-len?              uint8
+       |        |     +--ro metric?                  wide-metric
+       |        |     +--ro tag*                     uint32
+       |        |     +--ro tag64*                   uint64
+       |        |     +--ro external-prefix-flag?    boolean
+       |        |     +--ro readvertisement-flag?    boolean
+       |        |     +--ro node-flag?               boolean
+       |        |     +--ro ipv4-source-router-id?   inet:ipv4-address
+       |        |     +--ro ipv6-source-router-id?   inet:ipv6-address
+       |        |     +--ro unknown-tlvs
+       |        |        +--ro unknown-tlv* []
+       |        |              ...
+       |        +--ro ipv6-reachability
+       |           +--ro prefixes* []
+       |              +--ro up-down?                 boolean
+       |              +--ro ip-prefix?               inet:ipv6-address
+       |              +--ro prefix-len?              uint8
+       |              +--ro metric?                  wide-metric
+       |              +--ro tag*                     uint32
+       |              +--ro tag64*                   uint64
+       |              +--ro external-prefix-flag?    boolean
+       |              +--ro readvertisement-flag?    boolean
+       |              +--ro node-flag?               boolean
+       |              +--ro ipv4-source-router-id?   inet:ipv4-address
+       |              +--ro ipv6-source-router-id?   inet:ipv6-address
+       |              +--ro unknown-tlvs
+       |                 +--ro unknown-tlv* []
+       |                       ...
+       +--ro local-rib
+       |  +--ro route* [prefix]
+       |     +--ro prefix       inet:ip-prefix
+       |     +--ro next-hops
+       |     |  +--ro next-hop* [next-hop]
+       |     |     +--ro outgoing-interface?   if:interface-ref
+       |     |     +--ro next-hop              inet:ip-address
+       |     +--ro metric?      uint32
+       |     +--ro level?       level-number
+       |     +--ro route-tag?   uint32
+       +--ro system-counters
+       |  +--ro level* [level]
+       |     +--ro level                            level-number
+       |     +--ro corrupted-lsps?                  uint32
+       |     +--ro authentication-type-fails?       uint32
+       |     +--ro authentication-fails?            uint32
+       |     +--ro database-overload?               uint32
+       |     +--ro own-lsp-purge?                   uint32
+       |     +--ro manual-address-drop-from-area?   uint32
+       |     +--ro max-sequence?                    uint32
+       |     +--ro sequence-number-skipped?         uint32
+       |     +--ro id-len-mismatch?                 uint32
+       |     +--ro partition-changes?               uint32
+       |     +--ro lsp-errors?                      uint32
+       |     +--ro spf-runs?                        uint32
+       +--ro protected-routes
+       |  +--ro address-family-stats* [address-family prefix alternate]
+       |     +--ro address-family          iana-rt-types:address-family
+       |     +--ro prefix                  inet:ip-prefix
+       |     +--ro alternate               inet:ip-address
+       |     +--ro alternate-type?         enumeration
+       |     +--ro best?                   boolean
+       |     +--ro non-best-reason?        string
+       |     +--ro protection-available?   bits
+       |     +--ro alternate-metric1?      uint32
+       |     +--ro alternate-metric2?      uint32
+       |     +--ro alternate-metric3?      uint32
+       +--ro unprotected-routes
+       |  +--ro address-family-stats* [address-family prefix]
+       |     +--ro address-family    iana-rt-types:address-family
+       |     +--ro prefix            inet:ip-prefix
+       +--ro protection-statistics* [frr-protection-method]
+       |  +--ro frr-protection-method    string
+       |  +--ro address-family-stats* [address-family]
+       |     +--ro address-family          iana-rt-types:address-family
+       |     +--ro total-routes?           uint32
+       |     +--ro unprotected-routes?     uint32
+       |     +--ro protected-routes?       uint32
+       |     +--ro linkprotected-routes?   uint32
+       |     +--ro nodeprotected-routes?   uint32
+       +--rw topologies {multi-topology}?
+       |  +--rw topology* [name]
+       |     +--rw enable?           boolean
+       |     +--rw name              -> ../../../../../../rt:ribs/rib/name
+       |     +--rw default-metric
+       |     |  +--rw value?     wide-metric
+       |     |  +--rw level-1
+       |     |  |  +--rw value?   wide-metric
+       |     |  +--rw level-2
+       |     |     +--rw value?   wide-metric
+       |     +--rw node-tags {node-tag}?
+       |        +--rw node-tag* [tag]
+       |           +--rw tag    uint32
+       +--rw interfaces
+          +--rw interface* [name]
+             +--rw name                       if:interface-ref
+             +--rw enable?                    boolean {admin-control}?
+             +--rw level-type?                level
+             +--rw lsp-pacing-interval?       rt-types:timer-value-milliseconds
+             +--rw lsp-retransmit-interval?   rt-types:timer-value-seconds16
+             +--rw passive?                   boolean
+             +--rw csnp-interval?             rt-types:timer-value-seconds16
+             +--rw hello-padding
+             |  +--rw enable?   boolean
+             +--rw mesh-group-enable?         mesh-group-state
+             +--rw mesh-group?                uint8
+             +--rw interface-type?            interface-type
+             +--rw tag*                       uint32 {prefix-tag}?
+             +--rw tag64*                     uint64 {prefix-tag64}?
+             +--rw node-flag?                 boolean {node-flag}?
+             +--rw hello-authentication
+             |  +--rw (authentication-type)?
+             |  |  +--:(key-chain) {key-chain}?
+             |  |  |  +--rw key-chain?          key-chain:key-chain-ref
+             |  |  +--:(password)
+             |  |     +--rw key?                string
+             |  |     +--rw crypto-algorithm?   identityref
+             |  +--rw level-1
+             |  |  +--rw (authentication-type)?
+             |  |     +--:(key-chain) {key-chain}?
+             |  |     |  +--rw key-chain?          key-chain:key-chain-ref
+             |  |     +--:(password)
+             |  |        +--rw key?                string
+             |  |        +--rw crypto-algorithm?   identityref
+             |  +--rw level-2
+             |     +--rw (authentication-type)?
+             |        +--:(key-chain) {key-chain}?
+             |        |  +--rw key-chain?          key-chain:key-chain-ref
+             |        +--:(password)
+             |           +--rw key?                string
+             |           +--rw crypto-algorithm?   identityref
+             +--rw hello-interval
+             |  +--rw value?     rt-types:timer-value-seconds16
+             |  +--rw level-1
+             |  |  +--rw value?   rt-types:timer-value-seconds16
+             |  +--rw level-2
+             |     +--rw value?   rt-types:timer-value-seconds16
+             +--rw hello-multiplier
+             |  +--rw value?     uint16
+             |  +--rw level-1
+             |  |  +--rw value?   uint16
+             |  +--rw level-2
+             |     +--rw value?   uint16
+             +--rw priority
+             |  +--rw value?     uint8
+             |  +--rw level-1
+             |  |  +--rw value?   uint8
+             |  +--rw level-2
+             |     +--rw value?   uint8
+             +--rw metric
+             |  +--rw value?     wide-metric
+             |  +--rw level-1
+             |  |  +--rw value?   wide-metric
+             |  +--rw level-2
+             |     +--rw value?   wide-metric
+             +--rw bfd {bfd}?
+             |  +--rw enable?                           boolean
+             |  +--rw local-multiplier?                 multiplier
+             |  +--rw (interval-config-type)?
+             |     +--:(tx-rx-intervals)
+             |     |  +--rw desired-min-tx-interval?    uint32
+             |     |  +--rw required-min-rx-interval?   uint32
+             |     +--:(single-interval) {single-minimum-interval}?
+             |        +--rw min-interval?               uint32
+             +--rw address-families {nlpid-control}?
+             |  +--rw address-family-list* [address-family]
+             |     +--rw address-family    iana-rt-types:address-family
+             +--rw mpls
+             |  +--rw ldp
+             |     +--rw igp-sync?   boolean {ldp-igp-sync}?
+             +--rw fast-reroute {fast-reroute}?
+             |  +--rw lfa {lfa}?
+             |     +--rw candidate-enable?   boolean
+             |     +--rw enable?             boolean
+             |     +--rw remote-lfa {remote-lfa}?
+             |     |  +--rw enable?   boolean
+             |     +--rw level-1
+             |     |  +--rw candidate-enable?   boolean
+             |     |  +--rw enable?             boolean
+             |     |  +--rw remote-lfa {remote-lfa}?
+             |     |     +--rw enable?   boolean
+             |     +--rw level-2
+             |        +--rw candidate-enable?   boolean
+             |        +--rw enable?             boolean
+             |        +--rw remote-lfa {remote-lfa}?
+             |           +--rw enable?   boolean
+             +--ro adjacencies
+             |  +--ro adjacency* []
+             |     +--ro neighbor-sys-type?              level
+             |     +--ro neighbor-sysid?                 system-id
+             |     +--ro neighbor-extended-circuit-id?   extended-circuit-id
+             |     +--ro neighbor-snpa?                  snpa
+             |     +--ro usage?                          level
+             |     +--ro hold-timer?                     rt-types:timer-value-seconds16
+             |     +--ro neighbor-priority?              uint8
+             |     +--ro lastuptime?                     yang:timestamp
+             |     +--ro state?                          adj-state-type
+             +--ro event-counters
+             |  +--ro adjacency-changes?             uint32
+             |  +--ro adjacency-number?              uint32
+             |  +--ro init-fails?                    uint32
+             |  +--ro adjacency-rejects?             uint32
+             |  +--ro id-len-mismatch?               uint32
+             |  +--ro max-area-addresses-mismatch?   uint32
+             |  +--ro authentication-type-fails?     uint32
+             |  +--ro authentication-fails?          uint32
+             |  +--ro lan-dis-changes?               uint32
+             +--ro packet-counters
+             |  +--ro level* [level]
+             |     +--ro level      level-number
+             |     +--ro iih
+             |     |  +--ro in?    uint32
+             |     |  +--ro out?   uint32
+             |     +--ro ish
+             |     |  +--ro in?    uint32
+             |     |  +--ro out?   uint32
+             |     +--ro esh
+             |     |  +--ro in?    uint32
+             |     |  +--ro out?   uint32
+             |     +--ro lsp
+             |     |  +--ro in?    uint32
+             |     |  +--ro out?   uint32
+             |     +--ro psnp
+             |     |  +--ro in?    uint32
+             |     |  +--ro out?   uint32
+             |     +--ro csnp
+             |     |  +--ro in?    uint32
+             |     |  +--ro out?   uint32
+             |     +--ro unknown
+             |        +--ro in?   uint32
+             +--rw topologies {multi-topology}?
+                +--rw topology* [name]
+                   +--rw name      -> ../../../../../../../../rt:ribs/rib/name
+                   +--rw metric
+                      +--rw value?     wide-metric
+                      +--rw level-1
+                      |  +--rw value?   wide-metric
+                      +--rw level-2
+                         +--rw value?   wide-metric
+
+  rpcs:
+    +---x clear-adjacency
+    |  +---w input
+    |     +---w routing-protocol-instance-name    -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |     +---w level?                            level
+    |     +---w interface?                        if:interface-ref
+    +---x clear-database
+       +---w input
+          +---w routing-protocol-instance-name    -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+          +---w level?                            level
+
+  notifications:
+    +---n database-overload
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro overload?                enumeration
+    +---n lsp-too-large
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro pdu-size?                uint32
+    |  +--ro lsp-id?                  lsp-id
+    +---n if-state-change
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro state?                   if-state-type
+    +---n corrupted-lsp-detected
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro lsp-id?                  lsp-id
+    +---n attempt-to-exceed-max-sequence
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro lsp-id?                  lsp-id
+    +---n id-len-mismatch
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro pdu-field-len?           uint8
+    |  +--ro raw-pdu?                 binary
+    +---n max-area-addresses-mismatch
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro max-area-addresses?      uint8
+    |  +--ro raw-pdu?                 binary
+    +---n own-lsp-purge
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro lsp-id?                  lsp-id
+    +---n sequence-number-skipped
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro lsp-id?                  lsp-id
+    +---n authentication-type-failure
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro raw-pdu?                 binary
+    +---n authentication-failure
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro raw-pdu?                 binary
+    +---n version-skew
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro protocol-version?        uint8
+    |  +--ro raw-pdu?                 binary
+    +---n area-mismatch
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro raw-pdu?                 binary
+    +---n rejected-adjacency
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro raw-pdu?                 binary
+    |  +--ro reason?                  string
+    +---n protocols-supported-mismatch
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro raw-pdu?                 binary
+    |  +--ro protocols*               uint8
+    +---n lsp-error-detected
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro lsp-id?                  lsp-id
+    |  +--ro raw-pdu?                 binary
+    |  +--ro error-offset?            uint32
+    |  +--ro tlv-type?                uint8
+    +---n adjacency-state-change
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro neighbor?                string
+    |  +--ro neighbor-system-id?      system-id
+    |  +--ro state?                   adj-state-type
+    |  +--ro reason?                  string
+    +---n lsp-received
+    |  +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro isis-level?              level
+    |  +--ro interface-name?          if:interface-ref
+    |  +--ro interface-level?         level
+    |  +--ro extended-circuit-id?     extended-circuit-id
+    |  +--ro lsp-id?                  lsp-id
+    |  +--ro sequence?                uint32
+    |  +--ro received-timestamp?      yang:timestamp
+    |  +--ro neighbor-system-id?      system-id
+    +---n lsp-generation
+       +--ro routing-protocol-name?   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+       +--ro isis-level?              level
+       +--ro lsp-id?                  lsp-id
+       +--ro sequence?                uint32
+       +--ro send-timestamp?          yang:timestamp
