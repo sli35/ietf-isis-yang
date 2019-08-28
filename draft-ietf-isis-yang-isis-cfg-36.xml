@@ -173,7 +173,7 @@ module: ietf-isis
        |  +--ro address-family-stats* [address-family prefix]
        |        ...
        +--ro protection-statistics* [frr-protection-method]
-       |  +--ro frr-protection-method    string
+       |  +--ro frr-protection-method    identityref
        |  +--ro address-family-stats* [address-family]
        |        ...
        +--rw topologies {multi-topology}?
@@ -916,7 +916,7 @@ augment "/rt:routing/" +
 
     <section anchor="isis-yang" title="IS-IS YANG Module" toc="default">
     <t>The following RFCs, drafts and external standards are not referenced in the document text
-   but are referenced in the ietf-isis.yang module: <xref target="ISO-10589" pageno="false" format="default"/>, <xref target="RFC1195" pageno="false" format="default"/>, <xref target="RFC2966" pageno="false" format="default"/>, <xref target="RFC5029" pageno="false" format="default"/>, <xref target="RFC5130" pageno="false" format="default"/>, <xref target="RFC5305" pageno="false" format="default"/>, <xref target="RFC5306" pageno="false" format="default"/>, <xref target="RFC5307" pageno="false" format="default"/>, <xref target="RFC5308" pageno="false" format="default"/>, <xref target="RFC5880" pageno="false" format="default"/>, <xref target="RFC5881" pageno="false" format="default"/>, <xref target="RFC6119" pageno="false" format="default"/>, <xref target="RFC6232" pageno="false" format="default"/>, <xref target="RFC7794" pageno="false" format="default"/>, <xref target="RFC7981" pageno="false" format="default"/>, <xref target="RFC8570" pageno="false" format="default"/>, <xref target="RFC7917" pageno="false" format="default"/>, <xref target="RFC8405" pageno="false" format="default"/>.</t>
+   but are referenced in the ietf-isis.yang module: <xref target="ISO-10589" pageno="false" format="default"/>, <xref target="RFC1195" pageno="false" format="default"/>, <xref target="RFC2966" pageno="false" format="default"/>, <xref target="RFC4090" pageno="false" format="default"/>,<xref target="RFC5029" pageno="false" format="default"/>, <xref target="RFC5130" pageno="false" format="default"/>, <xref target="RFC5305" pageno="false" format="default"/>, <xref target="RFC5306" pageno="false" format="default"/>, <xref target="RFC5307" pageno="false" format="default"/>, <xref target="RFC5308" pageno="false" format="default"/>, <xref target="RFC5880" pageno="false" format="default"/>, <xref target="RFC5881" pageno="false" format="default"/>, <xref target="RFC6119" pageno="false" format="default"/>, <xref target="RFC6232" pageno="false" format="default"/>, <xref target="RFC7794" pageno="false" format="default"/>, <xref target="RFC7981" pageno="false" format="default"/>, <xref target="RFC8570" pageno="false" format="default"/>, <xref target="RFC7917" pageno="false" format="default"/>, <xref target="RFC8405" pageno="false" format="default"/>.</t>
       <figure title="" suppress-title="false" align="left" alt="" width="" height="">
 	<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
 &lt;CODE BEGINS&gt; file "ietf-isis@2019-08-28.yang"
@@ -1058,6 +1058,48 @@ module ietf-isis {
       "Identity used when the LSP log reason is
        a change in the content of the LSP.";
   }
+
+  identity frr-protection-method {
+    description "Base identity for a Fast Reroute protection method.";
+  }
+  identity frr-protection-method-lfa {
+    base frr-protection-method;
+    description "Loop Free Alternate as defined in RFC5286.";
+  }
+  identity frr-protection-method-rlfa {
+    base frr-protection-method;
+    description "Remote Loop Free Alternate as defined in RFC7490.";
+  }
+  identity frr-protection-method-rsvpte {
+    base frr-protection-method;
+    description "RSVP-TE as defined in RFC4090.";
+  }
+
+  identity frr-protection-available-type {
+    description "Base identity for Fast Reroute protection types
+                provided by an alternate path.";
+  }
+  identity frr-protection-available-node-type {
+    base frr-protection-available-type;
+    description "Node protection is provided by the alternate.";
+  }
+  identity frr-protection-available-link-type {
+    base frr-protection-available-type;
+    description "Link protection is provided by the alternate.";
+  }
+  identity frr-protection-available-srlg-type {
+    base frr-protection-available-type;
+    description "SRLG protection is provided by the alternate.";
+  }
+  identity frr-protection-available-downstream-type {
+    base frr-protection-available-type;
+    description "The alternate is downstream on the path.";
+  }
+  identity frr-protection-available-other-type {
+    base frr-protection-available-type;
+    description "The level of protection is unknown.";
+  }
+
 
   identity unidirectional-link-delay-subtlv-flag {
       description "Base identity for unidirectional-link-delay
@@ -1709,35 +1751,22 @@ module ietf-isis {
              unicode characters. The expected format is a single
              line text.";
         }
-        leaf protection-available {
-          type bits {
-            bit node-protect {
-              position 0;
-              description
-                "Node protection available.";
+        container protection-available {
+          leaf-list protection-types {
+            type identityref {
+              base frr-protection-available-type;
             }
-            bit link-protect {
-              position 1;
-              description
-                "Link protection available.";
-            }
-            bit srlg-protect {
-              position 2;
-              description
-                "SRLG protection available.";
-            }
-            bit downstream-protect {
-              position 3;
-              description
-                "Downstream protection available.";
-            }
-            bit other {
-              position 4;
-              description
-                "Other protection available.";
-            }
+            description "This list contains a set of protection
+                        types defined as identities.
+                        An identity must be added for each type of
+                        protection provided by the alternate.
+                        As an example, if an alternate provides
+                        SRLG, node and link protection, three 
+                        identities must be added in this list:
+                        one for SRLG protection, one for node 
+                        protection, one for link protection."; 
           }
-          description "Protection provided by the alternate.";
+          description "Protection types provided by the alternate.";
         }
         leaf alternate-metric1 {
           type uint32;
@@ -1787,10 +1816,10 @@ module ietf-isis {
       key frr-protection-method;
       config false;
       leaf frr-protection-method {
-        type string;
-        description "Protection method used.
-                     The expected format is a single word.
-                     As example: LFA,rLFA, MRT, RSVP-TE...";
+        type identityref {
+          base frr-protection-method;
+        }
+        description "Protection method used.";
       }
       list address-family-stats {
         key address-family;
@@ -4903,283 +4932,6 @@ module ietf-isis {
 
     </section>
 
-	 <section anchor="change-log" title="Change log for ietf-isis YANG module" toc="default">
-	   <section anchor="v29-30" title="From version -29 to version -30" toc="default">
-           <t>
-           <list style="symbols">
-           <t>Set a maximum-length of 255 for the non-best-reason leaf.</t>
-           <t>Updated some descriptions.</t>
-           <t>Renamed "level-db" container to "levels" for consistency reasons.</t>
-           <t>Added some RFC references in the YANG model.</t>
-           <t>Leaf default-metric of container prefix-ipv4-std is now a container.</t>
-           <t>Changed the description of the authentication and removed the reference to MD5 as a possible way to hide the password.</t>
-           <t>Changed leaf type for authentication type within tlv10-authentication container.Moved from string to keychain:crypto-algorithm identity.</t>
-           <t>Some admin strings are now limited to a range of 1..255.</t>
-           <t>Hostname string in hostname DB is limited to 255 as per RFC5301.</t>
-           <t>In FRR stats, "prefix" is now encoded as inet:ip-prefix rather than a string. "alternate" is now encoded as ip-address.</t>
-           </list>
-           </t>
-           </section>
-           <section anchor="v28-29" title="From version -28 to version -29" toc="default">
-           <t>
-           <list style="symbols">
-           <t>Fixed area-address type pattern. The authorized number of bytes was wrong.</t>
-           </list>
-           </t>
-           </section>
-	   <section anchor="v27-28" title="From version -27 to version -28" toc="default">
-           <t>
-           <list style="symbols">
-           <t>Fixed non accurate description of level-type leaf.</t>
-	   </list>
-           </t>
-           </section>
-	   <section anchor="v26-27" title="From version -26 to version -27" toc="default">
-           <t>
-           <list style="symbols">
-           <t>Fixed XPATH to switching-capability leaf in "when" statement of psc-specific and tdm-specific containers.</t>
-           </list>
-           </t>
-           </section>
-           <section anchor="v25-26" title="From version -25 to version -26" toc="default">
-           <t>
-           <list style="symbols">
-           <t>Modify BFD reference descriptions.</t>
-	   <t>Fix indentation.</t>
-	   <t>"uses interface-state" was missing.</t>
-           </list>
-           </t>
-           </section>
-           <section anchor="v24-25" title="From version -24 to version -25" toc="default">
-           <t>
-           <list style="symbols">
-           <t>RPC clear-adjacency uses now an interface reference instead of a string.</t>
-           <t>Use expanded "address-family" rather than "af" in the model.</t>
-           <t>Fix pattern for area-address.</t>
-           <t>Removed unnecessary identities.</t>
-           <t>Added an instances container and list in the modeling of neighbors in the LSDB.
-		This is to manage the case where there are parallel links between two neighbors.
-           </t>
-           <t>Notification instance header: removed routing-instance leaf (alignment with OSPF).</t>
-           <t>Notification instance header: changed routing-protocol-name to a reference.</t>
-           <t>Notification interface header: changed interface to a reference.</t>
-	   <t>RPCs: changed instance-state-ref typedef to a leafref. Removed associated typedef.</t>
-           <t>Revised some groupings and their names (alignment with OSPF).</t>
-           <t>Some description alignment with OSPF.</t>
-	   <t>auto-cost container alignment with OSPF.</t>
-           <t>MT-ID leaf in database description renamed (lower-case) mt-id.</t>
-	   <t>In lsp-log grouping, leaf change is renamed reason to align with OSPF.</t>
-	   <t>Added some link attributes (GMPLS, TE, extended TE, SRLGs) in the LSDB.</t>
-	   <t>Added extended-system-id typedef which contains the systemid plus the pseudonode number.</t>
-	   <t>Add support of POI Purge Originator Identification.</t>
-           </list>
-           </t>
-           </section>
-           <section anchor="v22-24" title="From version -22 to version -24" toc="default">
-           <t>
-           <list style="symbols">
-           <t>Fix revision date of the module.</t>
-           </list>
-           </t>
-           </section>
-	   <section anchor="v21-22" title="From version -21 to version -22" toc="default">
-	   <t>
-	   <list style="symbols">
-	   <t>TE router-id modeling alignment with OSPF.</t>
-	   <t>Add max-ecmp + feature in spf-control container (alignment with OSPF).</t>
-	   </list>
-	   </t>
-	   </section>
-	   <section anchor="v20-21" title="From version -20 to version -21" toc="default">
-	   <t>
-	   <list style="symbols">
-	   <t>Model revision date fix</t>
-	   </list>
-	   </t>
-	   </section>
-	   <section anchor="v19-20" title="From version -19 to version -20" toc="default">
-	   <t>
-	   <list style="symbols">
-	   <t>Moved to Yang 1.1</t>
-	   <t>Lower case enumerations</t>
-	   <t>Add RFC references to features</t>
-	   <t>Remove segment-routing feature</t>
-	   <t>Modified BFD activation modeling</t>
-	   </list>
-	   </t>
-	   </section>
-	   <section anchor="v18-19" title="From version -18 to version -19" toc="default">
-	   <t>
-	   <list style="symbols">
-	   <t>Align with draft-ietf-netmod-rfc8022bis.</t>
-	   <t>Modify address family types as per draft-ietf-rtgwg-routing-types-17.</t>
-	   </list>
-	   </t>
-	   </section>
-	   <section anchor="v17-18" title="From version -17 to version -18" toc="default">
-	   <t>
-	   <list style="symbols">
-	   <t>NMDA compliancy.</t>
-	   <t>Set some default values.</t>
-	   <t>Align with iana-rt-types module.</t>
-	   </list>
-	   </t>
-	   </section>
-	   <section anchor="v16-17" title="From version -16 to version -17" toc="default">
-	   <t>
-	   <list style="symbols">
-	   <t>Cosmetic fixes.</t>
-	   <t>Use of rt-types model.</t>
-	   </list>
-	   </t>
-	   </section>
-	   <section anchor="v15-16" title="From version -15 to version -16" toc="default">
-	   <t>
-	   <list style="symbols">
-	   <t>Alignment with last IETF key chain model.</t>
-	   <t>lsp-log "change" leaf moved as an identity.</t>
-	   <t>Incremental SPF removed from spf-log types.</t>
-	   </list>
-	   </t>
-	   </section>
-	   <section anchor="v14-15" title="From version -14 to version -15" toc="default">
-		 <t>
-		 <list style="symbols">
-		 <t>Alignment with OSPF model done:
-		  <list style="symbols">
-		  <t>Added spf-control container with IETF SPF delay algorithm as a feature.</t>
-		  <t>Added graceful-restart options.</t>
-		  <t>Added nsr as a feature.</t>
-		  <t>Removed per topology FRR. Need to be augmented if necessary.</t>
-		  <t>Created an ldp container within mpls.</t>
-		  <t>Renamed igp-ldp-sync to igp-sync.</t>
-		  <t>Added auto-cost container.</t>
-		  <t>Moved reference-bandwidth under auto-cost container.</t>
-		  <t>Added IS-IS local RIB as operational state.</t>
-		  <t>Added decode-completed and raw-data leaves in the LSDB model.</t>
-		  <t>Modified the notification header.</t>
-		  </list>
-		 </t>		 
-		 </list>
-		 </t>
-		 </section>
-		<section anchor="v13-14" title="From version -13 to version -14" toc="default">
-		 <t>
-		 <list style="symbols">
-		 <t>Segment Routing extensions are now in a separate document.</t>
-		 </list>
-		 </t>
-		 </section>
-		<section anchor="v12-13" title="From version -12 to version -13" toc="default">
-		 <t>
-		 <list style="symbols">
-		 <t>Move feature nlpid-control to container rather than list.</t>
-		 <t>Rename multi-topology to topologies to align with OSPF.</t>
-		 <t>Rename bfd/enabled to bfd/enable for consistency reason.</t>
-		 <t>Add support for NSR with a feature.</t>
-		 </list>
-		 </t>
-		 </section>
-		 <section anchor="v09-12" title="From version -09 to version -12" toc="default">
-		 <t>
-		 <list style="symbols">
-		 <t>Rename node-tag container to node-tags.</t>
-		 </list>
-		 </t>
-		 </section>
-		 <section anchor="v08-09" title="From version -08 to version -09" toc="default">
-		 <t>
-		 <list style="symbols">
-		 <t>Added container before af list.</t>
-		 <t>Added container before topology list.</t>
-		 <t>Aligned LFA if per level cfg.</t>
-		 <t>Align to draft-ietf-netmod-routing-cfg-23.</t>
-		 </list>
-		 </t>
-		 </section>
-		<section anchor="v07-08" title="From version -07 to version -08" toc="default">
-		 <t>
-		 <list style="symbols">
-		 <t>Remove selector from system-id type.</t>
-		<t>Add some default values.</t>
-		 <t>Moved lists to containers+groupings for per level configuration.</t>
-		 <t>remove routing-instance as per core routing model v21.</t>
-		 <t>added BFD leaf (no more BFD protocol model).</t>
-		 <t>changed keychain module reference.</t>
-		 </list>
-		 </t>
-		 </section>
-		 <section anchor="v05-07" title="From version -05 to version -07" toc="default">
-		 <t>
-		 <list style="symbols">
-		 <t>Move Overload config from list to container.</t>
-		 <t>Move Overload-max-metric config from list to container.</t>
-		 <t>Move preference config from list to container.</t>
-		 <t>Add Node flag in config.</t>
-		 <t>Removed BFD config =&gt; moved to isis-bfd module.</t>
-		 <t>Remove call to routing policy model.</t>
-		 </list>
-		 </t>
-		 </section>
-		 <section anchor="v03-05" title="From version -03 to version -05" toc="default">
-		 <t>
-		 <list style="symbols">
-		 <t>Correct invalid references to previous versions of core routing model.</t>
-		 <t>Remove BFD config and replace by groupings from ietf-bfd.</t>
-		 <t>Adding routing-policy support through routing-policy model.</t>
-		 </list>
-		 </t>
-		 </section>
-		 <section anchor="v02-03" title="From version -02 to version -03" toc="default">
-		 <t>
-		 <list style="symbols">
-		 <t>Reviewed config and op state groupings.</t>
-		 <t>Add default value to lfa candidate-disabled.</t>
-		 <t>Add enable leaf to isis container to reflect admin state.</t>
-		 <t>Move to VRF centric only.</t>
-		 <t>Segment routing is part os a separate module.</t>
-		 </list>
-		 </t>
-		 </section>
-		 <section anchor="v01-02" title="From version -01 to version -02" toc="default">
-		 <t>
-		 <list style="symbols">
-		 <t>Adding IPFRR.</t>
-		 <t>Adding igp-ldp-sync.</t>
-		 <t>Adding segment-routing.</t>
-		 <t>Adding instance reference to operational states.</t>
-		 <t>Move AF type from string to identity.</t>
-		 <t>Updated router-capability in LSDB description.</t>
-		 <t>packet counters moved to interface-packet-counters.</t>
-		 <t>Added modification information in lsp-log.</t>
-		 <t>Removing igp-ldp-sync timer in IS-IS.</t>
-		 <t>Defining hierarchy for operational states.</t>
-		 <t>Adding clns-mtu.</t>
-		 <t>Adding key-chain.</t>
-		 </list>
-		 </t>
-		 </section>
-		 <section anchor="v00-01" title="From version -00 to version -01" toc="default">
-		 <t>
-		 <list style="symbols">
-		 <t>Interface metric move from af container to interface container.</t>
-		 <t>Hello-padding on interface moved to hello-padding-disable with empty type.</t>
-		 <t>three-way-handshake removed.</t>
-		 <t>route preference changed to a choice.</t>
-		 <t>csnp-authentication/psnp-authentication merged to authentication container.</t>
-		 <t>lsp-gen-interval-exp-delay removed.</t>
-		 <t>Added overload-max-metric feature.</t>
-		 <t>overload-max-metric is in a separate container.</t>
-		 <t>Change hello-padding to container.</t>
-		 <t>Change bfd to container.</t>
-		 <t>Make BFD a feature.</t>
-		 <t>Create mpls-te container and put router-id inside.</t>
-		 <t>Remove GR helper disable and timers.</t>
-		 
-		 </list>
-		 </t>
-		 </section>
-	 </section>
   </middle>
   <back>
     <references title="Normative References">
@@ -5237,6 +4989,21 @@ module ietf-isis {
 <seriesInfo name="BCP" value="81"/>
 <seriesInfo name="RFC" value="3688"/>
 <seriesInfo name="DOI" value="10.17487/RFC3688"/>
+</reference>
+
+
+
+<reference anchor="RFC4090" target="https://www.rfc-editor.org/info/rfc4090">
+<front>
+<title>Fast Reroute Extensions to RSVP-TE for LSP Tunnels</title>
+<author initials="P." surname="Pan" fullname="P. Pan" role="editor"><organization/></author>
+<author initials="G." surname="Swallow" fullname="G. Swallow" role="editor"><organization/></author>
+<author initials="A." surname="Atlas" fullname="A. Atlas" role="editor"><organization/></author>
+<date year="2005" month="May"/>
+<abstract><t>This document defines RSVP-TE extensions to establish backup label-switched path (LSP) tunnels for local repair of LSP tunnels.  These mechanisms enable the re-direction of traffic onto backup LSP tunnels in 10s of milliseconds, in the event of a failure.</t><t>Two methods are defined here.  The one-to-one backup method creates detour LSPs for each protected LSP at each potential point of local repair.  The facility backup method creates a bypass tunnel to protect a potential failure point; by taking advantage of MPLS label stacking, this bypass tunnel can protect a set of LSPs that have similar backup constraints.  Both methods can be used to protect links and nodes during network failure.  The described behavior and extensions to RSVP allow nodes to implement either method or both and to interoperate in a mixed network.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name="RFC" value="4090"/>
+<seriesInfo name="DOI" value="10.17487/RFC4090"/>
 </reference>
 
 

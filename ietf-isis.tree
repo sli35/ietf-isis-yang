@@ -322,7 +322,8 @@ module: ietf-isis
        |     +--ro alternate-type?         enumeration
        |     +--ro best?                   boolean
        |     +--ro non-best-reason?        string
-       |     +--ro protection-available?   bits
+       |     +--ro protection-available
+       |     |  +--ro protection-types*   identityref
        |     +--ro alternate-metric1?      uint32
        |     +--ro alternate-metric2?      uint32
        |     +--ro alternate-metric3?      uint32
@@ -331,7 +332,7 @@ module: ietf-isis
        |     +--ro address-family    iana-rt-types:address-family
        |     +--ro prefix            inet:ip-prefix
        +--ro protection-statistics* [frr-protection-method]
-       |  +--ro frr-protection-method    string
+       |  +--ro frr-protection-method    identityref
        |  +--ro address-family-stats* [address-family]
        |     +--ro address-family          iana-rt-types:address-family
        |     +--ro total-routes?           uint32

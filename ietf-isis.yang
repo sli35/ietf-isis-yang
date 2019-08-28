@@ -136,6 +136,48 @@ module ietf-isis {
        a change in the content of the LSP.";
   }
 
+  identity frr-protection-method {
+    description "Base identity for a Fast Reroute protection method.";
+  }
+  identity frr-protection-method-lfa {
+    base frr-protection-method;
+    description "Loop Free Alternate as defined in RFC5286.";
+  }
+  identity frr-protection-method-rlfa {
+    base frr-protection-method;
+    description "Remote Loop Free Alternate as defined in RFC7490.";
+  }
+  identity frr-protection-method-rsvpte {
+    base frr-protection-method;
+    description "RSVP-TE as defined in RFC4090.";
+  }
+
+  identity frr-protection-available-type {
+    description "Base identity for Fast Reroute protection types
+                provided by an alternate path.";
+  }
+  identity frr-protection-available-node-type {
+    base frr-protection-available-type;
+    description "Node protection is provided by the alternate.";
+  }
+  identity frr-protection-available-link-type {
+    base frr-protection-available-type;
+    description "Link protection is provided by the alternate.";
+  }
+  identity frr-protection-available-srlg-type {
+    base frr-protection-available-type;
+    description "SRLG protection is provided by the alternate.";
+  }
+  identity frr-protection-available-downstream-type {
+    base frr-protection-available-type;
+    description "The alternate is downstream on the path.";
+  }
+  identity frr-protection-available-other-type {
+    base frr-protection-available-type;
+    description "The level of protection is unknown.";
+  }
+
+
   identity unidirectional-link-delay-subtlv-flag {
       description "Base identity for unidirectional-link-delay
                   subTLV flags. Flags are defined in RFC8570.";
@@ -786,35 +828,22 @@ module ietf-isis {
              unicode characters. The expected format is a single
              line text.";
         }
-        leaf protection-available {
-          type bits {
-            bit node-protect {
-              position 0;
-              description
-                "Node protection available.";
+        container protection-available {
+          leaf-list protection-types {
+            type identityref {
+              base frr-protection-available-type;
             }
-            bit link-protect {
-              position 1;
-              description
-                "Link protection available.";
-            }
-            bit srlg-protect {
-              position 2;
-              description
-                "SRLG protection available.";
-            }
-            bit downstream-protect {
-              position 3;
-              description
-                "Downstream protection available.";
-            }
-            bit other {
-              position 4;
-              description
-                "Other protection available.";
-            }
+            description "This list contains a set of protection
+                        types defined as identities.
+                        An identity must be added for each type of
+                        protection provided by the alternate.
+                        As an example, if an alternate provides
+                        SRLG, node and link protection, three 
+                        identities must be added in this list:
+                        one for SRLG protection, one for node 
+                        protection, one for link protection."; 
           }
-          description "Protection provided by the alternate.";
+          description "Protection types provided by the alternate.";
         }
         leaf alternate-metric1 {
           type uint32;
@@ -864,10 +893,10 @@ module ietf-isis {
       key frr-protection-method;
       config false;
       leaf frr-protection-method {
-        type string;
-        description "Protection method used.
-                     The expected format is a single word.
-                     As example: LFA,rLFA, MRT, RSVP-TE...";
+        type identityref {
+          base frr-protection-method;
+        }
+        description "Protection method used.";
       }
       list address-family-stats {
         key address-family;
