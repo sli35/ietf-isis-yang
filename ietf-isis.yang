@@ -112,7 +112,7 @@ module ietf-isis {
   }
 
   /* Identities */
-  
+
   identity isis {
     base rt:routing-protocol;
     description "Identity for the IS-IS routing protocol.";
@@ -316,7 +316,7 @@ module ietf-isis {
 
 
   /* Feature definitions */
-   
+
   feature osi-interface {
     description "Support of OSI specific parameters on an
                 interface.";
@@ -392,8 +392,8 @@ module ietf-isis {
     description
       "Support of overload by setting
         all links to max metric. In IS-IS, the overload bit is usually
-        used to signal that a node cannot be used as a transit. 
-        The overload-max-metric feature brings a similar behavior 
+        used to signal that a node cannot be used as a transit.
+        The overload-max-metric feature brings a similar behavior
         leveraging on setting all the link metrics to MAX_METRIC.";
   }
   feature prefix-tag {
@@ -838,10 +838,10 @@ module ietf-isis {
                         An identity must be added for each type of
                         protection provided by the alternate.
                         As an example, if an alternate provides
-                        SRLG, node and link protection, three 
+                        SRLG, node and link protection, three
                         identities must be added in this list:
-                        one for SRLG protection, one for node 
-                        protection, one for link protection."; 
+                        one for SRLG protection, one for node
+                        protection, one for link protection.";
           }
           description "Protection types provided by the alternate.";
         }
@@ -1004,7 +1004,7 @@ module ietf-isis {
           description "Level 2 internal route. As per RFC2966,
                         the prefix is directly connected to the
                         advertising router. It cannot be
-                        distinguished from an L1->L2 inter-area 
+                        distinguished from an L1->L2 inter-area
                         route.";
         }
         enum l1-intra-area {
@@ -1026,7 +1026,7 @@ module ietf-isis {
           description "These prefixes are learned via L2 routing.";
         }
         enum l1-inter-area-external {
-          description "These prefixes are learned via L2 routing 
+          description "These prefixes are learned via L2 routing
                         towards an l2-external route.";
         }
       }
@@ -1251,7 +1251,7 @@ module ietf-isis {
           description
             "This leaf specifies the authentication key. The
              length of the key may be dependent on the
-             cryptographic algorithm."; 
+             cryptographic algorithm.";
         }
         leaf crypto-algorithm {
           type identityref {
@@ -3211,9 +3211,9 @@ module ietf-isis {
             }
             description
                 "This list contains identities for the bits which are
-                set."; 
+                set.";
         }
-        description "LSP attributes.";    
+        description "LSP attributes.";
     }
 
     uses tlv132-ipv4-addresses;
@@ -3608,9 +3608,9 @@ module ietf-isis {
     }
     description
       "This notification is sent when we attempt to propagate
-       an LSP that is larger than the dataLinkBlockSize (ISO10589) for the
-       circuit.  The notification generation must be throttled
-       with at least 5 seconds between successive
+       an LSP that is larger than the dataLinkBlockSize (ISO10589)
+       for the circuit.  The notification generation must be
+       throttled with at least 5 seconds between successive
        notifications.";
   }
 
