@@ -1217,7 +1217,7 @@ Internet-Draft                  isis-cfg                     August 2019
    [RFC6119], [RFC6232], [RFC7794], [RFC7981], [RFC8570], [RFC7917],
    [RFC8405].
 
-   <CODE BEGINS> file "ietf-isis@2019-09-04.yang"
+   <CODE BEGINS> file "ietf-isis@2019-09-05.yang"
    module ietf-isis {
      yang-version 1.1;
      namespace "urn:ietf:params:xml:ns:yang:ietf-isis";
@@ -1310,34 +1310,34 @@ Internet-Draft                  isis-cfg                     August 2019
        ";
 
      description
-       "This YANG module defines the generic configuration and
-         operational state for the IS-IS protocol.
-         It is intended that the module
-         will be extended by vendors to define vendor-specific
-         IS-IS configuration parameters and policies,
-         for example, route maps or route policies.
+      "This YANG module defines the generic configuration and
+        operational state for the IS-IS protocol common to all
+        vendor implementations. It is intended that the module
+        will be extended by vendors to define vendor-specific
+        IS-IS configuration parameters and policies,
+        for example, route maps or route policies.
 
-         This YANG module conforms to the Network Management
-         Datastore Architecture (NDMA) as described in RFC 8242.
+         This YANG model conforms to the Network Management
+        Datastore Architecture (NMDA) as described in RFC 8242.
 
-         Copyright (c) 2018 IETF Trust and the persons identified as
-         authors of the code.  All rights reserved.
+        Copyright (c) 2018 IETF Trust and the persons identified as
+        authors of the code.  All rights reserved.
 
-          Redistribution and use in source and binary forms, with or
-          without modification, is permitted pursuant to, and subject
-          to the license terms contained in, the Simplified BSD License
-          set forth in Section 4.c of the IETF Trust's Legal Provisions
-          Relating to IETF Documents
-          (http://trustee.ietf.org/license-info).
+        Redistribution and use in source and binary forms, with or
+        without modification, is permitted pursuant to, and subject to
+        the license terms contained in, the Simplified BSD License set
+        forth in Section 4.c of the IETF Trust's Legal Provisions
+        Relating to IETF Documents
+        (https://trustee.ietf.org/license-info).
 
-          This version of this YANG module is part of RFC XXXX;
-          see the RFC itself for full legal notices.
+        This version of this YANG module is part of RFC XXXX
+        (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
+        for full legal notices.
 
-          The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL',
-          'SHALL NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED',
-          'NOT RECOMMENDED', 'MAY', and 'OPTIONAL' in this document
-          are to be interpreted as described in BCP 14 [RFC2119]
-          [RFC8174] when, and only when, they appear in all capitals,
+        The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+        NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+        'MAY', and 'OPTIONAL' in this document are to be interpreted as
+        described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
 
 
 
@@ -1346,10 +1346,12 @@ Litkowski, et al.       Expires February 29, 2020              [Page 24]
 Internet-Draft                  isis-cfg                     August 2019
 
 
-          as shown here.
-          ";
+        they appear in all capitals, as shown here.
 
-     revision 2019-09-04 {
+        This version of this YANG module is part of RFC XXXX;
+        see the RFC itself for full legal notices.";
+
+     revision 2019-09-05 {
        description
          "Initial revision.";
        reference "RFC XXXX";
@@ -1392,8 +1394,6 @@ Internet-Draft                  isis-cfg                     August 2019
        base frr-protection-method;
        description "Remote Loop Free Alternate as defined in RFC7490.";
      }
-     identity frr-protection-method-rsvpte {
-       base frr-protection-method;
 
 
 
@@ -1402,6 +1402,8 @@ Litkowski, et al.       Expires February 29, 2020              [Page 25]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+     identity frr-protection-method-rsvpte {
+       base frr-protection-method;
        description "RSVP-TE as defined in RFC4090.";
      }
 
@@ -1448,8 +1450,6 @@ Internet-Draft                  isis-cfg                     August 2019
                the value represents steady-state link performance.";
      }
      identity min-max-unidirectional-link-delay-subtlv-flag {
-         description
-           "Base identity for min-max-unidirectional-link-delay
 
 
 
@@ -1458,6 +1458,8 @@ Litkowski, et al.       Expires February 29, 2020              [Page 26]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+         description
+           "Base identity for min-max-unidirectional-link-delay
             subTLV flags. Flags are defined in RFC8570.";
      }
      identity min-max-unidirectional-link-delay-subtlv-a-flag {
@@ -1504,8 +1506,6 @@ Internet-Draft                  isis-cfg                     August 2019
          description
              "If set, the originator is attached to
              another area using the referred metric.";
-     }
-     identity router-capability-flag {
 
 
 
@@ -1514,6 +1514,8 @@ Litkowski, et al.       Expires February 29, 2020              [Page 27]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+     }
+     identity router-capability-flag {
          description "Base identity for router capability flags.
            Flags are defined in RFC7981.";
      }
@@ -1560,8 +1562,6 @@ Internet-Draft                  isis-cfg                     August 2019
          base lsp-flag;
          description "Set when originator is attached to
               another area using the referred metric.";
-     }
-     identity lsp-attached-default-metric-flag {
 
 
 
@@ -1570,6 +1570,8 @@ Litkowski, et al.       Expires February 29, 2020              [Page 28]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+     }
+     identity lsp-attached-default-metric-flag {
          base lsp-flag;
          description "Set when originator is attached to
               another area using the referred metric.";
@@ -1616,8 +1618,6 @@ Internet-Draft                  isis-cfg                     August 2019
        reference "RFC 5880 - Bidirectional Forwarding Detection (BFD)
                   RFC 5881 - Bidirectional Forwarding Detection
                   (BFD) for IPv4 and IPv6 (Single Hop)";
-     }
-     feature key-chain {
 
 
 
@@ -1626,6 +1626,8 @@ Litkowski, et al.       Expires February 29, 2020              [Page 29]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+     }
+     feature key-chain {
        description
          "Support of keychain for authentication.";
        reference "RFC8177 - YANG Data Model for Key Chains";
@@ -1672,8 +1674,6 @@ Internet-Draft                  isis-cfg                     August 2019
        description
          "Support for Remote Loop-Free Alternates (R-LFAs).";
        reference "RFC7490 - Remote Loop-Free Alternate Fast Reroute";
-     }
-
 
 
 
@@ -1681,6 +1681,8 @@ Litkowski, et al.       Expires February 29, 2020              [Page 30]
 
 Internet-Draft                  isis-cfg                     August 2019
 
+
+     }
 
      feature overload-max-metric {
        description
@@ -1728,8 +1730,6 @@ Internet-Draft                  isis-cfg                     August 2019
          "This feature controls the advertisement
           of support NLPID within IS-IS configuration.";
      }
-     feature graceful-restart {
-       description
 
 
 
@@ -1738,6 +1738,8 @@ Litkowski, et al.       Expires February 29, 2020              [Page 31]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+     feature graceful-restart {
+       description
          "IS-IS Graceful restart support.";
        reference "RFC5306 - Restart Signaling in IS-IS";
      }
@@ -1784,8 +1786,6 @@ Internet-Draft                  isis-cfg                     August 2019
              "Point-to-point interface type.";
          }
        }
-       description
-         "This type defines the type of adjacency
 
 
 
@@ -1794,6 +1794,8 @@ Litkowski, et al.       Expires February 29, 2020              [Page 32]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+       description
+         "This type defines the type of adjacency
           to be established on the interface.
           The interface-type determines the type
           of hello message that is used.";
@@ -1840,8 +1842,6 @@ Internet-Draft                  isis-cfg                     August 2019
              "State indicates the adjacency is failed.";
          }
        }
-       description
-         "This type defines states of an adjacency";
 
 
 
@@ -1850,6 +1850,8 @@ Litkowski, et al.       Expires February 29, 2020              [Page 33]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+       description
+         "This type defines states of an adjacency";
      }
 
      typedef if-state-type {
@@ -1896,8 +1898,6 @@ Internet-Draft                  isis-cfg                     August 2019
      typedef snpa {
        type string {
          length "0 .. 20";
-       }
-       description
 
 
 
@@ -1906,6 +1906,8 @@ Litkowski, et al.       Expires February 29, 2020              [Page 34]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+       }
+       description
          "This type defines the Subnetwork Point
           of Attachment (SNPA) format.
           The SNPA should be encoded according to the rules
@@ -1953,8 +1955,6 @@ Internet-Draft                  isis-cfg                     August 2019
          "This type defines old style format of IS-IS metric.";
      }
 
-     typedef mesh-group-state {
-
 
 
 Litkowski, et al.       Expires February 29, 2020              [Page 35]
@@ -1962,6 +1962,7 @@ Litkowski, et al.       Expires February 29, 2020              [Page 35]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+     typedef mesh-group-state {
        type enumeration {
          enum "mesh-inactive" {
            description
@@ -2009,7 +2010,6 @@ Internet-Draft                  isis-cfg                     August 2019
          type level;
          description "IS-IS level of the interface.";
        }
-       leaf extended-circuit-id {
 
 
 
@@ -2018,6 +2018,7 @@ Litkowski, et al.       Expires February 29, 2020              [Page 36]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+       leaf extended-circuit-id {
          type extended-circuit-id;
          description "Extended circuit-id of the interface.";
        }
@@ -2065,7 +2066,6 @@ Internet-Draft                  isis-cfg                     August 2019
            type boolean;
            default false;
            description
-             "Activates Remote LFA (R-LFA).";
 
 
 
@@ -2074,6 +2074,7 @@ Litkowski, et al.       Expires February 29, 2020              [Page 37]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+             "Activates Remote LFA (R-LFA).";
          }
          description
            "Remote LFA configuration.";
@@ -2121,7 +2122,6 @@ Internet-Draft                  isis-cfg                     August 2019
              type inet:ip-prefix;
              description
                "Protected prefix.";
-           }
 
 
 
@@ -2130,6 +2130,7 @@ Litkowski, et al.       Expires February 29, 2020              [Page 38]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+           }
            leaf alternate {
              type inet:ip-address;
              description
@@ -2177,7 +2178,6 @@ Internet-Draft                  isis-cfg                     August 2019
                 is unset otherwise.";
            }
            leaf non-best-reason {
-             type string {
 
 
 
@@ -2186,6 +2186,7 @@ Litkowski, et al.       Expires February 29, 2020              [Page 39]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+             type string {
                length "1..255";
              }
              description
@@ -2233,7 +2234,6 @@ Internet-Draft                  isis-cfg                     August 2019
          description
            "List of prefixes that are protected.";
        }
-
 
 
 
@@ -2474,8 +2474,8 @@ Internet-Draft                  isis-cfg                     August 2019
                "Define the level(s) activated on the adjacency.
                 On a p2p link this might be level 1 and 2,
                 but on a LAN, the usage will be level 1
-                between peers at level 1 or level 2 between
-                peers at level 2.";
+                between neighbors at level 1 or level 2 between
+                neighbors at level 2.";
            }
            leaf hold-timer {
              type rt-types:timer-value-seconds16;
@@ -3216,32 +3216,32 @@ Internet-Draft                  isis-cfg                     August 2019
      }
 
      grouping instance-state {
+       description
+         "IS-IS instance operational state.";
+       uses spf-log;
+       uses lsp-log;
+       uses hostname-db;
+       uses lsdb;
+       uses local-rib;
+       uses system-counters;
+       uses instance-fast-reroute-state;
+       leaf discontinuity-time {
+         type yang:date-and-time;
          description
-          "IS-IS instance operational state.";
-         uses spf-log;
-         uses lsp-log;
-         uses hostname-db;
-         uses lsdb;
-         uses local-rib;
-         uses system-counters;
-         uses instance-fast-reroute-state;
-         leaf discontinuity-time {
-           type yang:date-and-time;
-           description
-             "The time on the most recent occasion at which any one
-              or more of this IS-IS instance's counters suffered a
-              discontinuity.  If no such discontinuities have occurred
-              since the IS-IS instance was last re-initialized, then
-              this node contains the time the IS-IS instance was
-              re-initialized which normally occurs when it was
-              created.";
-         }
-       description "System counters grouping.";
+           "The time on the most recent occasion at which any one
+            or more of this IS-IS instance's counters suffered a
+            discontinuity.  If no such discontinuities have occurred
+            since the IS-IS instance was last re-initialized, then
+            this node contains the time the IS-IS instance was
+            re-initialized which normally occurs when it was
+            created.";
+       }
      }
 
      grouping multi-topology-config {
        description "Per-topology configuration";
        container default-metric {
+         uses default-metric-global-cfg;
 
 
 
@@ -3250,7 +3250,6 @@ Litkowski, et al.       Expires February 29, 2020              [Page 58]
 Internet-Draft                  isis-cfg                     August 2019
 
 
-         uses default-metric-global-cfg;
          container level-1 {
            uses default-metric-global-cfg;
            description "level-1 specific configuration";
@@ -3298,6 +3297,7 @@ Internet-Draft                  isis-cfg                     August 2019
        }
        leaf csnp-interval {
          type rt-types:timer-value-seconds16;
+         units "seconds";
 
 
 
@@ -3306,7 +3306,6 @@ Litkowski, et al.       Expires February 29, 2020              [Page 59]
 Internet-Draft                  isis-cfg                     August 2019
 
 
-         units "seconds";
          default 10;
          description
             "Interval (in seconds) between CSNP messages.";
@@ -3354,6 +3353,7 @@ Internet-Draft                  isis-cfg                     August 2019
        }
        leaf node-flag {
          if-feature node-flag;
+         type boolean;
 
 
 
@@ -3362,7 +3362,6 @@ Litkowski, et al.       Expires February 29, 2020              [Page 60]
 Internet-Draft                  isis-cfg                     August 2019
 
 
-         type boolean;
          default false;
          description
            "Set prefix as a node representative prefix.";
@@ -3410,6 +3409,7 @@ Internet-Draft                  isis-cfg                     August 2019
              "Priority only applies to broadcast interfaces.";
            description "Check for broadcast interface.";
          }
+         uses priority-cfg;
 
 
 
@@ -3418,7 +3418,6 @@ Litkowski, et al.       Expires February 29, 2020              [Page 61]
 Internet-Draft                  isis-cfg                     August 2019
 
 
-         uses priority-cfg;
          container level-1 {
            uses priority-cfg;
            description "level-1 specific configuration";
@@ -3466,6 +3465,7 @@ Internet-Draft                  isis-cfg                     August 2019
          description "Interface address-families";
        }
        container mpls {
+         container ldp {
 
 
 
@@ -3474,7 +3474,6 @@ Litkowski, et al.       Expires February 29, 2020              [Page 62]
 Internet-Draft                  isis-cfg                     August 2019
 
 
-         container ldp {
            leaf igp-sync {
              if-feature ldp-igp-sync;
              type boolean;
@@ -3522,6 +3521,7 @@ Internet-Draft                  isis-cfg                     August 2019
          }
      }
 
+    /* Grouping for the hostname database */
 
 
 
@@ -3529,8 +3529,6 @@ Litkowski, et al.       Expires February 29, 2020              [Page 63]
 
 Internet-Draft                  isis-cfg                     August 2019
 
-
-    /* Grouping for the hostname database */
 
      grouping hostname-db {
        container hostnames {
@@ -3578,6 +3576,8 @@ Internet-Draft                  isis-cfg                     August 2019
                "Number of corrupted in-memory LSPs detected.
                 LSPs received from the wire with a bad
                 checksum are silently dropped and not counted.
+                LSPs received from the wire with parse errors
+                are counted by lsp-errors.";
 
 
 
@@ -3586,8 +3586,6 @@ Litkowski, et al.       Expires February 29, 2020              [Page 64]
 Internet-Draft                  isis-cfg                     August 2019
 
 
-                LSPs received from the wire with parse errors
-                are counted by lsp-errors.";
            }
            leaf authentication-type-fails {
              type uint32;
@@ -3634,6 +3632,8 @@ Internet-Draft                  isis-cfg                     August 2019
              description
                "Number of times a PDU is received with a
                 different value for the ID field length
+                than that of the receiving system.";
+           }
 
 
 
@@ -3642,8 +3642,6 @@ Litkowski, et al.       Expires February 29, 2020              [Page 65]
 Internet-Draft                  isis-cfg                     August 2019
 
 
-                than that of the receiving system.";
-           }
            leaf partition-changes {
              type uint32;
              description
@@ -3665,6 +3663,8 @@ Internet-Draft                  isis-cfg                     August 2019
          description
            "List counters for the IS-IS protocol instance";
        }
+       description
+         "Grouping for IS-IS system counters";
      }
 
      grouping event-counters {
@@ -5851,6 +5851,7 @@ Internet-Draft                  isis-cfg                     August 2019
           least 5 seconds between successive notifications.";
      }
    }
+
    <CODE ENDS>
 
 7.  Security Considerations
@@ -5873,7 +5874,6 @@ Internet-Draft                  isis-cfg                     August 2019
    the default).  These data nodes may be considered sensitive or
    vulnerable in some network environments.  Write operations (e.g.,
    edit-config) to these data nodes without proper protection can have a
-   negative effect on network operations.  Writable data node represent
 
 
 
@@ -5882,17 +5882,18 @@ Litkowski, et al.       Expires February 29, 2020             [Page 105]
 Internet-Draft                  isis-cfg                     August 2019
 
 
-   configuration of each instanceand interface.  These correspond to the
-   following schema nodes:
+   negative effect on network operations.  Writable data node represent
+   configuration of each instance and interface.  These correspond to
+   the following schema nodes:
 
       /isis
 
       /isis/interfaces/interface[name]
 
    For IS-IS, the ability to modify IS-IS configuration will allow the
-   entire IS-IS domain to be compromised including peering with
-   unauthorized routers to misroute traffic or mount a massive Denial-
-   of-Service (DoS) attack.  For example, adding IS-IS on any
+   entire IS-IS domain to be compromised including forming adjacencies
+   with unauthorized routers to misroute traffic or mount a massive
+   Denial-of-Service (DoS) attack.  For example, adding IS-IS on any
    unprotected interface could allow an IS-IS adjacency to be formed
    with an unauthorized and malicious neighbor.  Once an adjacency is
    formed, traffic could be hijacked.  As a simpler example, a Denial-
@@ -5907,8 +5908,8 @@ Internet-Draft                  isis-cfg                     August 2019
    is thus important to control read access (e.g., via get, get-config,
    or notification) to these data nodes.  The exposure of the Link State
    Database (LSDB) will expose the detailed topology of the network.
-   The Link State Database (LSDB) is represented by the following schma
-   nodes:
+   The Link State Database (LSDB) is represented by the following schema
+   node:
 
       /isis/database
 
@@ -5929,7 +5930,6 @@ Internet-Draft                  isis-cfg                     August 2019
 
    Some of the RPC operations in this YANG module may be considered
    sensitive or vulnerable in some network environments.  It is thus
-   important to control access to these operations.  The IS-IS YANG
 
 
 
@@ -5938,6 +5938,7 @@ Litkowski, et al.       Expires February 29, 2020             [Page 106]
 Internet-Draft                  isis-cfg                     August 2019
 
 
+   important to control access to these operations.  The IS-IS YANG
    module support the "clear-adjacency" and "clear-database" RPCs.  If
    access too either of these is compromised, they can result in
    temporary network outages be employed to mount DoS attacks.
@@ -5980,7 +5981,6 @@ Internet-Draft                  isis-cfg                     August 2019
               G. Mirsky, "YANG Data Model for Bidirectional Forwarding
               Detection (BFD)", draft-ietf-bfd-yang-17 (work in
               progress), August 2018.
-
 
 
 

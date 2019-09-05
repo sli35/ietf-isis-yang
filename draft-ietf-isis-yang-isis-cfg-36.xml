@@ -971,7 +971,7 @@ notifications:
    but are referenced in the ietf-isis.yang module: <xref target="ISO-10589" pageno="false" format="default"/>, <xref target="RFC1195" pageno="false" format="default"/>, <xref target="RFC2966" pageno="false" format="default"/>, <xref target="RFC4090" pageno="false" format="default"/>,<xref target="RFC5029" pageno="false" format="default"/>, <xref target="RFC5130" pageno="false" format="default"/>, <xref target="RFC5305" pageno="false" format="default"/>, <xref target="RFC5306" pageno="false" format="default"/>, <xref target="RFC5307" pageno="false" format="default"/>, <xref target="RFC5308" pageno="false" format="default"/>, <xref target="RFC5880" pageno="false" format="default"/>, <xref target="RFC5881" pageno="false" format="default"/>, <xref target="RFC6119" pageno="false" format="default"/>, <xref target="RFC6232" pageno="false" format="default"/>, <xref target="RFC7794" pageno="false" format="default"/>, <xref target="RFC7981" pageno="false" format="default"/>, <xref target="RFC8570" pageno="false" format="default"/>, <xref target="RFC7917" pageno="false" format="default"/>, <xref target="RFC8405" pageno="false" format="default"/>.</t>
       <figure title="" suppress-title="false" align="left" alt="" width="" height="">
       <artwork><![CDATA[
-<CODE BEGINS> file "ietf-isis@2019-09-04.yang"
+<CODE BEGINS> file "ietf-isis@2019-09-05.yang"
 module ietf-isis {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-isis";
@@ -1048,38 +1048,40 @@ module ietf-isis {
     ";
 
   description
-    "This YANG module defines the generic configuration and
-      operational state for the IS-IS protocol.
-      It is intended that the module
-      will be extended by vendors to define vendor-specific
-      IS-IS configuration parameters and policies,
-      for example, route maps or route policies.
+   "This YANG module defines the generic configuration and
+     operational state for the IS-IS protocol common to all
+     vendor implementations. It is intended that the module
+     will be extended by vendors to define vendor-specific
+     IS-IS configuration parameters and policies,
+     for example, route maps or route policies.
 
-      This YANG module conforms to the Network Management
-      Datastore Architecture (NDMA) as described in RFC 8242.
+      This YANG model conforms to the Network Management
+     Datastore Architecture (NMDA) as described in RFC 8242.
 
-      Copyright (c) 2018 IETF Trust and the persons identified as
-      authors of the code.  All rights reserved.
+     Copyright (c) 2018 IETF Trust and the persons identified as
+     authors of the code.  All rights reserved.
 
-       Redistribution and use in source and binary forms, with or
-       without modification, is permitted pursuant to, and subject
-       to the license terms contained in, the Simplified BSD License
-       set forth in Section 4.c of the IETF Trust's Legal Provisions
-       Relating to IETF Documents
-       (http://trustee.ietf.org/license-info).
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject to
+     the license terms contained in, the Simplified BSD License set
+     forth in Section 4.c of the IETF Trust's Legal Provisions
+     Relating to IETF Documents
+     (https://trustee.ietf.org/license-info).
 
-       This version of this YANG module is part of RFC XXXX;
-       see the RFC itself for full legal notices.
+     This version of this YANG module is part of RFC XXXX
+     (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
+     for full legal notices.
 
-       The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL',
-       'SHALL NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED',
-       'NOT RECOMMENDED', 'MAY', and 'OPTIONAL' in this document
-       are to be interpreted as described in BCP 14 [RFC2119]
-       [RFC8174] when, and only when, they appear in all capitals,
-       as shown here.
-       ";
+     The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+     NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+     'MAY', and 'OPTIONAL' in this document are to be interpreted as
+     described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+     they appear in all capitals, as shown here.
 
-  revision 2019-09-04 {
+     This version of this YANG module is part of RFC XXXX;
+     see the RFC itself for full legal notices.";
+
+  revision 2019-09-05 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -2044,8 +2046,8 @@ module ietf-isis {
             "Define the level(s) activated on the adjacency.
              On a p2p link this might be level 1 and 2,
              but on a LAN, the usage will be level 1
-             between peers at level 1 or level 2 between
-             peers at level 2.";
+             between neighbors at level 1 or level 2 between
+             neighbors at level 2.";
         }
         leaf hold-timer {
           type rt-types:timer-value-seconds16;
@@ -2684,27 +2686,26 @@ module ietf-isis {
   }
 
   grouping instance-state {
+    description
+      "IS-IS instance operational state.";
+    uses spf-log;
+    uses lsp-log;
+    uses hostname-db;
+    uses lsdb;
+    uses local-rib;
+    uses system-counters;
+    uses instance-fast-reroute-state;
+    leaf discontinuity-time {
+      type yang:date-and-time;
       description
-       "IS-IS instance operational state.";
-      uses spf-log;
-      uses lsp-log;
-      uses hostname-db;
-      uses lsdb;
-      uses local-rib;
-      uses system-counters;
-      uses instance-fast-reroute-state;
-      leaf discontinuity-time {
-        type yang:date-and-time;
-        description
-          "The time on the most recent occasion at which any one
-           or more of this IS-IS instance's counters suffered a
-           discontinuity.  If no such discontinuities have occurred
-           since the IS-IS instance was last re-initialized, then
-           this node contains the time the IS-IS instance was
-           re-initialized which normally occurs when it was
-           created.";
-      }
-    description "System counters grouping.";
+        "The time on the most recent occasion at which any one
+         or more of this IS-IS instance's counters suffered a
+         discontinuity.  If no such discontinuities have occurred
+         since the IS-IS instance was last re-initialized, then
+         this node contains the time the IS-IS instance was
+         re-initialized which normally occurs when it was
+         created.";
+    }
   }
 
   grouping multi-topology-config {
@@ -3069,6 +3070,8 @@ module ietf-isis {
       description
         "List counters for the IS-IS protocol instance";
     }
+    description
+      "Grouping for IS-IS system counters";
   }
 
   grouping event-counters {
@@ -4947,6 +4950,7 @@ module ietf-isis {
        least 5 seconds between successive notifications.";
   }
 }
+
 <CODE ENDS>
       ]]></artwork>
     </figure>
@@ -4973,7 +4977,7 @@ module ietf-isis {
       These data nodes may be considered sensitive or vulnerable in some network
       environments. Write operations (e.g., edit-config) to these data nodes without
       proper protection can have a negative effect on network operations.
-      Writable data node represent configuration of each instanceand interface.
+      Writable data node represent configuration of each instance and interface.
       These correspond to the following schema nodes:
       <list style="empty">
        <t>/isis</t>
@@ -4981,7 +4985,7 @@ module ietf-isis {
       </list></t>
      <t>For IS-IS,
       the ability to modify IS-IS configuration will allow the entire IS-IS domain
-      to be compromised including peering with unauthorized routers to
+      to be compromised including forming adjacencies with unauthorized routers to
       misroute traffic or mount a massive Denial-of-Service (DoS) attack. For example,
       adding IS-IS on any unprotected interface could allow an IS-IS adjacency to be
       formed with an unauthorized and malicious neighbor. Once an adjacency is formed,
@@ -4996,7 +5000,7 @@ module ietf-isis {
       important to control read access (e.g., via get, get-config, or notification)
       to these data nodes. The exposure of the Link State Database (LSDB) will
       expose the detailed topology of the network. The Link State Database (LSDB) is
-      represented by the following schma nodes:
+      represented by the following schema node:
       <list style="empty">
        <t>/isis/database</t>
       </list></t>
