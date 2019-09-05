@@ -6,6 +6,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 <rfc docName="draft-ietf-isis-yang-isis-cfg-36" ipr="trust200902" category="std" obsoletes="" updates="" submissionType="IETF" xml:lang="en">
   <front>
     <title abbrev="isis-cfg">YANG Data Model for IS-IS Protocol</title>
@@ -15,25 +16,25 @@
         <email>stephane.litkowski@orange.com</email>
       </address>
     </author>
-	<author fullname="Derek Yeung" initials="D" surname="Yeung">
+        <author fullname="Derek Yeung" initials="D" surname="Yeung">
       <organization>Arrcus, Inc</organization>
       <address>
         <email>derek@arrcus.com</email>
       </address>
     </author>
-	<author fullname="Acee Lindem" initials="A" surname="Lindem">
+        <author fullname="Acee Lindem" initials="A" surname="Lindem">
       <organization>Cisco Systems</organization>
       <address>
         <email>acee@cisco.com</email>
       </address>
     </author>
-	<author fullname="Jeffrey Zhang" initials="J" surname="Zhang">
+        <author fullname="Jeffrey Zhang" initials="J" surname="Zhang">
       <organization>Juniper Networks</organization>
       <address>
         <email>zzhang@juniper.net</email>
       </address>
     </author>
-	<author fullname="Ladislav Lhotka" initials="L" surname="Lhotka">
+        <author fullname="Ladislav Lhotka" initials="L" surname="Lhotka">
       <organization>CZ.NIC</organization>
       <address>
         <email>lhotka@nic.cz</email>
@@ -46,7 +47,7 @@
     <abstract>
       <t>This document defines a YANG data model that can be used to
       configure and manage IS-IS protocol on network elements.
-	  </t>
+          </t>
     </abstract>
     <note title="Requirements Language">
     <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -65,7 +66,7 @@
       protocol instance as well as operational states.</t>
       <t>A simplified tree representation of the data model is
         presented in <xref target="design" pageno="false" format="default"/>. 
-	Tree diagrams used in this document follow the notation defined in <xref target="RFC8340" pageno="false" format="default"/>.</t>	
+        Tree diagrams used in this document follow the notation defined in <xref target="RFC8340" pageno="false" format="default"/>.</t>        
     <t>The module is designed as per NMDA (Network Management Datastore Architecture) <xref target="RFC8342" pageno="false" format="default"/>.</t>
     </section>
     <section anchor="design" title="Design of the Data Model" toc="default">
@@ -76,8 +77,7 @@
       YANG module:</t>
 
       <figure title="" suppress-title="false" align="left" alt="" width="" height="">
-	<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
-
+      <artwork><![CDATA[
 module: ietf-isis
   augment /rt:routing/rt:ribs/rt:rib/rt:routes/rt:route:
     +--ro metric?       uint32
@@ -85,7 +85,8 @@ module: ietf-isis
     +--ro route-type?   enumeration
   augment /if:interfaces/if:interface:
     +--rw clns-mtu?   uint16 {osi-interface}?
-  augment /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol:
+  augment 
+    | /rt:routing/rt:control-plane-protocols/rt:control-plane-protocol:
     +--rw isis
        +--rw enable?                   boolean {admin-control}?
        +--rw level-type?               level
@@ -94,7 +95,8 @@ module: ietf-isis
        +--rw area-address*             area-address
        +--rw lsp-mtu?                  uint16
        +--rw lsp-lifetime?             uint16
-       +--rw lsp-refresh?              rt-types:timer-value-seconds16 {lsp-refresh}?
+       +--rw lsp-refresh?            
+       |                   rt-types:timer-value-seconds16 {lsp-refresh}?
        +--rw poi-tlv?                  boolean {poi-tlv}?
        +--rw graceful-restart {graceful-restart}?
        |  +--rw enable?             boolean
@@ -176,6 +178,7 @@ module: ietf-isis
        |  +--ro frr-protection-method    identityref
        |  +--ro address-family-stats* [address-family]
        |        ...
+       +--rw discontinuity-time?       yang:date-and-time
        +--rw topologies {multi-topology}?
        |  +--rw topology* [name]
        |        ...
@@ -186,21 +189,25 @@ module: ietf-isis
   rpcs:
     +---x clear-adjacency
     |  +---w input
-    |     +---w routing-protocol-instance-name    -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |     +---w routing-protocol-instance-name    
+    |  ->/rt:routing/control-plane-protocols/control-plane-protocol/name
     |     +---w level?                            level
     |     +---w interface?                        if:interface-ref
     +---x clear-database
        +---w input
-          +---w routing-protocol-instance-name    -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+          +---w routing-protocol-instance-name    
+      -> /rt:routing/control-plane-protocols/control-plane-protocol/name
           +---w level?                            level
 
   notifications:
     +---n database-overload
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro overload?                enumeration
     +---n lsp-too-large
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -208,22 +215,26 @@ module: ietf-isis
     |  +--ro pdu-size?                uint32
     |  +--ro lsp-id?                  lsp-id
     +---n if-state-change
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro state?                   if-state-type
     +---n corrupted-lsp-detected
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro lsp-id?                  lsp-id
     +---n attempt-to-exceed-max-sequence
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro lsp-id?                  lsp-id
     +---n id-len-mismatch
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -231,7 +242,8 @@ module: ietf-isis
     |  +--ro pdu-field-len?           uint8
     |  +--ro raw-pdu?                 binary
     +---n max-area-addresses-mismatch
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -239,35 +251,40 @@ module: ietf-isis
     |  +--ro max-area-addresses?      uint8
     |  +--ro raw-pdu?                 binary
     +---n own-lsp-purge
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro lsp-id?                  lsp-id
     +---n sequence-number-skipped
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro lsp-id?                  lsp-id
     +---n authentication-type-failure
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro raw-pdu?                 binary
     +---n authentication-failure
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro raw-pdu?                 binary
     +---n version-skew
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -275,14 +292,16 @@ module: ietf-isis
     |  +--ro protocol-version?        uint8
     |  +--ro raw-pdu?                 binary
     +---n area-mismatch
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
     |  +--ro extended-circuit-id?     extended-circuit-id
     |  +--ro raw-pdu?                 binary
     +---n rejected-adjacency
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -290,7 +309,8 @@ module: ietf-isis
     |  +--ro raw-pdu?                 binary
     |  +--ro reason?                  string
     +---n protocols-supported-mismatch
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -298,7 +318,8 @@ module: ietf-isis
     |  +--ro raw-pdu?                 binary
     |  +--ro protocols*               uint8
     +---n lsp-error-detected
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -308,7 +329,8 @@ module: ietf-isis
     |  +--ro error-offset?            uint32
     |  +--ro tlv-type?                uint8
     +---n adjacency-state-change
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -318,7 +340,8 @@ module: ietf-isis
     |  +--ro state?                   adj-state-type
     |  +--ro reason?                  string
     +---n lsp-received
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+    |  +--ro routing-protocol-name?
+    | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
     |  +--ro isis-level?              level
     |  +--ro interface-name?          if:interface-ref
     |  +--ro interface-level?         level
@@ -328,65 +351,66 @@ module: ietf-isis
     |  +--ro received-timestamp?      yang:timestamp
     |  +--ro neighbor-system-id?      system-id
     +---n lsp-generation
-       +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
+       +--ro routing-protocol-name?
+      -> /rt:routing/control-plane-protocols/control-plane-protocol/name
        +--ro isis-level?              level
        +--ro lsp-id?                  lsp-id
        +--ro sequence?                uint32
        +--ro send-timestamp?          yang:timestamp
-</artwork>
+   ]]></artwork>
 
       </figure>
 
       <section anchor="yang-isis-global" title="IS-IS Configuration" toc="default">
         <t>The IS-IS configuration is divided in:
-	<list style="symbols">
-	  <t>Global parameters.</t>
-	  <t>Per interface configuration (see <xref target="yang-interface" pageno="false" format="default"/>).</t>
-	</list></t>
-		<t>Additional modules may be created to support
-		any additional parameters. These additional modules MUST augment the ietf-isis module.</t>
-		<t>The model implements features, thus some of the configuration statement becomes optional.
-		As an example, the ability to control the administrative state of a particular IS-IS instance is optional.
-		By advertising the feature "admin-control", a device communicates to the client that it supports the ability to shutdown a particular IS-IS instance.</t>
-		<t>
-		The global configuration contains usual IS-IS parameters such as lsp-mtu, lsp-lifetime, lsp-refresh, default-metric...
-		</t>
+        <list style="symbols">
+          <t>Global parameters.</t>
+          <t>Per interface configuration (see <xref target="yang-interface" pageno="false" format="default"/>).</t>
+        </list></t>
+                <t>Additional modules may be created to support
+                any additional parameters. These additional modules MUST augment the ietf-isis module.</t>
+                <t>The model implements features, thus some of the configuration statement becomes optional.
+                As an example, the ability to control the administrative state of a particular IS-IS instance is optional.
+                By advertising the feature "admin-control", a device communicates to the client that it supports the ability to shutdown a particular IS-IS instance.</t>
+                <t>
+                The global configuration contains usual IS-IS parameters such as lsp-mtu, lsp-lifetime, lsp-refresh, default-metric...
+                </t>
       </section>
 
       <section anchor="yang-multitopology" title="Multitopology Parameters" toc="default">
-		<t>The model supports multitopology (MT) IS-IS as defined in <xref target="RFC5120" pageno="false" format="default"/>.</t>
-	   <t>The "topologies" container is used to enable support of MT
+                <t>The model supports multitopology (MT) IS-IS as defined in <xref target="RFC5120" pageno="false" format="default"/>.</t>
+           <t>The "topologies" container is used to enable support of MT
         extensions.</t>
-		<t>The "name" used in the topology list should refer to an existing RIB of the device.</t>
-		<t>Some specific parameters can be defined on a per topology basis
-		both at global level and at interface level: for example, an interface metric can be defined per topology.</t>
-		<t>Multiple address families (like IPv4 or IPv6) can also be activated within the default topology. 
-		This can be achieved using the address-families container (requiring "nlpid-control" feature to be advertised).</t>
-		
+                <t>The "name" used in the topology list should refer to an existing RIB of the device.</t>
+                <t>Some specific parameters can be defined on a per topology basis
+                both at global level and at interface level: for example, an interface metric can be defined per topology.</t>
+                <t>Multiple address families (like IPv4 or IPv6) can also be activated within the default topology. 
+                This can be achieved using the address-families container (requiring "nlpid-control" feature to be advertised).</t>
+                
       </section>
 
       <section anchor="yang-level" title="Per-Level Parameters" toc="default">
         <t>Some parameters allow a per level configuration. In this case, 
-		the parameter is modeled as a container with three configuration locations:
-		<list style="symbols">
-		<t>a top-level container: corresponds to level-1-2, so the configuration applies to both levels.</t>
-		<t>a level-1 container: corresponds to level-1 specific parameters.</t>
-		<t>a level-2 container: corresponds to level-2 specific parameters.</t>
-		</list>
-		</t>
-		<figure title="" suppress-title="false" align="left" alt="" width="" height="">
-		<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+                the parameter is modeled as a container with three configuration locations:
+                <list style="symbols">
+                <t>a top-level container: corresponds to level-1-2, so the configuration applies to both levels.</t>
+                <t>a level-1 container: corresponds to level-1 specific parameters.</t>
+                <t>a level-2 container: corresponds to level-2 specific parameters.</t>
+                </list>
+                </t>
+                <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+                <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
             +--rw priority
             |  +--rw value?     uint8
             |  +--rw level-1
             |  |  +--rw value?   uint8
             |  +--rw level-2
             |     +--rw value?   uint8
-		</artwork>
-		</figure>
-		<t>Example:</t>
-		<figure title="" suppress-title="false" align="left" alt="" width="" height="">
-		<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+                </artwork>
+                </figure>
+                <t>Example:</t>
+                <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+                <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
         &lt;priority&gt;
             &lt;value&gt;250&lt;/value&gt;
             &lt;level-1&gt;
@@ -396,423 +420,451 @@ module: ietf-isis
                 &lt;value&gt;200&lt;/value&gt;
             &lt;/level-2&gt;
         &lt;/priority&gt;
-		</artwork>
-		</figure>
-		<t>
-		An implementation MUST prefer a level specific parameter over a level-all parameter. 
-		As example, if the priority is 100 for the level-1, 200 for the level-2 and 250 for the top-level configuration, the implementation should use 100 for the level-1 and 200 for the level-2.
-		</t>
-		<t>
-		Some parameters like "overload bit" and "route preference" are not modeled to support a per level configuration. If an implementation supports per level configuration for such parameter,
-		this implementation MUST augment the current model by adding both level-1 and level-2 containers and MUST reuse existing configuration groupings.
-		</t>
-		
-		<t>Example of augmentation:</t>
-		<figure title="" suppress-title="false" align="left" alt="" width="" height="">
-		<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+                </artwork>
+                </figure>
+                <t>
+                An implementation MUST prefer a level specific parameter over a level-all parameter. 
+                As example, if the priority is 100 for the level-1, 200 for the level-2 and 250 for the top-level configuration, the implementation should use 100 for the level-1 and 200 for the level-2.
+                </t>
+                <t>
+                Some parameters like "overload bit" and "route preference" are not modeled to support a per level configuration. If an implementation supports per level configuration for such parameter,
+                this implementation MUST augment the current model by adding both level-1 and level-2 containers and MUST reuse existing configuration groupings.
+                </t>
+                
+                <t>Example of augmentation:</t>
+                <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+                <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
 augment "/rt:routing/" +
         "rt:control-plane-protocols/rt:control-plane-protocol"+
         "/isis:isis/isis:overload" {
-	when "rt:type = 'isis:isis'" {
+        when "rt:type = 'isis:isis'" {
           description
            "This augment IS-IS routing protocol when used";
         }
         description
           "This augments IS-IS overload configuration
            with per level configuration.";
-	
+        
         container level-1 {
           uses isis:overload-global-cfg;
           description
             "Level 1 configuration.";
-	}
+        }
         container level-2 {
           uses isis:overload-global-cfg;
           description
             "Level 2 configuration.";
-	}
+        }
 }
-		</artwork>
-		</figure>
-		<t>
-		If an implementation does not support per level configuration for a parameter modeled with per level configuration, the implementation should advertise a deviation to announce the non-support of the level-1 and level-2 containers.
-		</t>
-		<t>
-		Finally, if an implementation supports per level configuration but does not support the level-1-2 configuration, it SHOULD also advertise a deviation.
-		</t>
+                </artwork>
+                </figure>
+                <t>
+                If an implementation does not support per level configuration for a parameter modeled with per level configuration, the implementation should advertise a deviation to announce the non-support of the level-1 and level-2 containers.
+                </t>
+                <t>
+                Finally, if an implementation supports per level configuration but does not support the level-1-2 configuration, it SHOULD also advertise a deviation.
+                </t>
       </section>
 
       <section anchor="yang-interface" title="Per-Interface Parameters" toc="default">
         <t>The per-interface section of the IS-IS instance describes
         the interface specific parameters.</t>
-		<t>The interface is modeled as a reference to an existing interface defined in the "ietf-interfaces" YANG model (<xref target="RFC8343" pageno="false" format="default"/>.</t>
+                <t>The interface is modeled as a reference to an existing interface defined in the "ietf-interfaces" YANG model (<xref target="RFC8343" pageno="false" format="default"/>.</t>
         <t>Each interface has some interface-specific parameters that may have
-		a different per level value as described in previous section.
-		An interface-specific parameter MUST be preferred over an IS-IS global
+                a different per level value as described in previous section.
+                An interface-specific parameter MUST be preferred over an IS-IS global
         parameter.</t>
-		<t>Some parameters like hello-padding are defined as containers
-		to allow easy extension by vendor specific modules.</t>
+                <t>Some parameters like hello-padding are defined as containers
+                to allow easy extension by vendor specific modules.</t>
 
-	<figure title="" suppress-title="false" align="left" alt="" width="" height="">
-	    <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
-       +--rw interfaces
-          +--rw interface* [name]
-             +--rw name                       if:interface-ref
-             +--rw enable?                    boolean {admin-control}?
-             +--rw level-type?                level
-             +--rw lsp-pacing-interval?       rt-types:timer-value-milliseconds
-             +--rw lsp-retransmit-interval?   rt-types:timer-value-seconds16
-             +--rw passive?                   boolean
-             +--rw csnp-interval?             rt-types:timer-value-seconds16
-             +--rw hello-padding
-             |  +--rw enable?   boolean
-             +--rw mesh-group-enable?         mesh-group-state
-             +--rw mesh-group?                uint8
-             +--rw interface-type?            interface-type
-             +--rw tag*                       uint32 {prefix-tag}?
-             +--rw tag64*                     uint64 {prefix-tag64}?
-             +--rw node-flag?                 boolean {node-flag}?
-             +--rw hello-authentication
-             |  +--rw (authentication-type)?
-             |  |  +--:(key-chain) {key-chain}?
-             |  |  |  +--rw key-chain?          key-chain:key-chain-ref
-             |  |  +--:(password)
-             |  |     +--rw key?                string
-             |  |     +--rw crypto-algorithm?   identityref
-             |  +--rw level-1
-             |  |  +--rw (authentication-type)?
-             |  |     +--:(key-chain) {key-chain}?
-             |  |     |  +--rw key-chain?          key-chain:key-chain-ref
-             |  |     +--:(password)
-             |  |        +--rw key?                string
-             |  |        +--rw crypto-algorithm?   identityref
-             |  +--rw level-2
-             |     +--rw (authentication-type)?
-             |        +--:(key-chain) {key-chain}?
-             |        |  +--rw key-chain?          key-chain:key-chain-ref
-             |        +--:(password)
-             |           +--rw key?                string
-             |           +--rw crypto-algorithm?   identityref
-             +--rw hello-interval
-             |  +--rw value?     rt-types:timer-value-seconds16
-             |  +--rw level-1
-             |  |  +--rw value?   rt-types:timer-value-seconds16
-             |  +--rw level-2
-             |     +--rw value?   rt-types:timer-value-seconds16
-             +--rw hello-multiplier
-             |  +--rw value?     uint16
-             |  +--rw level-1
-             |  |  +--rw value?   uint16
-             |  +--rw level-2
-             |     +--rw value?   uint16
-             +--rw priority
-             |  +--rw value?     uint8
-             |  +--rw level-1
-             |  |  +--rw value?   uint8
-             |  +--rw level-2
-             |     +--rw value?   uint8
-             +--rw metric
-             |  +--rw value?     wide-metric
-             |  +--rw level-1
-             |  |  +--rw value?   wide-metric
-             |  +--rw level-2
-             |     +--rw value?   wide-metric
-             +--rw bfd {bfd}?
-             |  +--rw enable?                           boolean
-             |  +--rw local-multiplier?                 multiplier
-             |  +--rw (interval-config-type)?
-             |     +--:(tx-rx-intervals)
-             |     |  +--rw desired-min-tx-interval?    uint32
-             |     |  +--rw required-min-rx-interval?   uint32
-             |     +--:(single-interval) {single-minimum-interval}?
-             |        +--rw min-interval?               uint32
-             +--rw address-families {nlpid-control}?
-             |  +--rw address-family-list* [address-family]
-             |     +--rw address-family    iana-rt-types:address-family
-             +--rw mpls
-             |  +--rw ldp
-             |     +--rw igp-sync?   boolean {ldp-igp-sync}?
-             +--rw fast-reroute {fast-reroute}?
-             |  +--rw lfa {lfa}?
-             |     +--rw candidate-enable?   boolean
-             |     +--rw enable?             boolean
-             |     +--rw remote-lfa {remote-lfa}?
-             |     |  +--rw enable?   boolean
-             |     +--rw level-1
-             |     |  +--rw candidate-enable?   boolean
-             |     |  +--rw enable?             boolean
-             |     |  +--rw remote-lfa {remote-lfa}?
-             |     |     +--rw enable?   boolean
-             |     +--rw level-2
-             |        +--rw candidate-enable?   boolean
-             |        +--rw enable?             boolean
-             |        +--rw remote-lfa {remote-lfa}?
-             |           +--rw enable?   boolean
-             +--ro adjacencies
-             |  +--ro adjacency* []
-             |     +--ro neighbor-sys-type?              level
-             |     +--ro neighbor-sysid?                 system-id
-             |     +--ro neighbor-extended-circuit-id?   extended-circuit-id
-             |     +--ro neighbor-snpa?                  snpa
-             |     +--ro usage?                          level
-             |     +--ro hold-timer?                     rt-types:timer-value-seconds16
-             |     +--ro neighbor-priority?              uint8
-             |     +--ro lastuptime?                     yang:timestamp
-             |     +--ro state?                          adj-state-type
-             +--ro event-counters
-             |  +--ro adjacency-changes?             uint32
-             |  +--ro adjacency-number?              uint32
-             |  +--ro init-fails?                    uint32
-             |  +--ro adjacency-rejects?             uint32
-             |  +--ro id-len-mismatch?               uint32
-             |  +--ro max-area-addresses-mismatch?   uint32
-             |  +--ro authentication-type-fails?     uint32
-             |  +--ro authentication-fails?          uint32
-             |  +--ro lan-dis-changes?               uint32
-             +--ro packet-counters
-             |  +--ro level* [level]
-             |     +--ro level      level-number
-             |     +--ro iih
-             |     |  +--ro in?    uint32
-             |     |  +--ro out?   uint32
-             |     +--ro ish
-             |     |  +--ro in?    uint32
-             |     |  +--ro out?   uint32
-             |     +--ro esh
-             |     |  +--ro in?    uint32
-             |     |  +--ro out?   uint32
-             |     +--ro lsp
-             |     |  +--ro in?    uint32
-             |     |  +--ro out?   uint32
-             |     +--ro psnp
-             |     |  +--ro in?    uint32
-             |     |  +--ro out?   uint32
-             |     +--ro csnp
-             |     |  +--ro in?    uint32
-             |     |  +--ro out?   uint32
-             |     +--ro unknown
-             |        +--ro in?   uint32
-             +--rw topologies {multi-topology}?
-                +--rw topology* [name]
-                   +--rw name      -&gt; ../../../../../../../../rt:ribs/rib/name
-                   +--rw metric
-                      +--rw value?     wide-metric
-                      +--rw level-1
-                      |  +--rw value?   wide-metric
-                      +--rw level-2
-                         +--rw value?   wide-metric
+        <figure title="" suppress-title="false" align="left" alt="" width="" height="">
+        <artwork><![CDATA[
+    +--rw interfaces
+       +--rw interface* [name]
+          +--rw name                       if:interface-ref
+          +--rw enable?                    boolean {admin-control}?
+          +--rw level-type?                level
+          +--rw lsp-pacing-interval?       
+          |                        rt-types:timer-value-milliseconds
+          +--rw lsp-retransmit-interval?
+          |                        rt-types:timer-value-seconds16
+          +--rw passive?                   boolean
+          +--rw csnp-interval?
+          |                        rt-types:timer-value-seconds16
+          +--rw hello-padding
+          |  +--rw enable?   boolean
+          +--rw mesh-group-enable?         mesh-group-state
+          +--rw mesh-group?                uint8
+          +--rw interface-type?            interface-type
+          +--rw tag*                       uint32 {prefix-tag}?
+          +--rw tag64*                     uint64 {prefix-tag64}?
+          +--rw node-flag?                 boolean {node-flag}?
+          +--rw hello-authentication
+          |  +--rw (authentication-type)?
+          |  |  +--:(key-chain) {key-chain}?
+          |  |  |  +--rw key-chain?          key-chain:key-chain-ref
+          |  |  +--:(password)
+          |  |     +--rw key?                string
+          |  |     +--rw crypto-algorithm?   identityref
+          |  +--rw level-1
+          |  |  +--rw (authentication-type)?
+          |  |     +--:(key-chain) {key-chain}?
+          |  |     |  +--rw key-chain?       key-chain:key-chain-ref
+          |  |     +--:(password)
+          |  |        +--rw key?                string
+          |  |        +--rw crypto-algorithm?   identityref
+          |  +--rw level-2
+          |     +--rw (authentication-type)?
+          |        +--:(key-chain) {key-chain}?
+          |        |  +--rw key-chain?       key-chain:key-chain-ref
+          |        +--:(password)
+          |           +--rw key?                string
+          |           +--rw crypto-algorithm?   identityref
+          +--rw hello-interval
+          |  +--rw value?     rt-types:timer-value-seconds16
+          |  +--rw level-1
+          |  |  +--rw value?   rt-types:timer-value-seconds16
+          |  +--rw level-2
+          |     +--rw value?   rt-types:timer-value-seconds16
+          +--rw hello-multiplier
+          |  +--rw value?     uint16
+          |  +--rw level-1
+          |  |  +--rw value?   uint16
+          |  +--rw level-2
+          |     +--rw value?   uint16
+          +--rw priority
+          |  +--rw value?     uint8
+          |  +--rw level-1
+          |  |  +--rw value?   uint8
+          |  +--rw level-2
+          |     +--rw value?   uint8
+          +--rw metric
+          |  +--rw value?     wide-metric
+          |  +--rw level-1
+          |  |  +--rw value?   wide-metric
+          |  +--rw level-2
+          |     +--rw value?   wide-metric
+          +--rw bfd {bfd}?
+          |  +--rw enable?                           boolean
+          |  +--rw local-multiplier?                 multiplier
+          |  +--rw (interval-config-type)?
+          |     +--:(tx-rx-intervals)
+          |     |  +--rw desired-min-tx-interval?    uint32
+          |     |  +--rw required-min-rx-interval?   uint32
+          |     +--:(single-interval) {single-minimum-interval}?
+          |        +--rw min-interval?               uint32
+          +--rw address-families {nlpid-control}?
+          |  +--rw address-family-list* [address-family]
+          |     +--rw address-family    iana-rt-types:address-family
+          +--rw mpls
+          |  +--rw ldp
+          |     +--rw igp-sync?   boolean {ldp-igp-sync}?
+          +--rw fast-reroute {fast-reroute}?
+          |  +--rw lfa {lfa}?
+          |     +--rw candidate-enable?   boolean
+          |     +--rw enable?             boolean
+          |     +--rw remote-lfa {remote-lfa}?
+          |     |  +--rw enable?   boolean
+          |     +--rw level-1
+          |     |  +--rw candidate-enable?   boolean
+          |     |  +--rw enable?             boolean
+          |     |  +--rw remote-lfa {remote-lfa}?
+          |     |     +--rw enable?   boolean
+          |     +--rw level-2
+          |        +--rw candidate-enable?   boolean
+          |        +--rw enable?             boolean
+          |        +--rw remote-lfa {remote-lfa}?
+          |           +--rw enable?   boolean
+          +--ro adjacencies
+          |  +--ro adjacency* []
+          |     +--ro neighbor-sys-type?            level
+          |     +--ro neighbor-sysid?               system-id
+          |     +--ro neighbor-extended-circuit-id?
+          |     |                         extended-circuit-id
+          |     +--ro neighbor-snpa?                snpa
+          |     +--ro usage?                        level
+          |     +--ro hold-timer?
+          |                         rt-types:timer-value-seconds16
+          |     +--ro neighbor-priority?              uint8
+          |     +--ro lastuptime?                     yang:timestamp
+          |     +--ro state?                          adj-state-type
+          +--ro event-counters
+          |  +--ro adjacency-changes?             uint32
+          |  +--ro adjacency-number?              uint32
+          |  +--ro init-fails?                    uint32
+          |  +--ro adjacency-rejects?             uint32
+          |  +--ro id-len-mismatch?               uint32
+          |  +--ro max-area-addresses-mismatch?   uint32
+          |  +--ro authentication-type-fails?     uint32
+          |  +--ro authentication-fails?          uint32
+          |  +--ro lan-dis-changes?               uint32
+          +--ro packet-counters
+          |  +--ro level* [level]
+          |     +--ro level      level-number
+          |     +--ro iih
+          |     |  +--ro in?    uint32
+          |     |  +--ro out?   uint32
+          |     +--ro ish
+          |     |  +--ro in?    uint32
+          |     |  +--ro out?   uint32
+          |     +--ro esh
+          |     |  +--ro in?    uint32
+          |     |  +--ro out?   uint32
+          |     +--ro lsp
+          |     |  +--ro in?    uint32
+          |     |  +--ro out?   uint32
+          |     +--ro psnp
+          |     |  +--ro in?    uint32
+          |     |  +--ro out?   uint32
+          |     +--ro csnp
+          |     |  +--ro in?    uint32
+          |     |  +--ro out?   uint32
+          |     +--ro unknown
+          |        +--ro in?   uint32
+          +--rw discontinuity-time?       yang:date-and-time
+          +--rw topologies {multi-topology}?
+             +--rw topology* [name]
+                +--rw name      
+                |    -> ../../../../../../../../rt:ribs/rib/name
+                +--rw metric
+                   +--rw value?     wide-metric
+                   +--rw level-1
+                   |  +--rw value?   wide-metric
+                   +--rw level-2
+                      +--rw value?   wide-metric
 
-  rpcs:
-    +---x clear-adjacency
-    |  +---w input
-    |     +---w routing-protocol-instance-name    -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |     +---w level?                            level
-    |     +---w interface?                        if:interface-ref
-    +---x clear-database
-       +---w input
-          +---w routing-protocol-instance-name    -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-          +---w level?                            level
+rpcs:
+ +---x clear-adjacency
+ |  +---w input
+ |     +---w routing-protocol-instance-name    
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |     +---w level?                            level
+ |     +---w interface?                        if:interface-ref
+ +---x clear-database
+    +---w input
+       +---w routing-protocol-instance-name
+   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+       +---w level?                            level
 
-  notifications:
-    +---n database-overload
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro overload?                enumeration
-    +---n lsp-too-large
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro pdu-size?                uint32
-    |  +--ro lsp-id?                  lsp-id
-    +---n if-state-change
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro state?                   if-state-type
-    +---n corrupted-lsp-detected
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro lsp-id?                  lsp-id
-    +---n attempt-to-exceed-max-sequence
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro lsp-id?                  lsp-id
-    +---n id-len-mismatch
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro pdu-field-len?           uint8
-    |  +--ro raw-pdu?                 binary
-    +---n max-area-addresses-mismatch
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro max-area-addresses?      uint8
-    |  +--ro raw-pdu?                 binary
-    +---n own-lsp-purge
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro lsp-id?                  lsp-id
-    +---n sequence-number-skipped
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro lsp-id?                  lsp-id
-    +---n authentication-type-failure
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro raw-pdu?                 binary
-    +---n authentication-failure
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro raw-pdu?                 binary
-    +---n version-skew
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro protocol-version?        uint8
-    |  +--ro raw-pdu?                 binary
-    +---n area-mismatch
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro raw-pdu?                 binary
-    +---n rejected-adjacency
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro raw-pdu?                 binary
-    |  +--ro reason?                  string
-    +---n protocols-supported-mismatch
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro raw-pdu?                 binary
-    |  +--ro protocols*               uint8
-    +---n lsp-error-detected
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro lsp-id?                  lsp-id
-    |  +--ro raw-pdu?                 binary
-    |  +--ro error-offset?            uint32
-    |  +--ro tlv-type?                uint8
-    +---n adjacency-state-change
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro neighbor?                string
-    |  +--ro neighbor-system-id?      system-id
-    |  +--ro state?                   adj-state-type
-    |  +--ro reason?                  string
-    +---n lsp-received
-    |  +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-    |  +--ro isis-level?              level
-    |  +--ro interface-name?          if:interface-ref
-    |  +--ro interface-level?         level
-    |  +--ro extended-circuit-id?     extended-circuit-id
-    |  +--ro lsp-id?                  lsp-id
-    |  +--ro sequence?                uint32
-    |  +--ro received-timestamp?      yang:timestamp
-    |  +--ro neighbor-system-id?      system-id
-    +---n lsp-generation
-       +--ro routing-protocol-name?   -&gt; /rt:routing/control-plane-protocols/control-plane-protocol/name
-       +--ro isis-level?              level
-       +--ro lsp-id?                  lsp-id
-       +--ro sequence?                uint32
-       +--ro send-timestamp?          yang:timestamp
-</artwork>
+notifications:
+ +---n database-overload
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro overload?                enumeration
+ +---n lsp-too-large
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro pdu-size?                uint32
+ |  +--ro lsp-id?                  lsp-id
+ +---n if-state-change
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro state?                   if-state-type
+ +---n corrupted-lsp-detected
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro lsp-id?                  lsp-id
+ +---n attempt-to-exceed-max-sequence
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro lsp-id?                  lsp-id
+ +---n id-len-mismatch
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro pdu-field-len?           uint8
+ |  +--ro raw-pdu?                 binary
+ +---n max-area-addresses-mismatch
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro max-area-addresses?      uint8
+ |  +--ro raw-pdu?                 binary
+ +---n own-lsp-purge
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro lsp-id?                  lsp-id
+ +---n sequence-number-skipped
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro lsp-id?                  lsp-id
+ +---n authentication-type-failure
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro raw-pdu?                 binary
+ +---n authentication-failure
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro raw-pdu?                 binary
+ +---n version-skew
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro protocol-version?        uint8
+ |  +--ro raw-pdu?                 binary
+ +---n area-mismatch
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro raw-pdu?                 binary
+ +---n rejected-adjacency
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro raw-pdu?                 binary
+ |  +--ro reason?                  string
+ +---n protocols-supported-mismatch
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro raw-pdu?                 binary
+ |  +--ro protocols*               uint8
+ +---n lsp-error-detected
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro lsp-id?                  lsp-id
+ |  +--ro raw-pdu?                 binary
+ |  +--ro error-offset?            uint32
+ |  +--ro tlv-type?                uint8
+ +---n adjacency-state-change
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro neighbor?                string
+ |  +--ro neighbor-system-id?      system-id
+ |  +--ro state?                   adj-state-type
+ |  +--ro reason?                  string
+ +---n lsp-received
+ |  +--ro routing-protocol-name?
+ | -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+ |  +--ro isis-level?              level
+ |  +--ro interface-name?          if:interface-ref
+ |  +--ro interface-level?         level
+ |  +--ro extended-circuit-id?     extended-circuit-id
+ |  +--ro lsp-id?                  lsp-id
+ |  +--ro sequence?                uint32
+ |  +--ro received-timestamp?      yang:timestamp
+ |  +--ro neighbor-system-id?      system-id
+ +---n lsp-generation
+    +--ro routing-protocol-name?
+   -> /rt:routing/control-plane-protocols/control-plane-protocol/name
+    +--ro isis-level?              level
+    +--ro lsp-id?                  lsp-id
+    +--ro sequence?                uint32
+    +--ro send-timestamp?          yang:timestamp
+   ]]></artwork>
 
-	</figure>
+        </figure>
 
       </section>
-	   <section anchor="yang-authentication" title="Authentication Parameters" toc="default">
-	   <t>
-	   The module enables authentication configuration through the IETF key-chain module <xref target="RFC8177" pageno="false" format="default"/>.
-	   The IS-IS module imports the "ietf-key-chain" module and reuses some groupings to allow global and per interface configuration of authentication.
-	   If a global authentication is configured, an implementation SHOULD authenticate PSNPs (Partial Sequence Number Packets), CSNPs (Complete Sequence Number Packets) and LSPs (Link State Packets) with the authentication parameters supplied.
-	   The authentication of HELLO PDUs (Protocol Data Units) can be activated on a per interface basis.
-	   </t>
-	   </section>
-	   <section anchor="yang-igp-ldp" title="IGP/LDP synchronization" toc="default">
-	   <t>
-	   <xref target="RFC5443" pageno="false" format="default"/> defines a mechanism where IGP (Interior Gateway Protocol) needs to be synchronized with LDP (Label Distribution Protocol).
-	   An "ldp-igp-sync" feature has been defined in the model to support this mechanism.
-	   The "mpls/ldp/igp-sync" leaf under "interface" allows activation of the mechanism on a per interface basis.
-	   The "mpls/ldp/igp-sync" container in the global configuration is empty on purpose and is not required for the activation. 
-	   The goal of this empty container is to allow easy augmentation with additional parameters like timers for example.
-	   </t>
-	   </section>
-	   <section anchor="yang-iso" title="ISO parameters" toc="default">
-	   <t>As IS-IS protocol is based on ISO protocol suite, some ISO parameters may be required.</t>
-	   <t>This module augments interface configuration model to support ISO configuration parameters.</t>
-	   <t>The clns-mtu can be defined under the interface.</t>
-	  </section>
-	  <section anchor="yang-frr" title="IP FRR" toc="default">
-	  <t>
-	  This YANG module supports LFA (Loop Free Alternates) <xref target="RFC5286" pageno="false" format="default"/> and remote LFA <xref target="RFC7490" pageno="false" format="default"/> as IP FRR techniques.
-	  The "fast-reroute" container may be augmented by other models to support other IPFRR flavors (MRT, TILFA ...).
-	  </t>
-	  <t>
-	  The current version of the model supports activation of LFA and remote LFA at interface only.
-	  The global "lfa" container is present but kept empty to allow augmentation with vendor specific properties like policies.
-	  </t>
-	  <t>Remote LFA is considered as a child of LFA. Remote LFA cannot be enabled if LFA is not enabled.</t>
-	  <t>The "candidate-enable" allows to mark an interface to be used as a backup.</t>
-	  </section>
-	  
-	  
+           <section anchor="yang-authentication" title="Authentication Parameters" toc="default">
+           <t>
+           The module enables authentication configuration through the IETF key-chain module <xref target="RFC8177" pageno="false" format="default"/>.
+           The IS-IS module imports the "ietf-key-chain" module and reuses some groupings to allow global and per interface configuration of authentication.
+           If a global authentication is configured, an implementation SHOULD authenticate PSNPs (Partial Sequence Number Packets), CSNPs (Complete Sequence Number Packets) and LSPs (Link State Packets) with the authentication parameters supplied.
+           The authentication of HELLO PDUs (Protocol Data Units) can be activated on a per interface basis.
+           </t>
+           </section>
+           <section anchor="yang-igp-ldp" title="IGP/LDP synchronization" toc="default">
+           <t>
+           <xref target="RFC5443" pageno="false" format="default"/> defines a mechanism where IGP (Interior Gateway Protocol) needs to be synchronized with LDP (Label Distribution Protocol).
+           An "ldp-igp-sync" feature has been defined in the model to support this mechanism.
+           The "mpls/ldp/igp-sync" leaf under "interface" allows activation of the mechanism on a per interface basis.
+           The "mpls/ldp/igp-sync" container in the global configuration is empty on purpose and is not required for the activation. 
+           The goal of this empty container is to allow easy augmentation with additional parameters like timers for example.
+           </t>
+           </section>
+           <section anchor="yang-iso" title="ISO parameters" toc="default">
+           <t>As IS-IS protocol is based on ISO protocol suite, some ISO parameters may be required.</t>
+           <t>This module augments interface configuration model to support ISO configuration parameters.</t>
+           <t>The clns-mtu can be defined under the interface.</t>
+          </section>
+          <section anchor="yang-frr" title="IP FRR" toc="default">
+          <t>
+          This YANG module supports LFA (Loop Free Alternates) <xref target="RFC5286" pageno="false" format="default"/> and remote LFA <xref target="RFC7490" pageno="false" format="default"/> as IP FRR techniques.
+          The "fast-reroute" container may be augmented by other models to support other IPFRR flavors (MRT, TILFA ...).
+          </t>
+          <t>
+          The current version of the model supports activation of LFA and remote LFA at interface only.
+          The global "lfa" container is present but kept empty to allow augmentation with vendor specific properties like policies.
+          </t>
+          <t>Remote LFA is considered as a child of LFA. Remote LFA cannot be enabled if LFA is not enabled.</t>
+          <t>The "candidate-enable" allows to mark an interface to be used as a backup.</t>
+          </section>
+          
+          
       <section anchor="yang-op" title="Operational States" toc="default">
         <t>Operational states are provided in the module in various places:
-	<list style="symbols">
-		<t>system-counters: provides statistical informations about
-		the global system.</t>
-		<t>interface : provides configuration state informations for
-		each interface.</t>
-	  <t>adjacencies: provides state informations about current
-	  IS-IS adjacencies.</t>
-	  <t>spf-log: provides informations about SPF events on the
-	  node. This SHOULD be implemented as a wrapping buffer.</t>
-	  <t>lsp-log: provides informations about LSP events on the
-	  node (reception of an LSP or modification of local LSP).
-	  This SHOULD be implemented as a wrapping buffer and an implementation MAY decide to log refresh LSPs or not.</t>
-	  <t>local-rib: provides the IS-IS internal routing table view.</t>
-	  <t>database: provides details on the current LSDB.</t>
-	  <t>hostnames: provides informations about system-id to
-	  hostname mappings <xref target="RFC5301" pageno="false" format="default"/>.</t>
-	  <t>fast-reroute: provides informations about IP FRR.</t>
-	</list></t>
+        <list style="symbols">
+                <t>system-counters: provides statistical informations about
+                the global system.</t>
+                <t>interface : provides configuration state informations for
+                each interface.</t>
+          <t>adjacencies: provides state informations about current
+          IS-IS adjacencies.</t>
+          <t>spf-log: provides informations about SPF events on the
+          node. This SHOULD be implemented as a wrapping buffer.</t>
+          <t>lsp-log: provides informations about LSP events on the
+          node (reception of an LSP or modification of local LSP).
+          This SHOULD be implemented as a wrapping buffer and an implementation MAY decide to log refresh LSPs or not.</t>
+          <t>local-rib: provides the IS-IS internal routing table view.</t>
+          <t>database: provides details on the current LSDB.</t>
+          <t>hostnames: provides informations about system-id to
+          hostname mappings <xref target="RFC5301" pageno="false" format="default"/>.</t>
+          <t>fast-reroute: provides informations about IP FRR.</t>
+        </list></t>
       </section>
 
     </section>
@@ -820,15 +872,15 @@ augment "/rt:routing/" +
     <section anchor="RPC" title="RPC Operations" toc="default">
       <t>The "ietf-isis" module defines two RPC operations:
       <list style="symbols">
-	<t>clear-database: reset the content of a particular IS-IS
-	database and restart database synchronization with the
-	neighbors.</t>
-	<t>clear-adjacency: restart a particular set of IS-IS
-	adjacencies.</t>
+        <t>clear-database: reset the content of a particular IS-IS
+        database and restart database synchronization with the
+        neighbors.</t>
+        <t>clear-adjacency: restart a particular set of IS-IS
+        adjacencies.</t>
       </list></t>
 
       <figure title="" suppress-title="false" align="left" alt="" width="" height="">
-	  <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+          <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
 </artwork>
 
       </figure>
@@ -837,56 +889,56 @@ augment "/rt:routing/" +
 
     <section anchor="notif" title="Notifications" toc="default">
       <t>The "ietf-isis" module introduces some notifications :
-	  <list>
-	  <t>database-overload: raised when overload condition is changed.</t>
-	  <t>lsp-too-large: raised when the system tries to propagate a PDU that is too large.</t>
+          <list>
+          <t>database-overload: raised when overload condition is changed.</t>
+          <t>lsp-too-large: raised when the system tries to propagate a PDU that is too large.</t>
           <t>if-state-change: raised when the state of an interface changes.</t>
-	  <t>corrupted-lsp-detected: raised when the system finds
-		   that an LSP that was stored in memory has
-		   become corrupted.</t>
-		<t>attempt-to-exceed-max-sequence: This notification is sent when the system
-		  wraps the 32-bit sequence counter of an LSP.</t>
-		<t>id-len-mismatch: This notification is sent when we receive a PDU
-		  with a different value for the System ID length.</t>
-		<t>max-area-addresses-mismatch: This notification is sent when we receive a PDU
-		  with a different value for the Maximum Area Addresses.</t>
-		<t>own-lsp-purge: This notification is sent when the system
-		  receives a PDU with its own system ID and zero age.</t>
-		<t>sequence-number-skipped: This notification is sent when the system
-		  receives a PDU with its own system ID and 
-		  different contents. The system has to reissue
-		  the LSP with a higher sequence number.</t>
-		<t>authentication-type-failure: This notification is sent when the system
-		  receives a PDU with the wrong authentication type
-		  field.</t>
-		<t>authentication-failure: This notification is sent when the system
-		  receives a PDU with the wrong authentication 
-		  information.</t>
-		<t>version-skew: This notification is sent when the system
-		  receives a PDU with a different protocol version
-		  number.</t>
-		<t>area-mismatch: This notification is sent when the system
-		  receives a Hello PDU from an IS that does
-		  not share any area address.</t>
-		<t>rejected-adjacency: This notification is sent when the system
-		  receives a Hello PDU from an IS but does not
-		  establish an adjacency for some reason.</t>
-		<t>protocols-supported-mismatch: This notification is sent when the system
-		  receives a non-pseudonode LSP that has no matching
-		  protocol supported.</t>
-		<t>lsp-error-detected: This notification is sent when the system
-		  receives an LSP with a parse error.</t>
-		<t>adjacency-state-change: This notification is sent when an IS-IS adjacency
-		   moves to Up state or to Down state.</t>
-		<t>lsp-received: This notification is sent when an LSP
-		  is received.</t>
-		<t>lsp-generation: This notification is sent when an LSP
-		  is regenerated.</t>
-	  </list>
+          <t>corrupted-lsp-detected: raised when the system finds
+                   that an LSP that was stored in memory has
+                   become corrupted.</t>
+                <t>attempt-to-exceed-max-sequence: This notification is sent when the system
+                  wraps the 32-bit sequence counter of an LSP.</t>
+                <t>id-len-mismatch: This notification is sent when we receive a PDU
+                  with a different value for the System ID length.</t>
+                <t>max-area-addresses-mismatch: This notification is sent when we receive a PDU
+                  with a different value for the Maximum Area Addresses.</t>
+                <t>own-lsp-purge: This notification is sent when the system
+                  receives a PDU with its own system ID and zero age.</t>
+                <t>sequence-number-skipped: This notification is sent when the system
+                  receives a PDU with its own system ID and 
+                  different contents. The system has to reissue
+                  the LSP with a higher sequence number.</t>
+                <t>authentication-type-failure: This notification is sent when the system
+                  receives a PDU with the wrong authentication type
+                  field.</t>
+                <t>authentication-failure: This notification is sent when the system
+                  receives a PDU with the wrong authentication 
+                  information.</t>
+                <t>version-skew: This notification is sent when the system
+                  receives a PDU with a different protocol version
+                  number.</t>
+                <t>area-mismatch: This notification is sent when the system
+                  receives a Hello PDU from an IS that does
+                  not share any area address.</t>
+                <t>rejected-adjacency: This notification is sent when the system
+                  receives a Hello PDU from an IS but does not
+                  establish an adjacency for some reason.</t>
+                <t>protocols-supported-mismatch: This notification is sent when the system
+                  receives a non-pseudonode LSP that has no matching
+                  protocol supported.</t>
+                <t>lsp-error-detected: This notification is sent when the system
+                  receives an LSP with a parse error.</t>
+                <t>adjacency-state-change: This notification is sent when an IS-IS adjacency
+                   moves to Up state or to Down state.</t>
+                <t>lsp-received: This notification is sent when an LSP
+                  is received.</t>
+                <t>lsp-generation: This notification is sent when an LSP
+                  is regenerated.</t>
+          </list>
       </t>
 
       <figure title="" suppress-title="false" align="left" alt="" width="" height="">
-	<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+        <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
 </artwork>
 
       </figure>
@@ -899,7 +951,7 @@ augment "/rt:routing/" +
       "/rt:routing/rt:control-plane-protocols/control-plane-protocol"
       container of the ietf-routing <xref target="RFC8349" pageno="false" format="default"/> module by defining IS-IS specific
       parameters.</t>
-	  <t>The "isis" module augments
+          <t>The "isis" module augments
       "/if:interfaces/if:interface" defined by <xref target="RFC8343" pageno="false" format="default"/>
       with ISO specific parameters.</t>
       <t>The "isis" operational state container augments the
@@ -909,7 +961,7 @@ augment "/rt:routing/" +
       <t>Some IS-IS specific routes attributes are added to route
       objects of the ietf-routing module by augmenting
       "/rt:routing-state/rt:ribs/rt:rib/rt:routes/rt:route".</t>
-	  <t>The modules defined in this document use some groupings from ietf-keychain <xref target="RFC8177" pageno="false" format="default"/>.</t>
+          <t>The modules defined in this document use some groupings from ietf-keychain <xref target="RFC8177" pageno="false" format="default"/>.</t>
       <t>The module reuses types from <xref target="RFC6991" pageno="false" format="default"/> and <xref target="RFC8294" pageno="false" format="default"/>.</t>
       <t>To support BFD for fast detection, the module relies on <xref target="I-D.ietf-bfd-yang" pageno="false" format="default"/>.</t>
     </section>
@@ -918,9 +970,8 @@ augment "/rt:routing/" +
     <t>The following RFCs, drafts and external standards are not referenced in the document text
    but are referenced in the ietf-isis.yang module: <xref target="ISO-10589" pageno="false" format="default"/>, <xref target="RFC1195" pageno="false" format="default"/>, <xref target="RFC2966" pageno="false" format="default"/>, <xref target="RFC4090" pageno="false" format="default"/>,<xref target="RFC5029" pageno="false" format="default"/>, <xref target="RFC5130" pageno="false" format="default"/>, <xref target="RFC5305" pageno="false" format="default"/>, <xref target="RFC5306" pageno="false" format="default"/>, <xref target="RFC5307" pageno="false" format="default"/>, <xref target="RFC5308" pageno="false" format="default"/>, <xref target="RFC5880" pageno="false" format="default"/>, <xref target="RFC5881" pageno="false" format="default"/>, <xref target="RFC6119" pageno="false" format="default"/>, <xref target="RFC6232" pageno="false" format="default"/>, <xref target="RFC7794" pageno="false" format="default"/>, <xref target="RFC7981" pageno="false" format="default"/>, <xref target="RFC8570" pageno="false" format="default"/>, <xref target="RFC7917" pageno="false" format="default"/>, <xref target="RFC8405" pageno="false" format="default"/>.</t>
       <figure title="" suppress-title="false" align="left" alt="" width="" height="">
-	<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
-&lt;CODE BEGINS&gt; file "ietf-isis@2019-08-28.yang"
-
+      <artwork><![CDATA[
+<CODE BEGINS> file "ietf-isis@2019-09-04.yang"
 module ietf-isis {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-isis";
@@ -980,19 +1031,19 @@ module ietf-isis {
     "IETF LSR Working Group";
 
   contact
-    "WG List:  &lt;mailto:lsr@ietf.org&gt;
+    "WG List:  <mailto:lsr@ietf.org>
 
     Editor:    Stephane Litkowski
-          &lt;mailto:stephane.litkowski@orange.com&gt;
+          <mailto:stephane.litkowski@orange.com>
 
         Derek Yeung
-          &lt;mailto:derek@arrcus.com&gt;
+          <mailto:derek@arrcus.com>
         Acee Lindem
-          &lt;mailto:acee@cisco.com&gt;
+          <mailto:acee@cisco.com>
         Jeffrey Zhang
-          &lt;mailto:zzhang@juniper.net&gt;
+          <mailto:zzhang@juniper.net>
         Ladislav Lhotka
-          &lt;mailto:llhotka@nic.cz&gt;
+          <mailto:llhotka@nic.cz>
 
     ";
 
@@ -1028,14 +1079,14 @@ module ietf-isis {
        as shown here.
        ";
 
-  revision 2019-08-28 {
+  revision 2019-09-04 {
     description
       "Initial revision.";
     reference "RFC XXXX";
   }
 
   /* Identities */
-  
+
   identity isis {
     base rt:routing-protocol;
     description "Identity for the IS-IS routing protocol.";
@@ -1060,7 +1111,8 @@ module ietf-isis {
   }
 
   identity frr-protection-method {
-    description "Base identity for a Fast Reroute protection method.";
+    description
+      "Base identity for a Fast Reroute protection method.";
   }
   identity frr-protection-method-lfa {
     base frr-protection-method;
@@ -1118,8 +1170,9 @@ module ietf-isis {
             the value represents steady-state link performance.";
   }
   identity min-max-unidirectional-link-delay-subtlv-flag {
-      description "Base identity for min-max-unidirectional-link-delay
-                  subTLV flags. Flags are defined in RFC8570.";
+      description
+        "Base identity for min-max-unidirectional-link-delay
+         subTLV flags. Flags are defined in RFC8570.";
   }
   identity min-max-unidirectional-link-delay-subtlv-a-flag {
       base min-max-unidirectional-link-delay-subtlv-flag;
@@ -1239,7 +1292,7 @@ module ietf-isis {
 
 
   /* Feature definitions */
-   
+
   feature osi-interface {
     description "Support of OSI specific parameters on an
                 interface.";
@@ -1313,11 +1366,11 @@ module ietf-isis {
 
   feature overload-max-metric {
     description
-      "Support of overload by setting
-        all links to max metric. In IS-IS, the overload bit is usually
-        used to signal that a node cannot be used as a transit. 
-        The overload-max-metric feature brings a similar behavior 
-        leveraging on setting all the link metrics to MAX_METRIC.";
+      "Support of overload by setting all links to max metric.
+        In IS-IS, the overload bit is usually used to signal that
+        a node cannot be used as a transit. The overload-max-metric
+        feature brings a similar behavior leveraging on setting all
+        the link metrics to MAX_METRIC.";
   }
   feature prefix-tag {
     description
@@ -1761,10 +1814,10 @@ module ietf-isis {
                         An identity must be added for each type of
                         protection provided by the alternate.
                         As an example, if an alternate provides
-                        SRLG, node and link protection, three 
+                        SRLG, node and link protection, three
                         identities must be added in this list:
-                        one for SRLG protection, one for node 
-                        protection, one for link protection."; 
+                        one for SRLG protection, one for node
+                        protection, one for link protection.";
           }
           description "Protection types provided by the alternate.";
         }
@@ -1927,7 +1980,7 @@ module ietf-isis {
           description "Level 2 internal route. As per RFC2966,
                         the prefix is directly connected to the
                         advertising router. It cannot be
-                        distinguished from an L1-&gt;L2 inter-area 
+                        distinguished from an L1->L2 inter-area
                         route.";
         }
         enum l1-intra-area {
@@ -1938,7 +1991,7 @@ module ietf-isis {
         enum l2-external {
           description "Level 2 external route. As per RFC2966,
                         such a route is learned from other IGPs.
-                        It cannot be distinguished from an L1-&gt;L2
+                        It cannot be distinguished from an L1->L2
                         inter-area external route.";
         }
         enum l1-external {
@@ -1949,7 +2002,7 @@ module ietf-isis {
           description "These prefixes are learned via L2 routing.";
         }
         enum l1-inter-area-external {
-          description "These prefixes are learned via L2 routing 
+          description "These prefixes are learned via L2 routing
                         towards an l2-external route.";
         }
       }
@@ -2174,7 +2227,7 @@ module ietf-isis {
           description
             "This leaf specifies the authentication key. The
              length of the key may be dependent on the
-             cryptographic algorithm."; 
+             cryptographic algorithm.";
         }
         leaf crypto-algorithm {
           type identityref {
@@ -2633,13 +2686,25 @@ module ietf-isis {
   grouping instance-state {
       description
        "IS-IS instance operational state.";
-     uses spf-log;
+      uses spf-log;
       uses lsp-log;
       uses hostname-db;
       uses lsdb;
       uses local-rib;
       uses system-counters;
       uses instance-fast-reroute-state;
+      leaf discontinuity-time {
+        type yang:date-and-time;
+        description
+          "The time on the most recent occasion at which any one
+           or more of this IS-IS instance's counters suffered a
+           discontinuity.  If no such discontinuities have occurred
+           since the IS-IS instance was last re-initialized, then
+           this node contains the time the IS-IS instance was
+           re-initialized which normally occurs when it was
+           created.";
+      }
+    description "System counters grouping.";
   }
 
   grouping multi-topology-config {
@@ -2872,6 +2937,17 @@ module ietf-isis {
     uses adjacency-state;
     uses event-counters;
     uses packet-counters;
+    leaf discontinuity-time {
+      type yang:date-and-time;
+      description
+        "The time on the most recent occasion at which any one
+         or more of this IS-IS interfaces's counters suffered a
+         discontinuity.  If no such discontinuities have occurred
+         since the IS-IS interface was last re-initialized, then
+         this node contains the time the IS-IS interface was
+         re-initialized which normally occurs when it was
+         created.";
+      }
   }
 
  /* Grouping for the hostname database */
@@ -2993,7 +3069,6 @@ module ietf-isis {
       description
         "List counters for the IS-IS protocol instance";
     }
-    description "System counters grouping.";
   }
 
   grouping event-counters {
@@ -3586,8 +3661,8 @@ module ietf-isis {
         }
       }
       container psc-specific {
-        when "../switching-capability &gt;= 1 and
-              ../switching-capability &lt;= 4";
+        when "../switching-capability >= 1 and
+              ../switching-capability <= 4";
         description
           "Switching Capability-specific information applicable
           when switching type is PSC1,PSC2,PSC3 or PSC4.";
@@ -3621,8 +3696,8 @@ module ietf-isis {
                 base unidirectional-link-delay-subtlv-flag;
             }
            description
-                 "This list contains identities for the bits which are
-                set.";
+                 "This list contains identities for the bits
+                  which are set.";
         }
         description
           "unidirectional-link-delay subTLV flags.";
@@ -4134,9 +4209,9 @@ module ietf-isis {
             }
             description
                 "This list contains identities for the bits which are
-                set."; 
+                set.";
         }
-        description "LSP attributes.";    
+        description "LSP attributes.";
     }
 
     uses tlv132-ipv4-addresses;
@@ -4328,7 +4403,7 @@ module ietf-isis {
       "This augments a routing protocol instance with IS-IS
        specific parameters.";
     container isis {
-      must "count(area-address) &gt; 0" {
+      must "count(area-address) > 0" {
         error-message
           "At least one area-address must be configured.";
         description
@@ -4531,9 +4606,9 @@ module ietf-isis {
     }
     description
       "This notification is sent when we attempt to propagate
-       an LSP that is larger than the dataLinkBlockSize (ISO10589) for the
-       circuit.  The notification generation must be throttled
-       with at least 5 seconds between successive
+       an LSP that is larger than the dataLinkBlockSize (ISO10589)
+       for the circuit.  The notification generation must be
+       throttled with at least 5 seconds between successive
        notifications.";
   }
 
@@ -4872,61 +4947,110 @@ module ietf-isis {
        least 5 seconds between successive notifications.";
   }
 }
-
-&lt;CODE ENDS&gt;</artwork>
-
-      </figure>
+<CODE ENDS>
+      ]]></artwork>
+    </figure>
 
     </section>
 
 
     <section anchor="Security" title="Security Considerations" toc="default">
-    <t>The YANG module specified in this document defines a schema for data that is designed to be accessed via network management protocols such as NETCONF <xref target="RFC6241" pageno="false" format="default"/> or RESTCONF <xref target="RFC8040" pageno="false" format="default"/>. The lowest NETCONF layer is the secure transport layer, and the mandatory-to-implement secure transport is Secure Shell (SSH) <xref target="RFC6242" pageno="false" format="default"/>. The lowest RESTCONF layer is HTTPS, and the mandatory-to-implement secure transport is TLS <xref target="RFC8446" pageno="false" format="default"/></t>
-    <t>The Network Configuration Access Control Model (NACM)  <xref target="RFC8341" pageno="false" format="default"/> provides the means to restrict access for particular NETCONF or RESTCONF users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.</t> 
+    <t>The YANG modules specified in this document define a schema for
+       data that is designed to be accessed via network
+       management protocols such as NETCONF <xref target="RFC6241"/> or
+       RESTCONF <xref target="RFC8040"/>. The lowest NETCONF layer is the secure transport
+       layer, and the mandatory-to-implement secure transport is Secure Shell (SSH)
+       <xref target="RFC6242"/>. The lowest RESTCONF layer is HTTPS, and the
+       mandatory-to-implement secure transport is TLS <xref target="RFC8446"/>.</t>
 
-    <t>There are a number of data nodes defined in this YANG module that are writable/creatable/deletable (i.e., config true, which is the default). These data nodes may be considered sensitive or vulnerable in some network environments. Write operations (e.g., edit-config) to these data nodes without proper protection can have a negative effect on network operations. For IS-IS, the ability to modify IS-IS configuration will allow the entire IS-IS domain to be compromised including creating adjacencies with unauthorized routers to misroute traffic, isolate routers, or mount a massive Denial-of-Service (DoS) attack. A user should consider all the configuration nodes are sensible.</t>
+   <t>The NETCONF Access Control Model (NACM) <xref target="RFC8341"/> provides the
+      means to restrict access for particular NETCONF or RESTCONF users to a
+      pre-configured subset of all available NETCONF or RESTCONF protocol
+      operations and content.</t>
 
-    <t>Some of the readable data nodes in this YANG module may be considered sensitive or vulnerable in some network environments. It is thus important to control read access (e.g., via get, get-config, or notification) to these data nodes. The exposure of the Link State Database (LSDB) will expose the detailed topology of the network including authentication parameters. Implementations MUST NOT provide a configured authentication key in a clear text format in response to any request (e.g., via get, get-config).</t>
-    <t>For IS-IS authentication, configuration is supported via the specification of key-chain <xref target="RFC8177" pageno="false" format="default"/> or the direction specification of key and authentication algorithm. Hence, authentification
-   configuration using the "auth-table-trailer" case in the
-   "authentication" container inherits the security considerations of <xref target="RFC8177" pageno="false" format="default"/>. This includes the considerations with respect to the
-   local storage and handling of authentication keys.</t> 
+   <t>There are a number of data nodes defined in ietf-isis.yang module that are
+      writable/creatable/deletable (i.e., config true, which is the default).
+      These data nodes may be considered sensitive or vulnerable in some network
+      environments. Write operations (e.g., edit-config) to these data nodes without
+      proper protection can have a negative effect on network operations.
+      Writable data node represent configuration of each instanceand interface.
+      These correspond to the following schema nodes:
+      <list style="empty">
+       <t>/isis</t>
+       <t>/isis/interfaces/interface[name]</t>
+      </list></t>
+     <t>For OSPF,
+      the ability to modify OSPF configuration will allow the entire OSPF domain
+      to be compromised including peering with unauthorized routers to
+      misroute traffic or mount a massive Denial-of-Service (DoS) attack. For example,
+      adding OSPF on any unprotected interface could allow an OSPF adjacency to be
+      formed with an unauthorized and malicious neighbor. Once an adjacency is formed,
+      traffic could be hijacked. As a simpler example, a Denial-of-Service attack could
+      be mounted by changing the cost of an OSPF interface to be asymmetric such that a
+      hard routing loop ensues. In general, unauthorized modification of most OSPF features
+      will pose  there own set of security risks and the "Security Considerations" in the
+      respective reference RFCs should be consulted.</t>
 
-    <t>Some of the RPC operations in this YANG module may be considered sensitive or vulnerable in some network environments. It is thus important to control access to these operations. The IS-IS YANG
-   module support the "clear-adjacency" and "clear-database" RPCs.  If
-   access too either of these is compromised, they can result in
-   temporary network outages be employed to mount DoS attacks.
-	</t>
+   <t>Some of the readable data nodes in the ietf-isi.yang module may be considered
+      sensitive or vulnerable in some network environments. It is thus
+      important to control read access (e.g., via get, get-config, or notification)
+      to these data nodes. The exposure of the Link State Database (LSDB) will
+      expose the detailed topology of the network. The Link State Database (LSDB) is
+      represented by the following schma nodes:
+      <list style="empty">
+       <t>/isis/database</t>
+      </list></t>
+    <t>Exposure of the Link State Database includes information beyond the scope of the
+      OSPF router and this may be undesirable since exposure may facilitate other attacks.
+      Additionally, in the case of an area LSDB, the complete IP network topology and,
+      if deployed, the traffic engineering topology of the OSPF area can be
+      reconstucted. Network operators may consider their topologies to be sensitive
+      confidential data.</t>
+    <t>For IS-IS authentication, configuration is supported via the specification of key-chain
+       <xref target="RFC8177" pageno="false" format="default"/> or the direction specification
+       of key and authentication algorithm. Hence, authentification
+       configuration using the "auth-table-trailer" case in the
+       "authentication" container inherits the security considerations of
+       <xref target="RFC8177" pageno="false" format="default"/>. This includes the
+        considerations with respect to the
+        local storage and handling of authentication keys.</t> 
 
-    <t>The actual authentication key data (whether locally specified or part
-   of a key-chain) is sensitive and needs to be kept secret from
-   unauthorized parties; compromise of the key data would allow an attacker to forge IS-IS traffic that would be accepted as authentic,
-   potentially compromising the entirety IS-IS domain.</t>
-    </section>
+      <t>Some of the RPC operations in this YANG module may be considered sensitive or
+         vulnerable in some network environments. It is thus important to control access
+         to these operations. The IS-IS YANG module support the "clear-adjacency" and
+         "clear-database" RPCs.  If access too either of these is compromised, they can
+         result in temporary network outages be employed to mount DoS attacks.
+        </t>
+        <t>The actual authentication key data (whether locally specified or part
+           of a key-chain) is sensitive and needs to be kept secret from
+           unauthorized parties; compromise of the key data would allow an attacker to forge
+           IS-IS traffic that would be accepted as authentic,
+           potentially compromising the entirety IS-IS domain.</t>
+       </section>
 
-	<section anchor="Contributors" title="Contributors" toc="default">
+        <section anchor="Contributors" title="Contributors" toc="default">
       <t>Authors would like to thank 
-	  Kiran Agrahara Sreenivasa, Dean Bogdanovic, Yingzhen Qu, Yi Yang, Jeff Tanstura
-	  for their major contributions to the draft.</t>
+          Kiran Agrahara Sreenivasa, Dean Bogdanovic, Yingzhen Qu, Yi Yang, Jeff Tanstura
+          for their major contributions to the draft.</t>
     </section>
 
   <section anchor="IANA" title="IANA Considerations" toc="default">
-	<t>The IANA is requested to assign two new URIs from the
+        <t>The IANA is requested to assign two new URIs from the
    IETF XML registry <xref target="RFC3688" pageno="false" format="default"/>. Authors are suggesting the following URI: </t>
    <figure title="" suppress-title="false" align="left" alt="" width="" height="">
    <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
-	URI: urn:ietf:params:xml:ns:yang:ietf-isis
-	Registrant Contact: The IESG 
-	XML: N/A, the requested URI is an XML namespace
+        URI: urn:ietf:params:xml:ns:yang:ietf-isis
+        Registrant Contact: The IESG 
+        XML: N/A, the requested URI is an XML namespace
    </artwork>
    </figure>
-	<t>This document also requests one new YANG module name in the YANG Module Names registry <xref target="RFC6020" pageno="false" format="default"/> with the following suggestion:</t>
+        <t>This document also requests one new YANG module name in the YANG Module Names registry <xref target="RFC6020" pageno="false" format="default"/> with the following suggestion:</t>
    <figure title="" suppress-title="false" align="left" alt="" width="" height="">
    <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
-	name: ietf-isis
-	namespace: urn:ietf:params:xml:ns:yang:ietf-isis
-	prefix: isis
-	reference: RFC XXXX
+        name: ietf-isis
+        namespace: urn:ietf:params:xml:ns:yang:ietf-isis
+        prefix: isis
+        reference: RFC XXXX
    </artwork>
    </figure>
 
@@ -5581,10 +5705,10 @@ module ietf-isis {
     </references>
     <section anchor="rpc-example" title="Example of IS-IS configuration in XML" toc="default">
       <t>This section gives an example of configuration of an IS-IS instance on a device.
-	  The example is written in XML.</t>
+          The example is written in XML.</t>
 
       <figure title="" suppress-title="false" align="left" alt="" width="" height="">
-	<artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
+        <artwork xml:space="preserve" name="" type="" align="left" alt="" width="" height="">
 &lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"&gt;
   &lt;routing xmlns="urn:ietf:params:xml:ns:yang:ietf-routing"&gt;

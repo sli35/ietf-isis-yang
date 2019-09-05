@@ -105,7 +105,7 @@ module ietf-isis {
        as shown here.
        ";
 
-  revision 2019-08-28 {
+  revision 2019-09-04 {
     description
       "Initial revision.";
     reference "RFC XXXX";
@@ -137,7 +137,8 @@ module ietf-isis {
   }
 
   identity frr-protection-method {
-    description "Base identity for a Fast Reroute protection method.";
+    description
+      "Base identity for a Fast Reroute protection method.";
   }
   identity frr-protection-method-lfa {
     base frr-protection-method;
@@ -195,8 +196,9 @@ module ietf-isis {
             the value represents steady-state link performance.";
   }
   identity min-max-unidirectional-link-delay-subtlv-flag {
-      description "Base identity for min-max-unidirectional-link-delay
-                  subTLV flags. Flags are defined in RFC8570.";
+      description
+        "Base identity for min-max-unidirectional-link-delay
+         subTLV flags. Flags are defined in RFC8570.";
   }
   identity min-max-unidirectional-link-delay-subtlv-a-flag {
       base min-max-unidirectional-link-delay-subtlv-flag;
@@ -390,11 +392,11 @@ module ietf-isis {
 
   feature overload-max-metric {
     description
-      "Support of overload by setting
-        all links to max metric. In IS-IS, the overload bit is usually
-        used to signal that a node cannot be used as a transit.
-        The overload-max-metric feature brings a similar behavior
-        leveraging on setting all the link metrics to MAX_METRIC.";
+      "Support of overload by setting all links to max metric.
+        In IS-IS, the overload bit is usually used to signal that
+        a node cannot be used as a transit. The overload-max-metric
+        feature brings a similar behavior leveraging on setting all
+        the link metrics to MAX_METRIC.";
   }
   feature prefix-tag {
     description
@@ -1708,15 +1710,26 @@ module ietf-isis {
   }
 
   grouping instance-state {
+    description
+      "IS-IS instance operational state.";
+    uses spf-log;
+    uses lsp-log;
+    uses hostname-db;
+    uses lsdb;
+    uses local-rib;
+    uses system-counters;
+    uses instance-fast-reroute-state;
+    leaf discontinuity-time {
+      type yang:date-and-time;
       description
-       "IS-IS instance operational state.";
-     uses spf-log;
-      uses lsp-log;
-      uses hostname-db;
-      uses lsdb;
-      uses local-rib;
-      uses system-counters;
-      uses instance-fast-reroute-state;
+        "The time on the most recent occasion at which any one
+         or more of this IS-IS instance's counters suffered a
+         discontinuity.  If no such discontinuities have occurred
+         since the IS-IS instance was last re-initialized, then
+         this node contains the time the IS-IS instance was
+         re-initialized which normally occurs when it was
+         created.";
+    }
   }
 
   grouping multi-topology-config {
@@ -1949,6 +1962,17 @@ module ietf-isis {
     uses adjacency-state;
     uses event-counters;
     uses packet-counters;
+    leaf discontinuity-time {
+      type yang:date-and-time;
+      description
+        "The time on the most recent occasion at which any one
+         or more of this IS-IS interfaces's counters suffered a
+         discontinuity.  If no such discontinuities have occurred
+         since the IS-IS interface was last re-initialized, then
+         this node contains the time the IS-IS interface was
+         re-initialized which normally occurs when it was
+         created.";
+      }
   }
 
  /* Grouping for the hostname database */
@@ -2070,7 +2094,6 @@ module ietf-isis {
       description
         "List counters for the IS-IS protocol instance";
     }
-    description "System counters grouping.";
   }
 
   grouping event-counters {
@@ -2698,8 +2721,8 @@ module ietf-isis {
                 base unidirectional-link-delay-subtlv-flag;
             }
            description
-                 "This list contains identities for the bits which are
-                set.";
+                 "This list contains identities for the bits
+                  which are set.";
         }
         description
           "unidirectional-link-delay subTLV flags.";
