@@ -4979,15 +4979,15 @@ module ietf-isis {
        <t>/isis</t>
        <t>/isis/interfaces/interface[name]</t>
       </list></t>
-     <t>For OSPF,
-      the ability to modify OSPF configuration will allow the entire OSPF domain
+     <t>For IS-IS,
+      the ability to modify IS-IS configuration will allow the entire IS-IS domain
       to be compromised including peering with unauthorized routers to
       misroute traffic or mount a massive Denial-of-Service (DoS) attack. For example,
-      adding OSPF on any unprotected interface could allow an OSPF adjacency to be
+      adding IS-IS on any unprotected interface could allow an IS-IS adjacency to be
       formed with an unauthorized and malicious neighbor. Once an adjacency is formed,
       traffic could be hijacked. As a simpler example, a Denial-of-Service attack could
-      be mounted by changing the cost of an OSPF interface to be asymmetric such that a
-      hard routing loop ensues. In general, unauthorized modification of most OSPF features
+      be mounted by changing the cost of an IS-IS interface to be asymmetric such that a
+      hard routing loop ensues. In general, unauthorized modification of most IS-IS features
       will pose  there own set of security risks and the "Security Considerations" in the
       respective reference RFCs should be consulted.</t>
 
@@ -5001,9 +5001,9 @@ module ietf-isis {
        <t>/isis/database</t>
       </list></t>
     <t>Exposure of the Link State Database includes information beyond the scope of the
-      OSPF router and this may be undesirable since exposure may facilitate other attacks.
-      Additionally, in the case of an area LSDB, the complete IP network topology and,
-      if deployed, the traffic engineering topology of the OSPF area can be
+      IS-IS router and this may be undesirable since exposure may facilitate other attacks.
+      Additionally, the complete IP network topology and,
+      if deployed, the traffic engineering topology of the IS-IS domain can be
       reconstucted. Network operators may consider their topologies to be sensitive
       confidential data.</t>
     <t>For IS-IS authentication, configuration is supported via the specification of key-chain
