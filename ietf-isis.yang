@@ -1630,7 +1630,7 @@ module ietf-isis {
     container spf-control {
         leaf paths {
           if-feature max-ecmp;
-          type uint16 {
+          type uint8 {
             range "1..32";
           }
           description
@@ -2568,7 +2568,7 @@ module ietf-isis {
     leaf-list tag64 {
       type uint64;
       description
-        "List of 32-bit tags associated with the IPv4 prefix.";
+        "List of 64-bit tags associated with the IPv4 prefix.";
     }
     uses prefix-attributes-extension;
   }
@@ -2600,7 +2600,7 @@ module ietf-isis {
     leaf-list tag64 {
       type uint64;
       description
-        "List of 32-bit tags associated with the IPv4 prefix.";
+        "List of 64-bit tags associated with the IPv4 prefix.";
     }
     uses prefix-attributes-extension;
   }
@@ -3819,7 +3819,7 @@ module ietf-isis {
       description
         "The system may provide a reason to reject the
          adjacency. If the reason is not available,
-         an empty string will be returned.
+         the reason string will not be returned.
          The expected format is a single line text.";
     }
     description
