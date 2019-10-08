@@ -73,7 +73,7 @@ module: ietf-isis
        |  +--rw ldp
        |     +--rw igp-sync {ldp-igp-sync}?
        +--rw spf-control
-       |  +--rw paths?            uint16 {max-ecmp}?
+       |  +--rw paths?            uint8 {max-ecmp}?
        |  +--rw ietf-spf-delay {ietf-spf-delay}?
        |     +--rw initial-delay?             rt-types:timer-value-milliseconds
        |     +--rw short-delay?               rt-types:timer-value-milliseconds
@@ -101,7 +101,7 @@ module: ietf-isis
        |  +--rw timeout?   rt-types:timer-value-seconds16
        +--ro spf-log
        |  +--ro event* [id]
-       |     +--ro id                    uint32
+       |     +--ro id                    yang:counter32
        |     +--ro spf-type?             enumeration
        |     +--ro level?                level-number
        |     +--ro schedule-timestamp?   yang:timestamp
@@ -112,7 +112,7 @@ module: ietf-isis
        |        +--ro sequence?   uint32
        +--ro lsp-log
        |  +--ro event* [id]
-       |     +--ro id                    uint32
+       |     +--ro id                    yang:counter32
        |     +--ro level?                level-number
        |     +--ro lsp
        |     |  +--ro lsp?        lsp-id
@@ -155,12 +155,10 @@ module: ietf-isis
        |        |     |  +--ro router-capability-flags*   identityref
        |        |     +--ro node-tags {node-tag}?
        |        |     |  +--ro node-tag* []
-       |        |     |     +--ro tag?   uint32
+       |        |     |        ...
        |        |     +--ro unknown-tlvs
        |        |        +--ro unknown-tlv* []
-       |        |           +--ro type?     uint16
-       |        |           +--ro length?   uint16
-       |        |           +--ro value?    yang:hex-string
+       |        |              ...
        |        +--ro links-srlgs
        |        |  +--ro links* []
        |        |     +--ro neighbor-id?      extended-system-id
@@ -179,81 +177,13 @@ module: ietf-isis
        |        |     +--ro neighbor-id    extended-system-id
        |        |     +--ro instances
        |        |        +--ro instance* [id]
-       |        |           +--ro id                uint32
-       |        |           +--ro i-e?              boolean
-       |        |           +--ro default-metric
-       |        |           |  +--ro metric?   std-metric
-       |        |           +--ro delay-metric
-       |        |           |  +--ro metric?      std-metric
-       |        |           |  +--ro supported?   boolean
-       |        |           +--ro expense-metric
-       |        |           |  +--ro metric?      std-metric
-       |        |           |  +--ro supported?   boolean
-       |        |           +--ro error-metric
-       |        |              +--ro metric?      std-metric
-       |        |              +--ro supported?   boolean
+       |        |              ...
        |        +--ro extended-is-neighbor
        |        |  +--ro neighbor* [neighbor-id]
        |        |     +--ro neighbor-id    extended-system-id
        |        |     +--ro instances
        |        |        +--ro instance* [id]
-       |        |           +--ro id                                         uint32
-       |        |           +--ro metric?                                    wide-metric
-       |        |           +--ro link-local-id?                             uint32
-       |        |           +--ro remote-local-id?                           uint32
-       |        |           +--ro protection-capability?                     uint8
-       |        |           +--ro interface-switching-capability
-       |        |           |  +--ro switching-capability?   uint8
-       |        |           |  +--ro encoding?               uint8
-       |        |           |  +--ro max-lsp-bandwidths
-       |        |           |  |  +--ro max-lsp-bandwidth* []
-       |        |           |  |     +--ro priority?    uint8
-       |        |           |  |     +--ro bandwidth?   rt-types:bandwidth-ieee-float32
-       |        |           |  +--ro tdm-specific
-       |        |           |  |  +--ro minimum-lsp-bandwidth?   rt-types:bandwidth-ieee-float32
-       |        |           |  |  +--ro indication?              uint8
-       |        |           |  +--ro psc-specific
-       |        |           |     +--ro minimum-lsp-bandwidth?   rt-types:bandwidth-ieee-float32
-       |        |           |     +--ro mtu?                     uint16
-       |        |           +--ro admin-group?                               uint32
-       |        |           +--ro local-if-ipv4-addrs
-       |        |           |  +--ro local-if-ipv4-addr*   inet:ipv4-address
-       |        |           +--ro remote-if-ipv4-addrs
-       |        |           |  +--ro remote-if-ipv4-addr*   inet:ipv4-address
-       |        |           +--ro te-metric?                                 uint32
-       |        |           +--ro max-bandwidth?                             rt-types:bandwidth-ieee-float32
-       |        |           +--ro max-reservable-bandwidth?                  rt-types:bandwidth-ieee-float32
-       |        |           +--ro unreserved-bandwidths
-       |        |           |  +--ro unreserved-bandwidth* []
-       |        |           |     +--ro priority?               uint8
-       |        |           |     +--ro unreserved-bandwidth?   rt-types:bandwidth-ieee-float32
-       |        |           +--ro unidirectional-link-delay
-       |        |           |  +--ro flags
-       |        |           |  |  +--ro unidirectional-link-delay-subtlv-flags*   identityref
-       |        |           |  +--ro value?   uint32
-       |        |           +--ro min-max-unidirectional-link-delay
-       |        |           |  +--ro flags
-       |        |           |  |  +--ro min-max-unidirectional-link-delay-subtlv-flags*   identityref
-       |        |           |  +--ro min-value?   uint32
-       |        |           |  +--ro max-value?   uint32
-       |        |           +--ro unidirectional-link-delay-variation
-       |        |           |  +--ro value?   uint32
-       |        |           +--ro unidirectional-link-loss
-       |        |           |  +--ro flags
-       |        |           |  |  +--ro unidirectional-link-loss-subtlv-flags*   identityref
-       |        |           |  +--ro value?   uint32
-       |        |           +--ro unidirectional-link-residual-bandwidth
-       |        |           |  +--ro value?   rt-types:bandwidth-ieee-float32
-       |        |           +--ro unidirectional-link-available-bandwidth
-       |        |           |  +--ro value?   rt-types:bandwidth-ieee-float32
-       |        |           +--ro unidirectional-link-utilized-bandwidth
-       |        |           |  +--ro value?   rt-types:bandwidth-ieee-float32
-       |        |           +--ro link-attributes-flags?                     uint16
-       |        |           +--ro unknown-tlvs
-       |        |              +--ro unknown-tlv* []
-       |        |                 +--ro type?     uint16
-       |        |                 +--ro length?   uint16
-       |        |                 +--ro value?    yang:hex-string
+       |        |              ...
        |        +--ro ipv4-internal-reachability
        |        |  +--ro prefixes* []
        |        |     +--ro ip-prefix?        inet:ipv4-address
@@ -301,72 +231,14 @@ module: ietf-isis
        |        |     +--ro ipv6-source-router-id?   inet:ipv6-address
        |        |     +--ro unknown-tlvs
        |        |        +--ro unknown-tlv* []
-       |        |           +--ro type?     uint16
-       |        |           +--ro length?   uint16
-       |        |           +--ro value?    yang:hex-string
+       |        |              ...
        |        +--ro mt-is-neighbor
        |        |  +--ro neighbor* []
        |        |     +--ro mt-id?         uint16
        |        |     +--ro neighbor-id?   extended-system-id
        |        |     +--ro instances
        |        |        +--ro instance* [id]
-       |        |           +--ro id                                         uint32
-       |        |           +--ro metric?                                    wide-metric
-       |        |           +--ro link-local-id?                             uint32
-       |        |           +--ro remote-local-id?                           uint32
-       |        |           +--ro protection-capability?                     uint8
-       |        |           +--ro interface-switching-capability
-       |        |           |  +--ro switching-capability?   uint8
-       |        |           |  +--ro encoding?               uint8
-       |        |           |  +--ro max-lsp-bandwidths
-       |        |           |  |  +--ro max-lsp-bandwidth* []
-       |        |           |  |     +--ro priority?    uint8
-       |        |           |  |     +--ro bandwidth?   rt-types:bandwidth-ieee-float32
-       |        |           |  +--ro tdm-specific
-       |        |           |  |  +--ro minimum-lsp-bandwidth?   rt-types:bandwidth-ieee-float32
-       |        |           |  |  +--ro indication?              uint8
-       |        |           |  +--ro psc-specific
-       |        |           |     +--ro minimum-lsp-bandwidth?   rt-types:bandwidth-ieee-float32
-       |        |           |     +--ro mtu?                     uint16
-       |        |           +--ro admin-group?                               uint32
-       |        |           +--ro local-if-ipv4-addrs
-       |        |           |  +--ro local-if-ipv4-addr*   inet:ipv4-address
-       |        |           +--ro remote-if-ipv4-addrs
-       |        |           |  +--ro remote-if-ipv4-addr*   inet:ipv4-address
-       |        |           +--ro te-metric?                                 uint32
-       |        |           +--ro max-bandwidth?                             rt-types:bandwidth-ieee-float32
-       |        |           +--ro max-reservable-bandwidth?                  rt-types:bandwidth-ieee-float32
-       |        |           +--ro unreserved-bandwidths
-       |        |           |  +--ro unreserved-bandwidth* []
-       |        |           |     +--ro priority?               uint8
-       |        |           |     +--ro unreserved-bandwidth?   rt-types:bandwidth-ieee-float32
-       |        |           +--ro unidirectional-link-delay
-       |        |           |  +--ro flags
-       |        |           |  |  +--ro unidirectional-link-delay-subtlv-flags*   identityref
-       |        |           |  +--ro value?   uint32
-       |        |           +--ro min-max-unidirectional-link-delay
-       |        |           |  +--ro flags
-       |        |           |  |  +--ro min-max-unidirectional-link-delay-subtlv-flags*   identityref
-       |        |           |  +--ro min-value?   uint32
-       |        |           |  +--ro max-value?   uint32
-       |        |           +--ro unidirectional-link-delay-variation
-       |        |           |  +--ro value?   uint32
-       |        |           +--ro unidirectional-link-loss
-       |        |           |  +--ro flags
-       |        |           |  |  +--ro unidirectional-link-loss-subtlv-flags*   identityref
-       |        |           |  +--ro value?   uint32
-       |        |           +--ro unidirectional-link-residual-bandwidth
-       |        |           |  +--ro value?   rt-types:bandwidth-ieee-float32
-       |        |           +--ro unidirectional-link-available-bandwidth
-       |        |           |  +--ro value?   rt-types:bandwidth-ieee-float32
-       |        |           +--ro unidirectional-link-utilized-bandwidth
-       |        |           |  +--ro value?   rt-types:bandwidth-ieee-float32
-       |        |           +--ro link-attributes-flags?                     uint16
-       |        |           +--ro unknown-tlvs
-       |        |              +--ro unknown-tlv* []
-       |        |                 +--ro type?     uint16
-       |        |                 +--ro length?   uint16
-       |        |                 +--ro value?    yang:hex-string
+       |        |              ...
        |        +--ro mt-extended-ipv4-reachability
        |        |  +--ro prefixes* []
        |        |     +--ro mt-id?                   uint16
@@ -383,9 +255,7 @@ module: ietf-isis
        |        |     +--ro ipv6-source-router-id?   inet:ipv6-address
        |        |     +--ro unknown-tlvs
        |        |        +--ro unknown-tlv* []
-       |        |           +--ro type?     uint16
-       |        |           +--ro length?   uint16
-       |        |           +--ro value?    yang:hex-string
+       |        |              ...
        |        +--ro mt-ipv6-reachability
        |        |  +--ro prefixes* []
        |        |     +--ro MT-ID?                   uint16
@@ -402,9 +272,7 @@ module: ietf-isis
        |        |     +--ro ipv6-source-router-id?   inet:ipv6-address
        |        |     +--ro unknown-tlvs
        |        |        +--ro unknown-tlv* []
-       |        |           +--ro type?     uint16
-       |        |           +--ro length?   uint16
-       |        |           +--ro value?    yang:hex-string
+       |        |              ...
        |        +--ro ipv6-reachability
        |           +--ro prefixes* []
        |              +--ro up-down?                 boolean
@@ -420,9 +288,7 @@ module: ietf-isis
        |              +--ro ipv6-source-router-id?   inet:ipv6-address
        |              +--ro unknown-tlvs
        |                 +--ro unknown-tlv* []
-       |                    +--ro type?     uint16
-       |                    +--ro length?   uint16
-       |                    +--ro value?    yang:hex-string
+       |                       ...
        +--ro local-rib
        |  +--ro route* [prefix]
        |     +--ro prefix       inet:ip-prefix
@@ -453,7 +319,7 @@ module: ietf-isis
        |     +--ro address-family          iana-rt-types:address-family
        |     +--ro prefix                  inet:ip-prefix
        |     +--ro alternate               inet:ip-address
-       |     +--ro alternate-type?         enumeration
+       |     +--ro alternate-type?         identityref
        |     +--ro best?                   boolean
        |     +--ro non-best-reason?        string
        |     +--ro protection-available
@@ -462,18 +328,18 @@ module: ietf-isis
        |     +--ro alternate-metric2?      uint32
        |     +--ro alternate-metric3?      uint32
        +--ro unprotected-routes
-       |  +--ro address-family-stats* [address-family prefix]
+       |  +--ro prefixes* [address-family prefix]
        |     +--ro address-family    iana-rt-types:address-family
        |     +--ro prefix            inet:ip-prefix
        +--ro protection-statistics* [frr-protection-method]
        |  +--ro frr-protection-method    identityref
        |  +--ro address-family-stats* [address-family]
-       |     +--ro address-family          iana-rt-types:address-family
-       |     +--ro total-routes?           uint32
-       |     +--ro unprotected-routes?     uint32
-       |     +--ro protected-routes?       uint32
-       |     +--ro linkprotected-routes?   uint32
-       |     +--ro nodeprotected-routes?   uint32
+       |     +--ro address-family           iana-rt-types:address-family
+       |     +--ro total-routes?            yang:gauge32
+       |     +--ro unprotected-routes?      yang:gauge32
+       |     +--ro protected-routes?        yang:gauge32
+       |     +--ro link-protected-routes?   yang:gauge32
+       |     +--ro node-protected-routes?   yang:gauge32
        +--rw discontinuity-time?       yang:date-and-time
        +--rw topologies {multi-topology}?
        |  +--rw topology* [name]
@@ -555,10 +421,10 @@ module: ietf-isis
              |  +--rw local-multiplier?                 multiplier
              |  +--rw (interval-config-type)?
              |     +--:(tx-rx-intervals)
-             |     |  +--rw desired-min-tx-interval     uint32
-             |     |  +--rw required-min-rx-interval    uint32
-             |     +--:(single-interval)
-             |        +--rw min-interval                uint32
+             |     |  +--rw desired-min-tx-interval?    uint32
+             |     |  +--rw required-min-rx-interval?   uint32
+             |     +--:(single-interval) {single-minimum-interval}?
+             |        +--rw min-interval?               uint32
              +--rw address-families {nlpid-control}?
              |  +--rw address-family-list* [address-family]
              |     +--rw address-family    iana-rt-types:address-family
