@@ -2660,7 +2660,11 @@ module ietf-isis {
     leaf-list tag64 {
       type uint64;
       description
+<<<<<<< HEAD
         "List of 64-bits tags associated with the IPv4 prefix.";
+=======
+        "List of 64-bit tags associated with the IPv4 prefix.";
+>>>>>>> eb10f4224ef4508e2c2ee5fa9574504eb6eae6fa
     }
     uses prefix-attributes-extension;
   }
@@ -2694,7 +2698,11 @@ module ietf-isis {
     leaf-list tag64 {
       type uint64;
       description
+<<<<<<< HEAD
         "List of 64-bits tags associated with the IPv4 prefix.";
+=======
+        "List of 64-bit tags associated with the IPv4 prefix.";
+>>>>>>> eb10f4224ef4508e2c2ee5fa9574504eb6eae6fa
     }
     uses prefix-attributes-extension;
   }
@@ -3913,7 +3921,7 @@ module ietf-isis {
       description
         "The system may provide a reason to reject the
          adjacency. If the reason is not available,
-         an empty string will be returned.
+         the reason string will not be returned.
          The expected format is a single line text.";
     }
     description
