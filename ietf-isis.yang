@@ -177,38 +177,38 @@ module ietf-isis {
     base frr-protection-available-type;
     description "The level of protection is unknown.";
   }
-  
+
   identity frr-alternate-type {
     description "Base identity for IP Fast Reroute alternate type.";
   }
   identity frr-alternate-type-equal-cost {
     base frr-alternate-type;
-	description "ECMP alternate.";
+        description "ECMP alternate.";
   }
   identity frr-alternate-type-lfa {
     base frr-alternate-type;
-	description "LFA alternate.";
+        description "LFA alternate.";
   }
   identity frr-alternate-type-remote-lfa {
     base frr-alternate-type;
-	description "Remote LFA alternate.";
+        description "Remote LFA alternate.";
   }
   identity frr-alternate-type-tunnel {
     base frr-alternate-type;
-	description "Tunnel based alternate (such as,
+        description "Tunnel based alternate (such as,
                  RSVP-TE or GRE).";
   }
   identity frr-alternate-mrt {
     base frr-alternate-type;
-	description "MRT alternate.";
+        description "MRT alternate.";
   }
   identity frr-alternate-tilfa {
     base frr-alternate-type;
-	description "TILFA alternate.";
+        description "TILFA alternate.";
   }
   identity frr-alternate-other {
     base frr-alternate-type;
-	description "Other alternate.";
+        description "Other alternate.";
   }
 
 
@@ -466,7 +466,7 @@ module ietf-isis {
   feature nlpid-control {
     description
       "Support for the advertisement
-       of a Network Layer Protocol Identifier within IS-IS 
+       of a Network Layer Protocol Identifier within IS-IS
        configuration.";
   }
   feature graceful-restart {
@@ -813,9 +813,9 @@ module ietf-isis {
             "Alternate next hop for the prefix.";
         }
         leaf alternate-type {
-		  type identityref {
-		    base frr-alternate-type;
-		  }
+                  type identityref {
+                    base frr-alternate-type;
+                  }
           description
             "Type of alternate.";
         }
@@ -1002,9 +1002,9 @@ module ietf-isis {
     leaf-list tag {
       type uint64;
       description
-        "List of tags associated with the route. 
-		 This list provides a consolidated view of both
-		 32-bit and 64-bit tags (RFC5130) available for the prefix.";
+        "List of tags associated with the route.
+         This list provides a consolidated view of both
+         32-bit and 64-bit tags (RFC5130) available for the prefix.";
     }
     leaf route-type {
       type enumeration {
@@ -1301,7 +1301,7 @@ module ietf-isis {
     description
       "Grouping for global metric style config.";
   }
-  
+
   grouping metric-type-global-cfg-with-default {
     leaf value {
       type enumeration {
@@ -1705,8 +1705,8 @@ module ietf-isis {
       type boolean;
       default false;
       description
-        "Enable advertisement of IS-IS Purge Originator 
-		Identification TLV.";
+        "Enable advertisement of IS-IS Purge Originator
+                Identification TLV.";
     }
     description "Grouping for LSP global parameters.";
   }
@@ -2351,8 +2351,8 @@ module ietf-isis {
           type yang:counter32;
           description
             "Event identifier -  purely internal value.
-			It is expected the most recent events to have the bigger
-			id number.";
+             It is expected the most recent events to have the bigger
+             id number.";
         }
         leaf spf-type {
           type enumeration {
@@ -2425,8 +2425,8 @@ module ietf-isis {
           type yang:counter32;
           description
             "Event identifier -  purely internal value.
-			It is expected the most recent events to have the bigger
-			id number.";
+             It is expected the most recent events to have the bigger
+             id number.";
         }
         leaf level {
           type level-number;
@@ -2579,7 +2579,7 @@ module ietf-isis {
     leaf i-e {
       type boolean;
       description "Internal or External (I/E) Metric bit value.
-		Set to false to indicate an internal metric.";
+                Set to false to indicate an internal metric.";
     }
     container default-metric {
       leaf metric {
@@ -2623,8 +2623,8 @@ module ietf-isis {
       leaf supported {
         type boolean;
         default "false";
-        description 
-			"Indicates whether IS-IS error metric is supported.";
+        description
+          "Indicates whether IS-IS error metric is supported.";
       }
       description "IS-IS error metric container.";
     }
@@ -2637,8 +2637,8 @@ module ietf-isis {
     leaf up-down {
       type boolean;
       description  "Value of up/down bit.
-	  Set to true when the prefix has been advertised down
-	  the hierarchy.";
+          Set to true when the prefix has been advertised down
+          the hierarchy.";
     }
     leaf ip-prefix {
       type inet:ipv4-address;
@@ -2675,8 +2675,8 @@ module ietf-isis {
     leaf up-down {
       type boolean;
       description "Value of up/down bit.
-	  Set to true when the prefix has been advertised down
-	  the hierarchy.";
+          Set to true when the prefix has been advertised down
+          the hierarchy.";
     }
     leaf ip-prefix {
       type inet:ipv6-address;
