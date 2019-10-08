@@ -1714,8 +1714,8 @@ module ietf-isis {
     container spf-control {
         leaf paths {
           if-feature max-ecmp;
-          type uint8 {
-            range "1..32";
+          type uint16 {
+            range "1..65535";
           }
           description
             "Maximum number of Equal-Cost Multi-Path (ECMP) paths.";
@@ -2655,16 +2655,12 @@ module ietf-isis {
     leaf-list tag {
       type uint32;
       description
-        "List of 32-bits tags associated with the IPv4 prefix.";
+        "List of 32-bit tags associated with the IPv4 prefix.";
     }
     leaf-list tag64 {
       type uint64;
       description
-<<<<<<< HEAD
-        "List of 64-bits tags associated with the IPv4 prefix.";
-=======
         "List of 64-bit tags associated with the IPv4 prefix.";
->>>>>>> eb10f4224ef4508e2c2ee5fa9574504eb6eae6fa
     }
     uses prefix-attributes-extension;
   }
@@ -2693,16 +2689,12 @@ module ietf-isis {
     leaf-list tag {
       type uint32;
       description
-        "List of 32-bits tags associated with the IPv4 prefix.";
+        "List of 32-bit tags associated with the IPv4 prefix.";
     }
     leaf-list tag64 {
       type uint64;
       description
-<<<<<<< HEAD
-        "List of 64-bits tags associated with the IPv4 prefix.";
-=======
         "List of 64-bit tags associated with the IPv4 prefix.";
->>>>>>> eb10f4224ef4508e2c2ee5fa9574504eb6eae6fa
     }
     uses prefix-attributes-extension;
   }
